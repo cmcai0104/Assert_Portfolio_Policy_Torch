@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 from itertools import count
 from PIL import Image
 
-from Algorithm.ReplayMemory import ReplayMemory
-from Algorithm.network import DCNN
+from algorithm.ReplayMemory import ReplayMemory
+from algorithm.network import DCNN
 
 import torch
 import torch.optim as optim
