@@ -1,9 +1,10 @@
 import numpy as np
+import pandas as pd
 import gym
 
 
 class MarketEnv(gym.Env):
-    def __init__(self, df, price_cols, windows=250,
+    def __init__(self, df: pd.DataFrame, price_cols: list, windows=250,
                  initial_account_balance=10000., sell_fee=0., buy_fee=0.015):
         super(MarketEnv, self).__init__()
         self.df = df
@@ -14,10 +15,10 @@ class MarketEnv(gym.Env):
 
         self.reward_range = (0, np.inf)
         self.action_space = gym.spaces.Box(low=0, high=1, shape=(self.action_dim,), dtype=np.float16)
-        self.observation_space = gym.spaces.Box(low=0, high=1, shape=(self.df.shape[1], windows), dtype=np.float16)
+        self.observation_space = gym.spaces.Box(low=0, high=1, shape=(windows, self.df.shape[1]), dtype=np.float16)
 
-        self.Max_Steps = len(self.df) - windows
-        self.Max_Share_Price = self.df.iloc[:windows, ].max(axis=0)
+        self.Max_Steps = len(self.df) - windows - 1
+        self.Max_Share_Price = self.df.iloc[:windows, ].max(axis=0).values
 
         self.buy_fee = buy_fee                                                                         # 购买费率
         self.sell_fee = sell_fee                                                                       # 赎回费率
@@ -35,7 +36,7 @@ class MarketEnv(gym.Env):
 
     # 下一步观测
     def _next_observation(self):
-        obs = np.array([self.df.iloc[(self.current_step - self.windows) : self.current_step, :].values / self.Max_Share_Price])
+        obs = np.array(self.df.iloc[(self.current_step + 1 - self.windows) : (self.current_step + 1), :].values / self.Max_Share_Price)
         return obs
 
     # 进行交易
@@ -44,14 +45,15 @@ class MarketEnv(gym.Env):
         self.shares_before = self.shares_held
         self.net_worth = np.sum(np.append(self.current_price, 1)*self.shares_held)
         hold_rate = (np.append(self.current_price, 1) * self.shares_held / self.net_worth)
-        para = np.zeros(len(hold_rate)-1)
-        sell_index = np.where(hold_rate[:-1] > target_rate[:-1])
-        buy_index = np.where(hold_rate[:-1] < target_rate[:-1])
-        para[sell_index] = 1-self.sell_fee
-        para[buy_index] = 1/(1-self.buy_fee)
-        self.net_worth = ((hold_rate[:-1]*para).sum()+hold_rate[-1]) / \
-                         ((target_rate[:-1]*para).sum()+target_rate[-1]) * self.net_worth
-        self.shares_held = self.net_worth * target_rate / np.append(self.current_price, 1)
+        if np.sqrt(np.sum((hold_rate-target_rate)**2)) >= np.sqrt(2):
+            para = np.zeros(len(hold_rate)-1)
+            sell_index = np.where(hold_rate[:-1] > target_rate[:-1])
+            buy_index = np.where(hold_rate[:-1] < target_rate[:-1])
+            para[sell_index] = 1-self.sell_fee
+            para[buy_index] = 1/(1-self.buy_fee)
+            self.net_worth = ((hold_rate[:-1]*para).sum()+hold_rate[-1]) / \
+                             ((target_rate[:-1]*para).sum()+target_rate[-1]) * self.net_worth
+            self.shares_held = self.net_worth * target_rate / np.append(self.current_price, 1)
 
     # 在环境中执行一步
     def step(self, action):
