@@ -64,14 +64,14 @@ class LSTM(nn.Module):
         return tag_space
 
 
-policy = LSTM(input_size=102, hidden_size=128, output_size=8)
+policy = LSTM(input_size=102, hidden_size=128, output_size=8).float()
 obs = env.reset()
-obs = torch.tensor(np.array([obs])).device()
+obs = Variable(torch.tensor(np.array([obs])))
+
 policy()
 while True:
-    action = policy(np.array([obs]))
-    break
-    action = action/np.sum(action)
+    action = policy(obs.float())
+    action = action/torch.sum(action)
     obs, reward, done, _ = env.step(action)
     print('observer:{}, \nreward:{}'.format(obs, reward))
     if done:

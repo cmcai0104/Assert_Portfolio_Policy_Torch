@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/algorithm/pre_training.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/algorithm/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/environment/MarketEnv.py" beforeDir="false" afterPath="$PROJECT_DIR$/environment/MarketEnv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/DQN_demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/DQN_demo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,6 +135,8 @@
       <workItem from="1578156644382" duration="1570000" />
       <workItem from="1578189271393" duration="3679000" />
       <workItem from="1578235153244" duration="2184000" />
+      <workItem from="1578274061748" duration="3411000" />
+      <workItem from="1578280608498" duration="13933000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -190,17 +192,17 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1578037691820" />
-    <state x="205" y="23" key="SettingsEditor" timestamp="1578189994382">
-      <screen x="56" y="23" width="1864" height="1057" />
+    <state x="270" y="55" key="SettingsEditor" timestamp="1578290986610">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="270" y="55" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1578045406111" />
+    <state x="270" y="55" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1578290986610" />
     <state x="102" y="23" key="SettingsEditor/0.23.1280.777@0.23.1280.777" timestamp="1578159097804" />
     <state x="204" y="23" key="SettingsEditor/55.23.1865.1057@55.23.1865.1057" timestamp="1578140825713" />
     <state x="205" y="23" key="SettingsEditor/56.23.1864.1057@56.23.1864.1057" timestamp="1578189994382" />
-    <state x="493" y="210" key="Vcs.Push.Dialog.v2" timestamp="1578141057986">
-      <screen x="55" y="23" width="1865" height="1057" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1578302641248">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1578044857507" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1578302641248" />
     <state x="493" y="210" key="Vcs.Push.Dialog.v2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141057986" />
     <state x="518" y="324" key="com.intellij.ide.util.TipDialog" timestamp="1578235756495">
       <screen x="56" y="23" width="1864" height="1057" />
