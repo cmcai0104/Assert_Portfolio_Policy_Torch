@@ -36,7 +36,8 @@ class MarketEnv(gym.Env):
 
     # 下一步观测
     def _next_observation(self):
-        obs = np.array(self.df.iloc[(self.current_step + 1 - self.windows) : (self.current_step + 1), :].values / self.Max_Share_Price)
+        obs = np.array(self.df.iloc[(self.current_step + 1 - self.windows) : (self.current_step + 1), :].values /
+                       self.Max_Share_Price, dtype=np.float32)
         return obs
 
     # 进行交易

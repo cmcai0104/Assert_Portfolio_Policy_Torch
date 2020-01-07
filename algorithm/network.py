@@ -1,6 +1,7 @@
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+from torch.autograd import Variable
 
 class DCNN(nn.Module):
     def __init__(self, h, w, outputs):
@@ -28,3 +29,32 @@ class DCNN(nn.Module):
         x = F.relu(self.bn2(self.conv2(x)))
         x = F.relu(self.bn3(self.conv3(x)))
         return self.head(x.view(x.size(0), -1))
+
+
+
+
+class LSTM(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super(LSTM, self).__init__()
+        self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=2,
+                            bias=True, batch_first=True, dropout=0, bidirectional=False)
+        self.hiddenfc1 = nn.Linear(hidden_size, 64)
+        self.hiddenfc2 = nn.Linear(64, 32)
+        self.hiddenfc3 = nn.Linear(32, 16)
+        self.hiddenfc4 = nn.Linear(16, output_size)
+        self.hidden_size = hidden_size
+        self.hidden = self.init_hidden()
+
+    def init_hidden(self):
+        return (Variable(torch.randn(2, 1, self.hidden_size)),
+                Variable(torch.randn(2, 1, self.hidden_size)))
+
+    def forward(self, wordvecs):
+        lstm_out, self.hidden = self.lstm(wordvecs, self.hidden)
+        tag_space = F.relu(self.hiddenfc1(lstm_out[:, -1, :]))
+        tag_space = F.relu(self.hiddenfc2(tag_space))
+        tag_space = F.relu(self.hiddenfc3(tag_space))
+        # tag_space = F.sigmoid(self.hiddenfc4(tag_space))
+        tag_space = torch.sigmoid(self.hiddenfc4(tag_space))
+        self.hidden = self.init_hidden()
+        return tag_space

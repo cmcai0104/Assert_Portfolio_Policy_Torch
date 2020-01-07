@@ -1,6 +1,19 @@
 import numpy as np
 import pandas as pd
+from collections import namedtuple
 from environment.MarketEnv import MarketEnv
+from algorithm.ReplayMemory import ReplayMemory
+from algorithm.network import LSTM
+import torch
+import torch.optim as optim
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.autograd
+from torch.autograd import Variable
+import random
+import torch.nn.init as init
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def df_preprocess(path):
@@ -18,62 +31,35 @@ def df_preprocess(path):
     price_columns = colnames[[col[-5:] == 'close' for col in colnames]]
     return dataframe, price_columns.to_list()
 
-
 df, price_columns = df_preprocess('./data/create_feature.csv')
 
 env = MarketEnv(df=df, price_cols=price_columns, windows=250,
                 initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
 
+policy_net = LSTM(input_size=102, hidden_size=128, output_size=8).to(device)
+optimizer = optim.RMSprop(policy_net.parameters())
+
+state = env.reset()
+state = torch.from_numpy(state).unsqueeze(0).to(device)
+
+Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
+def optimize_model():
+    transitions = memory.sample(len(memory))
+    batch = Transition(*zip(*transitions))
+    pass
 
 
-
-
-
-
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.autograd
-from torch.autograd import Variable
-import random
-import torch.nn.init as init
-
-class LSTM(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size):
-        super(LSTM, self).__init__()
-        self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=2,
-                            bias=True, batch_first=True, dropout=0, bidirectional=False)
-        self.hiddenfc1 = nn.Linear(hidden_size, 64)
-        self.hiddenfc2 = nn.Linear(64, 32)
-        self.hiddenfc3 = nn.Linear(32, 16)
-        self.hiddenfc4 = nn.Linear(16, output_size)
-        self.hidden_size = hidden_size
-        self.hidden = self.init_hidden()
-
-    def init_hidden(self):
-        return (Variable(torch.randn(2, 1, self.hidden_size)),
-                Variable(torch.randn(2, 1, self.hidden_size)))
-
-    def forward(self, wordvecs):
-        lstm_out, self.hidden = self.lstm(wordvecs, self.hidden)
-        tag_space = F.relu(self.hiddenfc1(lstm_out[:, -1, :]))
-        tag_space = F.relu(self.hiddenfc2(tag_space))
-        tag_space = F.relu(self.hiddenfc3(tag_space))
-        tag_space = F.sigmoid(self.hiddenfc4(tag_space))
-        self.hidden = self.init_hidden()
-        return tag_space
-
-
-policy = LSTM(input_size=102, hidden_size=128, output_size=8).float()
-obs = env.reset()
-obs = Variable(torch.tensor(np.array([obs])))
-
-policy()
+memory = ReplayMemory(10000)
 while True:
-    action = policy(obs.float())
+    action = policy_net(state)
     action = action/torch.sum(action)
-    obs, reward, done, _ = env.step(action)
-    print('observer:{}, \nreward:{}'.format(obs, reward))
+    state, reward, done, _ = env.step(action.detach().numpy())
+    reward = torch.tensor([reward], device=device)
+    state = torch.from_numpy(state).unsqueeze(0).to(device)
+    memory.push(state, action, state, reward)
     if done:
         break
+optimize_model()
 env.render()
+
+

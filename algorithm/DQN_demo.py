@@ -94,10 +94,10 @@ def optimize_model():
         return
     transitions = memory.sample(BATCH_SIZE)
     batch = Transition(*zip(*transitions))
-    # Compute a mask of non-final states and concatenate the batch elements
-    # (a final state would've been the one after which simulation ended)
+    # 生成一个tensor，表示next_state是否为None
     non_final_mask = torch.tensor(tuple(map(lambda s: s is not None,
                                           batch.next_state)), device=device, dtype=torch.uint8)
+    # 对非None 的next_state进行拼接
     non_final_next_states = torch.cat([s for s in batch.next_state if s is not None])
     # tensor 拼接
     state_batch = torch.cat(batch.state)
@@ -134,8 +134,8 @@ for i_episode in range(num_episodes):
     state = current_screen - last_screen
     for t in count():
         # Select and perform an action
-        action = select_action(state)
-        _, reward, done, _ = env.step(action.item())
+        action = select_action(state) # torch.float32, shape: torch.Size([1, 3, 40, 90])
+        _, reward, done, _ = env.step(action.item()) # tensor([[0]]) -> 0 int
         reward = torch.tensor([reward], device=device)
         # Observe new state
         last_screen = current_screen
@@ -148,13 +148,13 @@ for i_episode in range(num_episodes):
         memory.push(state, action, next_state, reward)
         # Move to the next state
         state = next_state
-        if len(memory)>BATCH_SIZE:
+        if len(memory) > BATCH_SIZE:
             break
         # Perform one step of the optimization (on the target network)
         optimize_model()
         if done:
             episode_durations.append(t + 1)
-            plot_durations()
+            #plot_durations()
             break
     # Update the target network, copying all weights and biases in DQN
     if i_episode % TARGET_UPDATE == 0:
