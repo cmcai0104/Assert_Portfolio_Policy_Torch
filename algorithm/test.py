@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 from collections import namedtuple
@@ -6,12 +7,14 @@ from algorithm.ReplayMemory import ReplayMemory
 from algorithm.network import LSTM
 import torch
 import torch.optim as optim
-import torch.nn as nn
-import torch.nn.functional as F
+# import torch.nn as nn
+# import torch.nn.functional as F
 import torch.autograd
-from torch.autograd import Variable
-import random
-import torch.nn.init as init
+# from torch.autograd import Variable
+# import random
+# import torch.nn.init as init
+
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -42,24 +45,54 @@ optimizer = optim.RMSprop(policy_net.parameters())
 state = env.reset()
 state = torch.from_numpy(state).unsqueeze(0).to(device)
 
-Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
+Transition = namedtuple('Transition', ('state', 'action', 'log_prob', 'reward'))
+
+
+def discount_reward(rewards, gamma=0.04/250):
+    rewards_list = rewards.detach().numpy().tolist()
+    discounted_ep_rs = np.zeros_like(rewards_list)
+    running_add = 0
+    for t in reversed(range(0, len(rewards_list))):
+        running_add = running_add * gamma + rewards_list[t]
+        discounted_ep_rs[t] = running_add
+    return torch.from_numpy(discounted_ep_rs).to(device)
+
+
 def optimize_model():
     transitions = memory.sample(len(memory))
     batch = Transition(*zip(*transitions))
-    pass
+    # state_batch = torch.cat(batch.state)
+    # action_batch = torch.cat(batch.action)
+    reward_batch = torch.cat(batch.reward)
+    log_prob_batch = torch.cat(batch.log_prob)
+
+    discounted_rewards = discount_reward(reward_batch)
+    loss = torch.mean(log_prob_batch * discounted_rewards)
+    optimizer.zero_grad()
+    loss.backward()
+    for param in policy_net.parameters():
+        param.grad.data.clamp_(-1, 1)
+    optimizer.step()
 
 
-memory = ReplayMemory(10000)
-while True:
-    action = policy_net(state)
-    action = action/torch.sum(action)
-    state, reward, done, _ = env.step(action.detach().numpy())
-    reward = torch.tensor([reward], device=device)
-    state = torch.from_numpy(state).unsqueeze(0).to(device)
-    memory.push(state, action, state, reward)
-    if done:
-        break
-optimize_model()
-env.render()
+num_episodes = 50
+for i_episode in range(num_episodes):
+    memory = ReplayMemory(3000)
+    while True:
+        mu, sigma_matrix, sigma_vector = policy_net(state)
+        sigma = sigma_matrix * torch.diagflat(sigma_vector + 1e-4) * torch.transpose(sigma_matrix, 0, 1)
+        dist = torch.distributions.multivariate_normal.MultivariateNormal(loc=mu, covariance_matrix=sigma)
+        action = dist.sample()
+        action = action/torch.sum(action)
+
+        state, reward, done, _ = env.step(action.detach().numpy())
+        reward = torch.tensor([reward], device=device)
+        state = torch.from_numpy(state).unsqueeze(0).to(device)
+        log_prob = dist.log_prob(action)
+        memory.push(state, action, log_prob, reward)
+        if done:
+            break
+    optimize_model()
+    env.render()
 
 
