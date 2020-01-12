@@ -7,15 +7,14 @@ from algorithm.ReplayMemory import ReplayMemory
 from algorithm.network import LSTM
 import torch
 import torch.optim as optim
+import torch.autograd
 # import torch.nn as nn
 # import torch.nn.functional as F
-import torch.autograd
 # from torch.autograd import Variable
 # import random
 # import torch.nn.init as init
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
@@ -34,7 +33,7 @@ def df_preprocess(path):
     price_columns = colnames[[col[-5:] == 'close' for col in colnames]]
     return dataframe, price_columns.to_list()
 
-df, price_columns = df_preprocess('./data/create_feature.csv')
+df, price_columns = df_preprocess('../data/create_feature.csv')
 
 env = MarketEnv(df=df, price_cols=price_columns, windows=250,
                 initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
@@ -42,8 +41,6 @@ env = MarketEnv(df=df, price_cols=price_columns, windows=250,
 policy_net = LSTM(input_size=102, hidden_size=128, output_size=8).to(device)
 optimizer = optim.RMSprop(policy_net.parameters())
 
-state = env.reset()
-state = torch.from_numpy(state).unsqueeze(0).to(device)
 
 Transition = namedtuple('Transition', ('state', 'action', 'log_prob', 'reward'))
 
@@ -67,9 +64,9 @@ def optimize_model():
     log_prob_batch = torch.cat(batch.log_prob)
 
     discounted_rewards = discount_reward(reward_batch)
-    loss = torch.mean(log_prob_batch * discounted_rewards)
+    loss = -torch.mean(log_prob_batch * discounted_rewards)
     optimizer.zero_grad()
-    loss.backward()
+    loss.backward(retain_graph=True)
     for param in policy_net.parameters():
         param.grad.data.clamp_(-1, 1)
     optimizer.step()
@@ -77,15 +74,20 @@ def optimize_model():
 
 num_episodes = 50
 for i_episode in range(num_episodes):
+    state = env.reset()
+    state = state.unsqueeze(0).to(device)
     memory = ReplayMemory(3000)
     while True:
         mu, sigma_matrix, sigma_vector = policy_net(state)
-        sigma = sigma_matrix * torch.diagflat(sigma_vector + 1e-4) * torch.transpose(sigma_matrix, 0, 1)
+        sigma = sigma_matrix * torch.diagflat(sigma_vector + 1e-2) * torch.transpose(sigma_matrix, 0, 1)
         dist = torch.distributions.multivariate_normal.MultivariateNormal(loc=mu, covariance_matrix=sigma)
         action = dist.sample()
+        while torch.all(action<0):
+            action = dist.sample()
+        action = torch.clamp(action, min=0, max=1)
         action = action/torch.sum(action)
 
-        state, reward, done, _ = env.step(action.detach().numpy())
+        state, reward, done, next_price = env.step(action.detach().numpy()[0])
         reward = torch.tensor([reward], device=device)
         state = torch.from_numpy(state).unsqueeze(0).to(device)
         log_prob = dist.log_prob(action)
