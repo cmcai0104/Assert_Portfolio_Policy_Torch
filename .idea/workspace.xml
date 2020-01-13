@@ -4,7 +4,6 @@
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/PreTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/PreTraining.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/environment/MarketEnv.py" beforeDir="false" afterPath="$PROJECT_DIR$/environment/MarketEnv.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +19,13 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="https://github.com/cmcai0104/Assert_Portfolio_Policy_Torch.git" />
+      </set>
+    </option>
   </component>
   <component name="IgnoredFileRootStore">
     <option name="generatedRoots">
@@ -209,7 +215,7 @@
       <workItem from="1578710397775" duration="2784000" />
       <workItem from="1578718610916" duration="7687000" />
       <workItem from="1578812648962" duration="6175000" />
-      <workItem from="1578882053504" duration="1898000" />
+      <workItem from="1578882053504" duration="6684000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -253,11 +259,29 @@
       <option name="project" value="LOCAL" />
       <updated>1578798464629</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="add pre_training">
+      <created>1578884688219</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1578884688223</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add README.md file" />
@@ -267,11 +291,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="add pre_training" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1578798464211">
+    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1578884687535">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="372" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1578302682942" />
-    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1578798464211" />
+    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1578884687535" />
     <state x="507" y="29" key="CommitChangelistDialog2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141049036" />
     <state x="580" y="303" key="Github.ShareDialog" timestamp="1578044656956">
       <screen x="0" y="0" width="1536" height="824" />
@@ -308,11 +332,11 @@
     <state x="102" y="23" key="SettingsEditor/0.23.1280.777@0.23.1280.777" timestamp="1578718187622" />
     <state x="204" y="23" key="SettingsEditor/55.23.1865.1057@55.23.1865.1057" timestamp="1578140825713" />
     <state x="205" y="23" key="SettingsEditor/56.23.1864.1057@56.23.1864.1057" timestamp="1578404838369" />
-    <state x="301" y="161" key="Vcs.Push.Dialog.v2" timestamp="1578798474057">
+    <state x="301" y="161" key="Vcs.Push.Dialog.v2" timestamp="1578884706097">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1578302692727" />
-    <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1578798474057" />
+    <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1578884706097" />
     <state x="493" y="210" key="Vcs.Push.Dialog.v2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141057986" />
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog" timestamp="1578882059660">
       <screen x="0" y="23" width="1280" height="777" />

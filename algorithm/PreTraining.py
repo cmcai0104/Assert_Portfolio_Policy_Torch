@@ -10,7 +10,6 @@ import torch
 import torch.optim as optim
 import torch.autograd
 
-
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -32,8 +31,9 @@ def df_preprocess(path):
 
 
 Transition = namedtuple('Transition', ('mu', 'target_combine'))
-class ReplayMemory(object):
 
+
+class ReplayMemory(object):
     def __init__(self, capacity):
         self.capacity = capacity
         self.memory = []
@@ -54,6 +54,8 @@ class ReplayMemory(object):
 
 
 loss_fun = torch.nn.MSELoss()
+
+
 def generate_training_data(env):
     state = env.reset()
     state = state.unsqueeze(0).to(device)
@@ -90,10 +92,10 @@ def optimize_model(memory, batch_size=64):
 
     optimizer.zero_grad()
     loss = loss_fun(mu_batch, target_combine_batch)
-    loss.backward()
-    #loss.backward(retain_graph=True)
-    #for param in policy_net.parameters():
-    #    param.grad.data.clamp_(-1, 1)
+    # loss.backward()
+    loss.backward(retain_graph=True)
+    # for param in policy_net.parameters():
+    #     param.grad.data.clamp_(-1, 1)
     optimizer.step()
     return loss.item()
 
@@ -107,14 +109,20 @@ if __name__ == '__main__':
 
     policy_net = LSTM(input_size=102, hidden_size=128, output_size=8).to(device)
     optimizer = optim.RMSprop(policy_net.parameters())
+    batch_size = 128
     memory = generate_training_data(env)
     num_episodes = 1000
     for i_episode in range(num_episodes):
-        loss = optimize_model(memory, batch_size=64)
-        print('迭代次数：{}/{}  |  Loss：{}  '.format(i_episode, num_episodes, loss))
-
-        if i_episode % 100 == 0:
-            #打印图像
-            pass
+        transitions = memory.sample(batch_size)
+        batch = Transition(*zip(*transitions))
+        mu_batch = torch.cat(batch.mu)
+        target_combine_batch = torch.cat(batch.target_combine)
+        optimizer.zero_grad()
+        loss = loss_fun(mu_batch, target_combine_batch)
+        loss.backward(retain_graph=True)
+        optimizer.step()
+        print('Training：{}/{} | Loss：{} '.format(i_episode, num_episodes, loss))
+        if (i_episode % 100 == 0) and (i_episode > 0):
+            generate_training_data(env)
 
 
