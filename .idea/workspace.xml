@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/algorithm/PreTraining.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/algorithm/test_env.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/pre_training.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/PolicyGradient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/PreTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/PreTraining.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/environment/MarketEnv.py" beforeDir="false" afterPath="$PROJECT_DIR$/environment/MarketEnv.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,7 +48,7 @@
       <recent name="D:\iCloudDrive\MyProject\Assert_Portfolio_Policy_Torch" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.PolicyGradient">
+  <component name="RunManager" selected="Python.PreTraining">
     <configuration name="DQN_demo (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Assert_Portfolio_Policy_Torch" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -100,6 +97,9 @@
       <module name="Assert_Portfolio_Policy_Torch" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithm" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -107,6 +107,25 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithm/PolicyGradient.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PreTraining" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Assert_Portfolio_Policy_Torch" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithm" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithm/PreTraining.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -139,6 +158,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.PreTraining" />
         <item itemvalue="Python.PolicyGradient" />
         <item itemvalue="Python.DQN_demo (1)" />
         <item itemvalue="Python.DQN_demo" />
@@ -187,7 +207,9 @@
       <workItem from="1578534837765" duration="12620000" />
       <workItem from="1578622028153" duration="9716000" />
       <workItem from="1578710397775" duration="2784000" />
-      <workItem from="1578718610916" duration="7216000" />
+      <workItem from="1578718610916" duration="7687000" />
+      <workItem from="1578812648962" duration="6175000" />
+      <workItem from="1578882053504" duration="1898000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -224,7 +246,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578563318157</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add pre_training">
+      <created>1578798464629</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1578798464629</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -234,14 +263,15 @@
     <MESSAGE value="add README.md file" />
     <MESSAGE value="debug files." />
     <MESSAGE value="add policy_gradient policy" />
-    <option name="LAST_COMMIT_MESSAGE" value="add policy_gradient policy" />
+    <MESSAGE value="add pre_training" />
+    <option name="LAST_COMMIT_MESSAGE" value="add pre_training" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1578563317783">
+    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1578798464211">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="372" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1578302682942" />
-    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1578563317783" />
+    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1578798464211" />
     <state x="507" y="29" key="CommitChangelistDialog2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141049036" />
     <state x="580" y="303" key="Github.ShareDialog" timestamp="1578044656956">
       <screen x="0" y="0" width="1536" height="824" />
@@ -278,17 +308,18 @@
     <state x="102" y="23" key="SettingsEditor/0.23.1280.777@0.23.1280.777" timestamp="1578718187622" />
     <state x="204" y="23" key="SettingsEditor/55.23.1865.1057@55.23.1865.1057" timestamp="1578140825713" />
     <state x="205" y="23" key="SettingsEditor/56.23.1864.1057@56.23.1864.1057" timestamp="1578404838369" />
-    <state x="301" y="161" key="Vcs.Push.Dialog.v2" timestamp="1578563327475">
+    <state x="301" y="161" key="Vcs.Push.Dialog.v2" timestamp="1578798474057">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1578302692727" />
-    <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1578563327475" />
+    <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1578798474057" />
     <state x="493" y="210" key="Vcs.Push.Dialog.v2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141057986" />
-    <state x="317" y="244" key="com.intellij.ide.util.TipDialog" timestamp="1578718616699">
+    <state x="317" y="244" key="com.intellij.ide.util.TipDialog" timestamp="1578882059660">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777/-1865.23.1865.1057@0.23.1280.777" timestamp="1578120766114" />
-    <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777@0.23.1280.777" timestamp="1578718616699" />
+    <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777/-1920.23.1920.1057@0.23.1280.777" timestamp="1578812652899" />
+    <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777@0.23.1280.777" timestamp="1578882059660" />
     <state x="518" y="324" key="com.intellij.ide.util.TipDialog/56.23.1864.1057@56.23.1864.1057" timestamp="1578235756495" />
     <state x="289" y="134" width="700" height="530" key="recent.locations.popup" timestamp="1578647647075">
       <screen x="0" y="23" width="1280" height="777" />

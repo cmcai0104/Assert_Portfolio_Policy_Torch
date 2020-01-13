@@ -1,5 +1,4 @@
 import os
-from collections import namedtuple
 import random
 import numpy as np
 import pandas as pd
@@ -31,16 +30,8 @@ def df_preprocess(path):
     price_columns = colnames[[col[-5:] == 'close' for col in colnames]]
     return dataframe, price_columns.to_list()
 
-df, price_columns = df_preprocess('../data/create_feature.csv')
 
-env = MarketEnv(df=df, price_cols=price_columns, windows=250,
-                initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
-
-policy_net = LSTM(input_size=102, hidden_size=128, output_size=8).to(device)
-optimizer = optim.RMSprop(policy_net.parameters())
-
-
-Transition = namedtuple('Transition', ('state', 'action', 'next_ret', 'reward'))
+Transition = namedtuple('Transition', ('mu', 'target_combine'))
 class ReplayMemory(object):
 
     def __init__(self, capacity):
@@ -62,7 +53,8 @@ class ReplayMemory(object):
         return len(self.memory)
 
 
-def generate_training_data():
+loss_fun = torch.nn.MSELoss()
+def generate_training_data(env):
     state = env.reset()
     state = state.unsqueeze(0).to(device)
     memory = ReplayMemory(3000)
@@ -76,36 +68,53 @@ def generate_training_data():
         action = torch.clamp(action, min=0, max=1)
         action = action / torch.sum(action)
 
-        state, reward, done, next_price = env.step(action.detach().numpy()[0])
-        reward = torch.tensor([reward], device=device)
+        state, reward, done, next_rets = env.step(action.detach().numpy()[0])
+        target_combine = np.zeros(env.action_dim, dtype=np.float32)
+        max_id = np.append(next_rets, 0).argmax()
+        target_combine[max_id] = 1
+        target_combine = torch.from_numpy(target_combine).unsqueeze(0).to(device)
+
         state = torch.from_numpy(state).unsqueeze(0).to(device)
 
-        memory.push(state, action, next_ret, reward)
+        memory.push(mu, target_combine)
         if done:
             break
     env.render()
     return memory
 
-
-
-def optimize_model(memory):
-    transitions = memory.sample(len(memory))
+def optimize_model(memory, batch_size=64):
+    transitions = memory.sample(batch_size)
     batch = Transition(*zip(*transitions))
-    state_batch = torch.cat(batch.state)
-    action_batch = torch.cat(batch.action)
-    reward_batch = torch.cat(batch.reward)
-    next_ret_batch = torch.cat(batch.next_ret)
+    mu_batch = torch.cat(batch.mu)
+    target_combine_batch = torch.cat(batch.target_combine)
 
-
-    loss = torch.mse(action_batch, next_ret_batch)
     optimizer.zero_grad()
-    loss.backward(retain_graph=True)
-    for param in policy_net.parameters():
-        param.grad.data.clamp_(-1, 1)
+    loss = loss_fun(mu_batch, target_combine_batch)
+    loss.backward()
+    #loss.backward(retain_graph=True)
+    #for param in policy_net.parameters():
+    #    param.grad.data.clamp_(-1, 1)
     optimizer.step()
+    return loss.item()
 
 
+if __name__ == '__main__':
 
+    df, price_columns = df_preprocess('../data/create_feature.csv')
 
+    env = MarketEnv(df=df, price_cols=price_columns, windows=250,
+                    initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
+
+    policy_net = LSTM(input_size=102, hidden_size=128, output_size=8).to(device)
+    optimizer = optim.RMSprop(policy_net.parameters())
+    memory = generate_training_data(env)
+    num_episodes = 1000
+    for i_episode in range(num_episodes):
+        loss = optimize_model(memory, batch_size=64)
+        print('迭代次数：{}/{}  |  Loss：{}  '.format(i_episode, num_episodes, loss))
+
+        if i_episode % 100 == 0:
+            #打印图像
+            pass
 
 

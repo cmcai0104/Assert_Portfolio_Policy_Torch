@@ -42,16 +42,17 @@ class MarketEnv(gym.Env):
             self.current_step = np.random.randint(self.windows - 1, self.Max_Steps - 100)
         self.Max_Share_Price = self.df.iloc[:(self.current_step + 1), ].max(axis=0).values
         self.start_date = self.df.index[self.current_step]
+        self.next_price = np.array(self.df.iloc[self.current_step,][self.price_cols])
+        self.next_net = np.sum(np.append(self.next_price, 1)*self.shares_held)
         return torch.from_numpy(self._next_observation())
 
     # 进行交易
     def _take_action(self, target_rate: np.array):
-        self.current_price = np.array(self.df.iloc[self.current_step, ][self.price_cols])
-        # self.shares_before = self.shares_held
-        self.net_worth = np.sum(np.append(self.current_price, 1)*self.shares_held)
-        self.net_before = self.net_worth
+        self.current_price = self.next_price
+        self.net_worth = self.next_net
+        self.net_before = self.next_net
         hold_rate = (np.append(self.current_price, 1) * self.shares_held / self.net_worth)
-        # if np.sqrt(np.sum((hold_rate-target_rate)**2)) >= np.sqrt(2)*np.random.rand()*0.2:
+        # 减少交易的探索
         para = np.zeros(len(hold_rate)-1)
         sell_index = np.where(hold_rate[:-1] > target_rate[:-1])
         buy_index = np.where(hold_rate[:-1] < target_rate[:-1])
@@ -67,11 +68,13 @@ class MarketEnv(gym.Env):
         self._take_action(action)
         self.current_step += 1
         self.next_price = np.array(self.df.iloc[self.current_step, ][self.price_cols])
-        reward = np.sum(np.append(self.next_price, 1)*self.shares_held)
+        self.next_net = np.sum(np.append(self.next_price, 1)*self.shares_held)
+        reward = self.next_net / self.net_before - 1
         done = self.current_step >= self.Max_Steps
+        next_rets = self.next_price / self.current_price - 1
         if self.net_worth > self.max_net_worth:
             self.max_net_worth = self.net_worth
-        return obs, reward/self.net_before-1, done, self.next_price/self.current_price-1
+        return obs, reward, done, next_rets
 
     # 打印出环境
     def render(self, mode='human'):
