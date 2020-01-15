@@ -33,6 +33,51 @@ class DCNN(nn.Module):
 
 
 
+# class LSTM(nn.Module):
+#     def __init__(self, input_size, hidden_size, output_size):
+#         super(LSTM, self).__init__()
+#         self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=2,
+#                             bias=True, batch_first=True, dropout=0, bidirectional=False)
+#         self.hidden_mu1 = nn.Linear(hidden_size, 64)
+#         self.hidden_mu2 = nn.Linear(64, 32)
+#         self.hidden_mu3 = nn.Linear(32, 16)
+#         self.hidden_mu4 = nn.Linear(16, output_size)
+#
+#         self.hidden_sigma_m1 = nn.Linear(hidden_size, 64)
+#         self.hidden_sigma_m2 = nn.Linear(64, int(output_size * output_size))
+#
+#         self.hidden_sigma_v1 = nn.Linear(hidden_size, 64)
+#         self.hidden_sigma_v2 = nn.Linear(64, 32)
+#         self.hidden_sigma_v3 = nn.Linear(32, 16)
+#         self.hidden_sigma_v4 = nn.Linear(16, output_size)
+#
+#         self.hidden_size = hidden_size
+#         self.output_size = output_size
+#         self.hidden = self.init_hidden()
+#
+#     def init_hidden(self):
+#         return (Variable(torch.randn(2, 1, self.hidden_size)),
+#                 Variable(torch.randn(2, 1, self.hidden_size)))
+#
+#     def forward(self, input):
+#         lstm_out, self.hidden = self.lstm(input, self.hidden)
+#         mu = F.relu(self.hidden_mu1(lstm_out[:, -1, :]))
+#         mu = F.relu(self.hidden_mu2(mu))
+#         mu = F.relu(self.hidden_mu3(mu))
+#         mu = torch.sigmoid(self.hidden_mu4(mu))
+#
+#         sigma_matrix = F.relu(self.hidden_sigma_m1(lstm_out[:, -1, :]))
+#         sigma_matrix = torch.tanh(self.hidden_sigma_m2(sigma_matrix))
+#
+#         sigma_vector = F.relu(self.hidden_sigma_v1(lstm_out[:, -1, :]))
+#         sigma_vector = F.relu(self.hidden_sigma_v2(sigma_vector))
+#         sigma_vector = F.relu(self.hidden_sigma_v3(sigma_vector))
+#         sigma_vector = torch.exp(self.hidden_sigma_v4(sigma_vector))
+#
+#         return mu, sigma_matrix.reshape((self.output_size, self.output_size)), sigma_vector
+
+
+
 class LSTM(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super(LSTM, self).__init__()
@@ -51,16 +96,11 @@ class LSTM(nn.Module):
         self.hidden_sigma_v3 = nn.Linear(32, 16)
         self.hidden_sigma_v4 = nn.Linear(16, output_size)
 
-        self.hidden_size = hidden_size
         self.output_size = output_size
-        self.hidden = self.init_hidden()
 
-    def init_hidden(self):
-        return (Variable(torch.randn(2, 1, self.hidden_size)),
-                Variable(torch.randn(2, 1, self.hidden_size)))
 
     def forward(self, input):
-        lstm_out, self.hidden = self.lstm(input, self.hidden)
+        lstm_out, (h_n, c_n) = self.lstm(input)
         mu = F.relu(self.hidden_mu1(lstm_out[:, -1, :]))
         mu = F.relu(self.hidden_mu2(mu))
         mu = F.relu(self.hidden_mu3(mu))

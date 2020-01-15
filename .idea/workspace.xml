@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/algorithm/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/PreTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/PreTraining.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/environment/MarketEnv.py" beforeDir="false" afterPath="$PROJECT_DIR$/environment/MarketEnv.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,6 +128,9 @@
       <module name="Assert_Portfolio_Policy_Torch" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithm" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -216,6 +222,7 @@
       <workItem from="1578718610916" duration="7687000" />
       <workItem from="1578812648962" duration="6175000" />
       <workItem from="1578882053504" duration="6684000" />
+      <workItem from="1579058081901" duration="2969000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -277,7 +284,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -338,12 +347,12 @@
     <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1578302692727" />
     <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1578884706097" />
     <state x="493" y="210" key="Vcs.Push.Dialog.v2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141057986" />
-    <state x="317" y="244" key="com.intellij.ide.util.TipDialog" timestamp="1578882059660">
+    <state x="317" y="244" key="com.intellij.ide.util.TipDialog" timestamp="1579058311620">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777/-1865.23.1865.1057@0.23.1280.777" timestamp="1578120766114" />
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777/-1920.23.1920.1057@0.23.1280.777" timestamp="1578812652899" />
-    <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777@0.23.1280.777" timestamp="1578882059660" />
+    <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777@0.23.1280.777" timestamp="1579058311620" />
     <state x="518" y="324" key="com.intellij.ide.util.TipDialog/56.23.1864.1057@56.23.1864.1057" timestamp="1578235756495" />
     <state x="289" y="134" width="700" height="530" key="recent.locations.popup" timestamp="1578647647075">
       <screen x="0" y="23" width="1280" height="777" />

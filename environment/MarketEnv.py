@@ -44,7 +44,7 @@ class MarketEnv(gym.Env):
         self.start_date = self.df.index[self.current_step]
         self.next_price = np.array(self.df.iloc[self.current_step,][self.price_cols])
         self.next_net = np.sum(np.append(self.next_price, 1)*self.shares_held)
-        return torch.from_numpy(self._next_observation())
+        return self._next_observation()
 
     # 进行交易
     def _take_action(self, target_rate: np.array):
