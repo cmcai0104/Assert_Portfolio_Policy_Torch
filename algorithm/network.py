@@ -114,4 +114,4 @@ class LSTM(nn.Module):
         sigma_vector = F.relu(self.hidden_sigma_v3(sigma_vector))
         sigma_vector = torch.exp(self.hidden_sigma_v4(sigma_vector))
 
-        return mu, sigma_matrix.reshape((self.output_size, self.output_size)), sigma_vector
+        return mu, sigma_matrix.reshape((-1, self.output_size, self.output_size)), sigma_vector

@@ -1,9 +1,10 @@
 import os
 import sys
-sys.path.append('/Users/CMCai/MyProject/Assert_Portfolio_Policy_Torch')
+# sys.path.append('D:/Project/Assert_Portfolio_Policy_Torch')
 import time
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from environment.MarketEnv import MarketEnv
 from algorithm.network import LSTM
 import torch
@@ -57,8 +58,6 @@ def get_pretrain_target(df, price_columns):
     return maxret_df
 
 pretrain_targets = get_pretrain_target(df, price_columns).astype(np.float32)
-
-
 env = MarketEnv(df=df, price_cols=price_columns, windows=250,
                     initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
 policy_net = LSTM(input_size=102, hidden_size=128, output_size=8).to(device)
@@ -68,12 +67,13 @@ criterion = torch.nn.MSELoss()
 
 def generate_training_data(env):
     state_list = []
+    net_list = []
     state = env.reset()
     state_list.append(state)
     state = torch.from_numpy(state).unsqueeze(0).to(device)
     while True:
         mu, sigma_matrix, sigma_vector = policy_net(state)
-        sigma = sigma_matrix * torch.diagflat(sigma_vector + 1e-2) * torch.transpose(sigma_matrix, 0, 1)
+        sigma = sigma_matrix.squeeze() * torch.diagflat(sigma_vector + 1e-2) * torch.transpose(sigma_matrix.squeeze(), 0, 1)
         dist = torch.distributions.multivariate_normal.MultivariateNormal(loc=mu, covariance_matrix=sigma)
         action = dist.sample()
         while torch.all(action < 0):
@@ -82,44 +82,53 @@ def generate_training_data(env):
         action = action / torch.sum(action)
 
         state, reward, done, next_rets = env.step(action.detach().numpy()[0])
+        net_list.append(env.next_net)
         state_list.append(state)
         state = torch.from_numpy(state).unsqueeze(0).to(device)
         if done:
             break
     env.render()
-    return torch.from_numpy(np.array(state_list[:-1]))
+    return torch.from_numpy(np.array(state_list[:-1])), np.array(net_list)/env.initial_account_balance-1
 
-state_tensor = generate_training_data(env)
+state_tensor, net_rets = generate_training_data(env)
 pretrain_targets = torch.from_numpy(pretrain_targets.values[250:])
 traindataset = TensorDataset(state_tensor, pretrain_targets)
-trainloader = DataLoader(traindataset, batch_size=1, shuffle=True)
-# dataiter = iter(trainloader)
-# state, action = dataiter.next()
-# mu = policy_net(state)[0]
-# loss = criterion(mu, action)
+trainloader = DataLoader(traindataset, batch_size=128, shuffle=True)
+
+img = pd.Series(net_rets, index=df.index[250:]).plot()
+plt.savefig('./image/ret/ret_pretraining_beforetrain.jpg')
 
 if __name__ == '__main__':
-    epochs = 100
+    epochs = 1000
+    eval_loss = []
+    train_time = []
+    time1 = time.time()
     for epoch in range(epochs):
-        time1 = time.time()
         for xb, yb in trainloader:
             pred = policy_net(xb)[0]
             loss = criterion(pred, yb)
+            optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-            optimizer.zero_grad()
 
         policy_net.eval()
         with torch.no_grad():
             valid_loss = sum(criterion(policy_net(xb)[0], yb) for xb, yb in trainloader)
-        print(epoch, valid_loss / len(trainloader))
+        train_time.append(time.time())
+        eval_loss.append(valid_loss)
+        print(epoch, valid_loss.data.item() / len(trainloader))
         print('Time:', time.time() - time1)
+    torch.save(policy_net, './model/pre_training_model')
 
+    time_series = pd.Series(np.array(train_time)-time1, index=range(1, epochs+1)).astype('float')
+    time_series.plot()
+    plt.savefig('./image/times/times_pretraining_aftertrain.jpg')
+    img3 = pd.Series(np.array(eval_loss), index=range(epochs)).plot()
+    plt.savefig('./image/loss/loss_pretraining_aftertrain.jpg')
 
-
-
-
-
+    state_tensor, net_rets = generate_training_data(env)
+    img1 = pd.Series(net_rets, index=df.index[250:]).plot()
+    plt.savefig('./image/ret/ret_pretraining_aftertrain.jpg')
 
 
 
