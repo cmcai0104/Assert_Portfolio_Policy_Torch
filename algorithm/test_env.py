@@ -33,16 +33,14 @@ env = MarketEnv(df=df, price_cols=price_columns, windows=250,
 policy_net = LSTM(input_size=102, hidden_size=128, output_size=8).to(device)
 
 state = env.reset()
-state = state.unsqueeze(0).to(device)
-
-mu, sigma_matrix, sigma_vector = policy_net(state)
-
-sigma = sigma_matrix * torch.diagflat(sigma_vector + 1e-2) * torch.transpose(sigma_matrix, 0, 1)
-dist = torch.distributions.multivariate_normal.MultivariateNormal(loc=mu, covariance_matrix=sigma)
-action = dist.sample()
-action = action / torch.sum(action)
-
-state, reward, done, _ = env.step(action.detach().numpy()[0])
+state = torch.from_numpy(state).unsqueeze(0).to(device)
+i=0
+while True:
+    action = pretrain_targets[i]
+    state, reward, done, _ = env.step(action.detach().numpy())
+    if done:
+        break
+    i += 1
 env.render()
 
 

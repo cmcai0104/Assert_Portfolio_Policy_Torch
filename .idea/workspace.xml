@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/algorithm/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/PreTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/PreTraining.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/test_env.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/test_env.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/environment/MarketEnv.py" beforeDir="false" afterPath="$PROJECT_DIR$/environment/MarketEnv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/ret/ret_pretraining_aftertrain.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/ret/ret_pretraining_beforetrain.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/pre_training_model" beforeDir="false" afterPath="$PROJECT_DIR$/model/pre_training_model" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +54,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -128,9 +132,6 @@
       <module name="Assert_Portfolio_Policy_Torch" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithm" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -223,6 +224,7 @@
       <workItem from="1578812648962" duration="6175000" />
       <workItem from="1578882053504" duration="6684000" />
       <workItem from="1579058081901" duration="2969000" />
+      <workItem from="1579141352060" duration="8435000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -273,7 +275,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578884688223</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add pre_training">
+      <created>1579141385093</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1579141385093</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -300,10 +309,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="add pre_training" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1578884687535">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="372" y="5" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1579141383940">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="372" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1578302682942" />
+    <state x="372" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1579141383940" />
     <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1578884687535" />
     <state x="507" y="29" key="CommitChangelistDialog2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141049036" />
     <state x="580" y="303" key="Github.ShareDialog" timestamp="1578044656956">
@@ -334,17 +343,17 @@
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1578037691820" />
     <state width="1238" height="197" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1578540719190" />
-    <state x="102" y="23" key="SettingsEditor" timestamp="1578718187622">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="270" y="55" key="SettingsEditor" timestamp="1579141405639">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="270" y="55" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1578381195140" />
+    <state x="270" y="55" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1579141405639" />
     <state x="102" y="23" key="SettingsEditor/0.23.1280.777@0.23.1280.777" timestamp="1578718187622" />
     <state x="204" y="23" key="SettingsEditor/55.23.1865.1057@55.23.1865.1057" timestamp="1578140825713" />
     <state x="205" y="23" key="SettingsEditor/56.23.1864.1057@56.23.1864.1057" timestamp="1578404838369" />
-    <state x="301" y="161" key="Vcs.Push.Dialog.v2" timestamp="1578884706097">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1579141393737">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1578302692727" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1579141393737" />
     <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1578884706097" />
     <state x="493" y="210" key="Vcs.Push.Dialog.v2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141057986" />
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog" timestamp="1579058311620">
@@ -362,17 +371,6 @@
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="305" y="124" width="670" height="676" key="search.everywhere.popup/0.23.1280.777@0.23.1280.777" timestamp="1578112030474" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/algorithm/test_env.py</url>
-          <line>35</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Assert_Portfolio_Policy_Torch$DQN.coverage" NAME="DQN Coverage Results" MODIFIED="1578037082106" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Algorithm" />

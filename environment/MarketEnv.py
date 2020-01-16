@@ -53,14 +53,15 @@ class MarketEnv(gym.Env):
         self.net_before = self.next_net
         hold_rate = (np.append(self.current_price, 1) * self.shares_held / self.net_worth)
         # 减少交易的探索
-        para = np.zeros(len(hold_rate)-1)
-        sell_index = np.where(hold_rate[:-1] > target_rate[:-1])
-        buy_index = np.where(hold_rate[:-1] < target_rate[:-1])
-        para[sell_index] = 1-self.sell_fee
-        para[buy_index] = 1/(1-self.buy_fee)
-        self.net_worth = ((hold_rate[:-1]*para).sum()+hold_rate[-1]) / \
-                         ((target_rate[:-1]*para).sum()+target_rate[-1]) * self.net_worth
-        self.shares_held = self.net_worth * target_rate / np.append(self.current_price, 1)
+        if np.any(target_rate != hold_rate):
+            para = np.zeros(len(hold_rate)-1)
+            sell_index = np.where(hold_rate[:-1] > target_rate[:-1])
+            buy_index = np.where(hold_rate[:-1] < target_rate[:-1])
+            para[sell_index] = 1-self.sell_fee
+            para[buy_index] = 1/(1-self.buy_fee)
+            self.net_worth = ((hold_rate[:-1]*para).sum()+hold_rate[-1]) / \
+                             ((target_rate[:-1]*para).sum()+target_rate[-1]) * self.net_worth
+            self.shares_held = self.net_worth * target_rate / np.append(self.current_price, 1)
 
     # 在环境中执行一步
     def step(self, action: np.array):

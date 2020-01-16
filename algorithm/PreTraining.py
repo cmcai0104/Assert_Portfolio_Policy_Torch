@@ -1,6 +1,7 @@
 import os
 import sys
 # sys.path.append('D:/Project/Assert_Portfolio_Policy_Torch')
+sys.path.append('/home/python/work_direction/project/Assert_Portfolio_Policy_Torch')
 import time
 import numpy as np
 import pandas as pd
@@ -31,7 +32,6 @@ def df_preprocess(path):
     price_columns = colnames[[col[-5:] == 'close' for col in colnames]]
     return dataframe, price_columns.to_list()
 
-df, price_columns = df_preprocess('./data/create_feature.csv')
 
 def week_target(x):
     x = x.values
@@ -39,30 +39,25 @@ def week_target(x):
     y[x.argmax()] = 1.
     return pd.Series(y)
 
+
 def get_pretrain_target(df, price_columns):
     price_df = df[price_columns]
     price_df_sub = price_df.copy().reset_index()
-    price_df_sub['week'] = price_df_sub['trade_date'].astype('datetime64').dt.week
+    price_df_sub['month'] = price_df_sub['trade_date'].astype('datetime64').dt.month
+    price_df_sub['month'] = [np.floor((month-1)/3)+1 for month in price_df_sub['month']]
     price_df_sub['year'] = price_df_sub['trade_date'].astype('datetime64').dt.year
-    price_df_sub = price_df_sub.drop_duplicates(subset=['year', 'week'], keep='last').drop(
-        columns=['year', 'week']).set_index('trade_date')
+    price_df_sub = price_df_sub.drop_duplicates(subset=['year', 'month'], keep='last').drop(
+        columns=['year', 'month']).set_index('trade_date')
     rets_df_sub = price_df_sub.apply(lambda x: np.diff(np.log(x)), axis=0)
     rets_df_sub['cash'] = 0
 
-    maxret_df_sub = rets_df_sub.apply(lambda x:week_target(x), axis=1)
+    maxret_df_sub = rets_df_sub.apply(lambda x: week_target(x), axis=1)
     maxret_df_sub.index = price_df_sub.index.to_list()[:-1]
     maxret_df = pd.DataFrame(index=list(set(price_df.index.to_list())-set(price_df_sub.index.to_list()[:-1])))
     maxret_df = pd.concat([maxret_df, maxret_df_sub])
     maxret_df = maxret_df.sort_index(inplace=False)
     maxret_df = maxret_df.fillna(method='ffill')
     return maxret_df
-
-pretrain_targets = get_pretrain_target(df, price_columns).astype(np.float32)
-env = MarketEnv(df=df, price_cols=price_columns, windows=250,
-                    initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
-policy_net = LSTM(input_size=102, hidden_size=128, output_size=8).to(device)
-optimizer = optim.RMSprop(policy_net.parameters())
-criterion = torch.nn.MSELoss()
 
 
 def generate_training_data(env):
@@ -90,13 +85,21 @@ def generate_training_data(env):
     env.render()
     return torch.from_numpy(np.array(state_list[:-1])), np.array(net_list)/env.initial_account_balance-1
 
-state_tensor, net_rets = generate_training_data(env)
-pretrain_targets = torch.from_numpy(pretrain_targets.values[250:])
-traindataset = TensorDataset(state_tensor, pretrain_targets)
-trainloader = DataLoader(traindataset, batch_size=128, shuffle=True)
 
-img = pd.Series(net_rets, index=df.index[250:]).plot()
-plt.savefig('./image/ret/ret_pretraining_beforetrain.jpg')
+df, price_columns = df_preprocess('./data/create_feature.csv')
+windows = 250
+batch_size = 128
+pretrain_targets = get_pretrain_target(df, price_columns).astype(np.float32)
+env = MarketEnv(df=df, price_cols=price_columns, windows=windows, initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
+policy_net = LSTM(input_size=102, hidden_size=128, output_size=8).to(device)
+optimizer = optim.RMSprop(policy_net.parameters())
+criterion = torch.nn.MSELoss()
+
+state_tensor, net_rets_init = generate_training_data(env)
+pretrain_targets = torch.from_numpy(pretrain_targets.values[windows:])
+traindataset = TensorDataset(state_tensor, pretrain_targets)
+trainloader = DataLoader(traindataset, batch_size=batch_size, shuffle=True)
+
 
 if __name__ == '__main__':
     epochs = 1000
@@ -118,17 +121,19 @@ if __name__ == '__main__':
         eval_loss.append(valid_loss)
         print(epoch, valid_loss.data.item() / len(trainloader))
         print('Time:', time.time() - time1)
-    torch.save(policy_net, './model/pre_training_model')
+    torch.save(policy_net, './model/pre_training_model.pt')
 
-    time_series = pd.Series(np.array(train_time)-time1, index=range(1, epochs+1)).astype('float')
-    time_series.plot()
-    plt.savefig('./image/times/times_pretraining_aftertrain.jpg')
-    img3 = pd.Series(np.array(eval_loss), index=range(epochs)).plot()
+    time_series = pd.Series(np.array(train_time)-time1, index=range(1, epochs+1))
+    time_series.plot(title='Training times')
+    plt.savefig('./image/times/times_pretraining_aftertrain.png')
+    plt.close()
+    img3 = pd.Series(np.array(eval_loss), index=range(epochs)).plot(title='valid_loss')
     plt.savefig('./image/loss/loss_pretraining_aftertrain.jpg')
+    plt.close()
 
     state_tensor, net_rets = generate_training_data(env)
-    img1 = pd.Series(net_rets, index=df.index[250:]).plot()
-    plt.savefig('./image/ret/ret_pretraining_aftertrain.jpg')
-
-
+    ret_df = pd.DataFrame({'Initialization policy':net_rets_init, 'after training policy':net_rets}, index = df.index[250:])
+    ret_df.plot(title='Returns Curve')
+    plt.savefig('./image/ret/ret_pretraining.jpg')
+    plt.close()
 
