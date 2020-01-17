@@ -103,7 +103,7 @@ trainloader = DataLoader(traindataset, batch_size=batch_size, shuffle=False)
 
 
 if __name__ == '__main__':
-    epochs = 100
+    epochs = 500
     train_loss = []
     eval_loss = []
     train_time = []
