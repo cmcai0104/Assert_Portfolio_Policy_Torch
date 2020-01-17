@@ -44,7 +44,7 @@ def get_pretrain_target(df, price_columns):
     price_df = df[price_columns]
     price_df_sub = price_df.copy().reset_index()
     price_df_sub['month'] = price_df_sub['trade_date'].astype('datetime64').dt.month
-    price_df_sub['month'] = [np.floor((month-1)/3)+1 for month in price_df_sub['month']]
+    # price_df_sub['month'] = [np.floor((month-1)/3)+1 for month in price_df_sub['month']]
     price_df_sub['year'] = price_df_sub['trade_date'].astype('datetime64').dt.year
     price_df_sub = price_df_sub.drop_duplicates(subset=['year', 'month'], keep='last').drop(
         columns=['year', 'month']).set_index('trade_date')
@@ -91,25 +91,27 @@ windows = 250
 batch_size = 128
 pretrain_targets = get_pretrain_target(df, price_columns).astype(np.float32)
 env = MarketEnv(df=df, price_cols=price_columns, windows=windows, initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
-policy_net = LSTM(input_size=102, hidden_size=128, output_size=8).to(device)
-optimizer = optim.RMSprop(policy_net.parameters())
-criterion = torch.nn.MSELoss()
+policy_net = LSTM(input_size=df.shape[1], hidden_size=128, output_size=8).to(device)
+optimizer = optim.SGD(policy_net.parameters(), lr=0.001, momentum=0.9)
+criterion = torch.nn.CrossEntropyLoss()
+
 
 state_tensor, net_rets_init = generate_training_data(env)
-pretrain_targets = torch.from_numpy(pretrain_targets.values[windows:])
+pretrain_targets = torch.from_numpy(pretrain_targets.values[windows:]).argmax(dim=1)
 traindataset = TensorDataset(state_tensor, pretrain_targets)
-trainloader = DataLoader(traindataset, batch_size=batch_size, shuffle=True)
+trainloader = DataLoader(traindataset, batch_size=batch_size, shuffle=False)
 
 
 if __name__ == '__main__':
-    epochs = 1000
+    epochs = 100
+    train_loss = []
     eval_loss = []
     train_time = []
     time1 = time.time()
     for epoch in range(epochs):
         for xb, yb in trainloader:
             pred = policy_net(xb)[0]
-            loss = criterion(pred, yb)
+            loss = criterion(pred.squeeze(), yb.squeeze())
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
@@ -118,22 +120,23 @@ if __name__ == '__main__':
         with torch.no_grad():
             valid_loss = sum(criterion(policy_net(xb)[0], yb) for xb, yb in trainloader)
         train_time.append(time.time())
+        train_loss.append(loss)
         eval_loss.append(valid_loss)
         print(epoch, valid_loss.data.item() / len(trainloader))
-        print('Time:', time.time() - time1)
-    torch.save(policy_net, './model/pre_training_model.pt')
+    torch.save(policy_net, './model/pretraining_model.pt')
 
     time_series = pd.Series(np.array(train_time)-time1, index=range(1, epochs+1))
     time_series.plot(title='Training times')
-    plt.savefig('./image/times/times_pretraining_aftertrain.png')
+    plt.savefig('./image/times/times_pretraining.png')
     plt.close()
-    img3 = pd.Series(np.array(eval_loss), index=range(epochs)).plot(title='valid_loss')
-    plt.savefig('./image/loss/loss_pretraining_aftertrain.jpg')
+    loss_df= pd.DataFrame({'train loss':train_loss, 'eval loss':eval_loss}, index = range(epochs))
+    loss_df.plot(title='Loss Curve')
+    plt.savefig('./image/loss/loss_pretraining.png')
     plt.close()
 
     state_tensor, net_rets = generate_training_data(env)
     ret_df = pd.DataFrame({'Initialization policy':net_rets_init, 'after training policy':net_rets}, index = df.index[250:])
     ret_df.plot(title='Returns Curve')
-    plt.savefig('./image/ret/ret_pretraining.jpg')
+    plt.savefig('./image/ret/ret_pretraining.png')
     plt.close()
 

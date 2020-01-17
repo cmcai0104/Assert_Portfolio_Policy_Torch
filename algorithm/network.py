@@ -104,7 +104,7 @@ class LSTM(nn.Module):
         mu = F.relu(self.hidden_mu1(lstm_out[:, -1, :]))
         mu = F.relu(self.hidden_mu2(mu))
         mu = F.relu(self.hidden_mu3(mu))
-        mu = torch.sigmoid(self.hidden_mu4(mu))
+        mu = torch.softmax(self.hidden_mu4(mu), dim=1)
 
         sigma_matrix = F.relu(self.hidden_sigma_m1(lstm_out[:, -1, :]))
         sigma_matrix = torch.tanh(self.hidden_sigma_m2(sigma_matrix))

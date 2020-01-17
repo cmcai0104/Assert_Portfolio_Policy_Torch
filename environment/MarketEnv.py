@@ -51,7 +51,7 @@ class MarketEnv(gym.Env):
         self.current_price = self.next_price
         self.net_worth = self.next_net
         self.net_before = self.next_net
-        hold_rate = (np.append(self.current_price, 1) * self.shares_held / self.net_worth)
+        hold_rate = self.next_rate
         # 减少交易的探索
         if np.any(target_rate != hold_rate):
             para = np.zeros(len(hold_rate)-1)
@@ -70,6 +70,7 @@ class MarketEnv(gym.Env):
         self.current_step += 1
         self.next_price = np.array(self.df.iloc[self.current_step, ][self.price_cols])
         self.next_net = np.sum(np.append(self.next_price, 1)*self.shares_held)
+        self.next_rate = (np.append(self.next_price, 1) * self.shares_held / self.next_net)
         reward = self.next_net / self.net_before - 1
         done = self.current_step >= self.Max_Steps
         next_rets = self.next_price / self.current_price - 1
