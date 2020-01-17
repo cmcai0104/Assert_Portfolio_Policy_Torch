@@ -44,6 +44,7 @@ class MarketEnv(gym.Env):
         self.start_date = self.df.index[self.current_step]
         self.next_price = np.array(self.df.iloc[self.current_step,][self.price_cols])
         self.next_net = np.sum(np.append(self.next_price, 1)*self.shares_held)
+        self.next_rate = (np.append(self.next_price, 1) * self.shares_held) / self.next_net
         return self._next_observation()
 
     # 进行交易
