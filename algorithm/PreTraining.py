@@ -1,7 +1,7 @@
 import os
 import sys
-# sys.path.append('D:/Project/Assert_Portfolio_Policy_Torch')
-sys.path.append('/home/python/work_direction/project/Assert_Portfolio_Policy_Torch')
+sys.path.append('D:/Project/Assert_Portfolio_Policy_Torch')
+# sys.path.append('/home/python/work_direction/project/Assert_Portfolio_Policy_Torch')
 import time
 import numpy as np
 import pandas as pd
@@ -92,7 +92,7 @@ batch_size = 128
 pretrain_targets = get_pretrain_target(df, price_columns).astype(np.float32)
 env = MarketEnv(df=df, price_cols=price_columns, windows=windows, initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
 policy_net = LSTM(input_size=df.shape[1], hidden_size=128, output_size=8).to(device)
-optimizer = optim.SGD(policy_net.parameters(), lr=0.001, momentum=0.9)
+optimizer = optim.SGD(policy_net.parameters(), lr=0.01, momentum=0.9)
 criterion = torch.nn.CrossEntropyLoss()
 
 
@@ -103,32 +103,31 @@ trainloader = DataLoader(traindataset, batch_size=batch_size, shuffle=False)
 
 
 if __name__ == '__main__':
-    epochs = 500
+    epochs = 5
     train_loss = []
     eval_loss = []
     train_time = []
     time1 = time.time()
     for epoch in range(epochs):
+        loss = []
         for xb, yb in trainloader:
             pred = policy_net(xb)[0]
-            loss = criterion(pred.squeeze(), yb.squeeze())
+            batch_loss = criterion(pred.squeeze(), yb.squeeze())
             optimizer.zero_grad()
-            loss.backward()
+            batch_loss.backward()
             optimizer.step()
+            loss.append(batch_loss.data.item())
 
         policy_net.eval()
         with torch.no_grad():
             valid_loss = sum(criterion(policy_net(xb)[0], yb) for xb, yb in trainloader)
-        train_time.append(time.time())
-        train_loss.append(loss)
-        eval_loss.append(valid_loss)
-        print(epoch, valid_loss.data.item() / len(trainloader))
+        train_loss.append(np.mean(loss))
+        eval_loss.append(valid_loss.data.item())
+        print("{}/{} | batch_loss:{} | valid_loss:{}".format(epoch, epochs, round(np.mean(loss),4),
+                                                             round(valid_loss.data.item() / len(trainloader),4)))
+    print("Average training time:",round((time.time()-time1)/epochs,2))
     torch.save(policy_net, './model/pretraining_model.pt')
 
-    time_series = pd.Series(np.array(train_time)-time1, index=range(1, epochs+1))
-    time_series.plot(title='Training times')
-    plt.savefig('./image/times/times_pretraining.png')
-    plt.close()
     loss_df= pd.DataFrame({'train loss':train_loss, 'eval loss':eval_loss}, index = range(epochs))
     loss_df.plot(title='Loss Curve')
     plt.savefig('./image/loss/loss_pretraining.png')
