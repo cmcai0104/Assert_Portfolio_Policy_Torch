@@ -83,8 +83,8 @@ def discount_reward(rewards, gamma=0.04/250):
     return torch.from_numpy(discounted_ep_rs).to(device)
 
 
-def optimize_model(memory):
-    transitions = memory.sample(len(memory))
+def optimize_model(memory, batch_size):
+    transitions = memory.sample(batch_size)
     batch = Transition(*zip(*transitions))
     reward_batch = torch.cat(batch.reward)
     log_prob_batch = torch.cat(batch.log_prob)
