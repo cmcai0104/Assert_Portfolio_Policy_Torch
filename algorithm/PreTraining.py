@@ -60,6 +60,18 @@ def get_pretrain_target(df, price_columns):
     return maxret_df
 
 
+def select_action(state):
+    mu, sigma_matrix, sigma_vector = policy_net(state)
+    sigma = sigma_matrix.squeeze() * torch.diagflat(sigma_vector + 1e-2) * torch.transpose(sigma_matrix.squeeze(), 0, 1)
+    dist = torch.distributions.multivariate_normal.MultivariateNormal(loc=mu, covariance_matrix=sigma)
+    action = dist.sample()
+    while torch.all(action < 0):
+        action = dist.sample()
+    action = torch.clamp(action, min=0, max=1)
+    action = action / torch.sum(action)
+    return action
+
+
 def generate_training_data(env):
     state_list = []
     net_list = []
@@ -67,15 +79,7 @@ def generate_training_data(env):
     state_list.append(state)
     state = torch.from_numpy(state).unsqueeze(0).to(device)
     while True:
-        mu, sigma_matrix, sigma_vector = policy_net(state)
-        sigma = sigma_matrix.squeeze() * torch.diagflat(sigma_vector + 1e-2) * torch.transpose(sigma_matrix.squeeze(), 0, 1)
-        dist = torch.distributions.multivariate_normal.MultivariateNormal(loc=mu, covariance_matrix=sigma)
-        action = dist.sample()
-        while torch.all(action < 0):
-            action = dist.sample()
-        action = torch.clamp(action, min=0, max=1)
-        action = action / torch.sum(action)
-
+        action = select_action(state)
         state, reward, done, next_rets = env.step(action.detach().numpy()[0])
         net_list.append(env.next_net)
         state_list.append(state)
