@@ -2,15 +2,10 @@ import os
 import sys
 sys.path.append('D:/Project/Assert_Portfolio_Policy_Torch')
 # sys.path.append('/home/python/work_direction/project/Assert_Portfolio_Policy_Torch')
-import time
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from environment.MarketEnv import MarketEnv
-from algorithm.network import LSTM
-import torch
-from torch.utils.data import DataLoader, TensorDataset
-import torch.optim as optim
+from baselines.policy_network import LSTM
 import torch.autograd
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'

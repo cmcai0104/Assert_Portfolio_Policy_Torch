@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from environment.MarketEnv import MarketEnv
-from algorithm.network import LSTM
+from baselines.policy_network import LSTM
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 import torch.optim as optim
@@ -117,6 +117,7 @@ if __name__ == '__main__':
             batch_loss.backward()
             optimizer.step()
             loss.append(batch_loss.data.item())
+
 
         policy_net.eval()
         with torch.no_grad():

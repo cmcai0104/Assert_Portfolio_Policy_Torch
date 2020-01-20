@@ -6,8 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from itertools import count
 from PIL import Image
-from algorithm.ReplayMemory import ReplayMemory
-from algorithm.network import DCNN
+from baselines.ReplayMemory import ReplayMemory
+from baselines.policy_network import DCNN
 import torch
 import torch.optim as optim
 import torch.nn.functional as F

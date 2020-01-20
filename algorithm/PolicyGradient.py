@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 from collections import namedtuple
 from environment.MarketEnv import MarketEnv
-from algorithm.ReplayMemory import ReplayMemory
-from algorithm.network import LSTM
+from baselines.ReplayMemory import ReplayMemory
+from baselines.policy_network import LSTM
 import torch
 import torch.optim as optim
 import torch.autograd
