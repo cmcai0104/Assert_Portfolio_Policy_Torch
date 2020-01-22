@@ -1,11 +1,9 @@
 import os
 import sys
-sys.path.append('D:/Project/Assert_Portfolio_Policy_Torch')
-# sys.path.append('/home/python/work_direction/project/Assert_Portfolio_Policy_Torch')
 import numpy as np
 import pandas as pd
 from environment.MarketEnv import MarketEnv
-from baselines.policy_network import LSTM
+from baselines.policy_network import LSTM_NN
 import torch.autograd
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'

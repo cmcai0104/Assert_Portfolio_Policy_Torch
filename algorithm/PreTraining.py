@@ -1,7 +1,6 @@
 import os
 import sys
-sys.path.append('D:/Project/Assert_Portfolio_Policy_Torch')
-# sys.path.append('/home/python/work_direction/project/Assert_Portfolio_Policy_Torch')
+sys.path.append(os.getcwd())
 import time
 import numpy as np
 import pandas as pd
@@ -12,6 +11,7 @@ import torch
 from torch.utils.data import DataLoader, TensorDataset
 import torch.optim as optim
 import torch.autograd
+
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -131,15 +131,15 @@ if __name__ == '__main__':
         print("{}/{} | batch_loss:{} | valid_loss:{}".format(epoch, epochs, round(np.mean(loss),4),
                                                              round(valid_loss.data.item() / len(trainloader),4)))
     print("Average training time:",round((time.time()-time1)/epochs,2))
-    torch.save(policy_net, './model/pretraining_model.pt')
+    torch.save(policy_net.state_dict(), "./model/pretraining_model.pt")
 
-    loss_df= pd.DataFrame({'train loss':train_loss, 'eval loss':eval_loss}, index = range(epochs))
+    loss_df= pd.DataFrame({'train loss':train_loss, 'eval loss':np.array(eval_loss)/len(traindataset)}, index = range(epochs))
     loss_df.plot(title='Loss Curve')
     plt.savefig('./image/loss/loss_pretraining.png')
     plt.close()
 
     state_tensor, net_rets = generate_training_data(env)
-    ret_df = pd.DataFrame({'Initialization policy':net_rets_init, 'after training policy':net_rets}, index = df.index[250:])
+    ret_df = pd.DataFrame({'Random Initialization Policy':net_rets_init, 'After Pretraining Policy':net_rets}, index = df.index[250:])
     ret_df.plot(title='Returns Curve')
     plt.savefig('./image/ret/ret_pretraining.png')
     plt.close()

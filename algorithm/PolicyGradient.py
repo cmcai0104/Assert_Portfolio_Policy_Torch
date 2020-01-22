@@ -1,7 +1,6 @@
 import os
 import sys
-sys.path.append('D:/Project/Assert_Portfolio_Policy_Torch')
-# sys.path.append('/home/python/work_direction/project/Assert_Portfolio_Policy_Torch')
+sys.path.append(os.getcwd())
 import numpy as np
 import pandas as pd
 from collections import namedtuple
@@ -101,7 +100,7 @@ def optimize_model(memory, batch_size):
 num_episodes = 500
 for i_episode in range(num_episodes):
     memory, net_list = interactivate(env)
-    optimize_model(memory)
+    optimize_model(memory, batch_size=64)
     env.render()
 
 
