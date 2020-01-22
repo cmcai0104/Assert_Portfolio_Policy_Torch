@@ -45,7 +45,7 @@ class MarketEnv(gym.Env):
         self.next_price = np.array(self.df.iloc[self.current_step,][self.price_cols])
         self.next_net = np.sum(np.append(self.next_price, 1)*self.shares_held)
         self.next_rate = (np.append(self.next_price, 1) * self.shares_held) / self.next_net
-        return self._next_observation()
+        return self._next_observation(), self.shares_held/self.initial_account_balance
 
     # 进行交易
     def _take_action(self, target_rate: np.array):
@@ -67,6 +67,7 @@ class MarketEnv(gym.Env):
     # 在环境中执行一步
     def step(self, action: np.array):
         obs = self._next_observation()
+        state = obs, self.next_rate
         self._take_action(action)
         self.current_step += 1
         self.next_price = np.array(self.df.iloc[self.current_step, ][self.price_cols])
@@ -77,7 +78,7 @@ class MarketEnv(gym.Env):
         next_rets = self.next_price / self.current_price - 1
         if self.net_worth > self.max_net_worth:
             self.max_net_worth = self.net_worth
-        return obs, reward, done, next_rets
+        return state, reward, done, next_rets
 
     # 打印出环境
     def render(self, mode='human'):
