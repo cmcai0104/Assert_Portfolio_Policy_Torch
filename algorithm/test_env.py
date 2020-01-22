@@ -55,15 +55,24 @@ def get_pretrain_target(df, price_columns):
 df, price_columns = df_preprocess('./data/create_feature.csv')
 windows = 250
 batch_size = 128
-pretrain_targets = get_pretrain_target(df, price_columns).astype(np.float32)
 env = MarketEnv(df=df, price_cols=price_columns, windows=windows, initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
-policy_net = LSTM(input_size=102, hidden_size=128, output_size=8).to(device)
+
+policy_net = LSTM_NN(input_size=102, action_size=8, hidden_size=128, output_size=8).to(device)
+
+state1 = env.reset()
+state1 = torch.from_numpy(state1.astype(np.float32)).unsqueeze(0)
+state2 = torch.from_numpy(np.ones((8)).astype(np.float32)/8).unsqueeze(0)
+mu, matrix, vector = policy_net(state1, state2)
+
+
+
+pretrain_targets = get_pretrain_target(df, price_columns).astype(np.float32)
 pretrain_targets = torch.from_numpy(pretrain_targets.values[windows:])
 
 
 
 
-state = env.reset()
+
 state = torch.from_numpy(state).unsqueeze(0).to(device)
 mu, matrix, vector = policy_net(state)
 i=0
