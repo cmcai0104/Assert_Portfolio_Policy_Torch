@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import gym
-import torch
 
 
 class MarketEnv(gym.Env):
@@ -21,12 +20,12 @@ class MarketEnv(gym.Env):
         self.action_space = gym.spaces.Box(low=0, high=1, shape=(self.action_dim,), dtype=np.float16)
         self.observation_space = gym.spaces.Box(low=0, high=1, shape=(windows, self.df.shape[1]), dtype=np.float16)
 
-    def seed(self, seed=None):
-        self.np_random, seed = gym.utils.seeding.np_random(seed)
-        return [seed]
+    # def seed(self, seed=None):
+    #     self.np_random, seed = gym.utils.seeding.np_random(seed)
+    #     return [seed]
 
     # 下一步观测
-    def _next_observation(self):
+    def __next_observation(self):
         obs = np.array(self.df.iloc[(self.current_step + 1 - self.windows): (self.current_step + 1), :].values /
                        self.Max_Share_Price, dtype=np.float32)
         return obs
@@ -45,10 +44,10 @@ class MarketEnv(gym.Env):
         self.next_price = np.array(self.df.iloc[self.current_step,][self.price_cols])
         self.next_net = np.sum(np.append(self.next_price, 1)*self.shares_held)
         self.next_rate = (np.append(self.next_price, 1) * self.shares_held) / self.next_net
-        return self._next_observation(), self.shares_held/self.initial_account_balance
+        return self.__next_observation(), (self.shares_held/self.initial_account_balance).astype(np.float32)
 
     # 进行交易
-    def _take_action(self, target_rate: np.array):
+    def __take_action(self, target_rate: np.array):
         self.current_price = self.next_price
         self.net_worth = self.next_net
         self.net_before = self.next_net
@@ -66,9 +65,8 @@ class MarketEnv(gym.Env):
 
     # 在环境中执行一步
     def step(self, action: np.array):
-        obs = self._next_observation()
-        state = obs, self.next_rate
-        self._take_action(action)
+        # obs = self.__next_observation()
+        self.__take_action(action)
         self.current_step += 1
         self.next_price = np.array(self.df.iloc[self.current_step, ][self.price_cols])
         self.next_net = np.sum(np.append(self.next_price, 1)*self.shares_held)
@@ -78,7 +76,9 @@ class MarketEnv(gym.Env):
         next_rets = self.next_price / self.current_price - 1
         if self.net_worth > self.max_net_worth:
             self.max_net_worth = self.net_worth
-        return state, reward, done, next_rets
+        next_state = self.__next_observation(), self.next_rate.astype(np.float32)
+        state = self.__next_observation(), action
+        return state, reward, done, next_state
 
     # 打印出环境
     def render(self, mode='human'):

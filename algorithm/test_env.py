@@ -1,5 +1,4 @@
 import os
-import sys
 import numpy as np
 import pandas as pd
 from environment.MarketEnv import MarketEnv
@@ -55,34 +54,36 @@ def get_pretrain_target(df, price_columns):
 df, price_columns = df_preprocess('./data/create_feature.csv')
 windows = 250
 batch_size = 128
-env = MarketEnv(df=df, price_cols=price_columns, windows=windows, initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
+env = MarketEnv(df=df, price_cols=price_columns, windows=windows,
+                initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
 
 policy_net = LSTM_NN(input_size=102, action_size=8, hidden_size=128, output_size=8).to(device)
 
-state1 = env.reset()
-state1 = torch.from_numpy(state1.astype(np.float32)).unsqueeze(0)
-state2 = torch.from_numpy(np.ones((8)).astype(np.float32)/8).unsqueeze(0)
-mu, matrix, vector = policy_net(state1, state2)
+
+def select_action(state1, state2):
+    mu, sigma_matrix, sigma_vector = policy_net(state1, state2)
+    sigma = sigma_matrix.squeeze() * torch.diagflat(sigma_vector + 1e-2) * torch.transpose(sigma_matrix.squeeze(), 0, 1)
+    dist = torch.distributions.multivariate_normal.MultivariateNormal(loc=mu, covariance_matrix=sigma)
+    action = dist.sample()
+    while torch.all(action < 0):
+        action = dist.sample()
+    action = torch.clamp(action, min=0, max=1)
+    action = action / torch.sum(action)
+    return action, dist
 
 
-
-pretrain_targets = get_pretrain_target(df, price_columns).astype(np.float32)
-pretrain_targets = torch.from_numpy(pretrain_targets.values[windows:])
-
-
-
-
-
-state = torch.from_numpy(state).unsqueeze(0).to(device)
-mu, matrix, vector = policy_net(state)
-i=0
-while True:
-    action = pretrain_targets[i]
-    state, reward, done, _ = env.step(action.detach().numpy())
-    if done:
-        break
-    i += 1
-env.render()
+def interactivate(env):
+    state1, state2 = env.reset()
+    while True:
+        state1 = torch.from_numpy(state1).unsqueeze(0)
+        state2 = torch.from_numpy(state2).unsqueeze(0)
+        action, dist = select_action(state1, state2)
+        log_prob = dist.log_prob(action)
+        state, reward, done, info = env.step(action.squeeze().detach().numpy())
+        state1, state2 = state
+        if done:
+            break
+    env.render()
 
 
-
+interactivate(env)
