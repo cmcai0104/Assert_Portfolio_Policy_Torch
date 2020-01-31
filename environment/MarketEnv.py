@@ -32,6 +32,7 @@ class MarketEnv(gym.Env):
 
     # 重置环境状态至初始状态
     def reset(self, start_step=None):
+        assert (start_step == None or start_step == 'random')
         self.net_worth = self.initial_account_balance
         self.max_net_worth = self.initial_account_balance
         self.shares_held = np.append(np.zeros(shape=self.action_dim - 1), self.initial_account_balance)
@@ -65,7 +66,6 @@ class MarketEnv(gym.Env):
 
     # 在环境中执行一步
     def step(self, action: np.array):
-        # obs = self.__next_observation()
         self.__take_action(action)
         self.current_step += 1
         self.next_price = np.array(self.df.iloc[self.current_step, ][self.price_cols])
@@ -73,12 +73,11 @@ class MarketEnv(gym.Env):
         self.next_rate = (np.append(self.next_price, 1) * self.shares_held) / self.next_net
         reward = self.next_net / self.net_before - 1
         done = self.current_step >= self.Max_Steps
-        next_rets = self.next_price / self.current_price - 1
         if self.net_worth > self.max_net_worth:
             self.max_net_worth = self.net_worth
-        next_state = self.__next_observation(), self.next_rate.astype(np.float32)
-        state = self.__next_observation(), action
-        return state, reward, done, next_state
+        self.Max_Share_Price = self.df.iloc[:(self.current_step + 1), ].max(axis=0).values
+        state = self.__next_observation(), self.next_rate.astype(np.float32)
+        return state, reward, done, None
 
     # 打印出环境
     def render(self, mode='human'):

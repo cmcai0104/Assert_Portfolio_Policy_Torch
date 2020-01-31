@@ -1,6 +1,8 @@
 import os
 import sys
 sys.path.append(os.getcwd())
+import random
+import math
 import numpy as np
 import pandas as pd
 from collections import namedtuple
@@ -38,38 +40,69 @@ env = MarketEnv(df=df, price_cols=price_columns, windows=windows, initial_accoun
 policy_net = LSTM(input_size=df.shape[1], hidden_size=128, output_size=8).to(device)
 optimizer = optim.RMSprop(policy_net.parameters())
 
-Transition = namedtuple('Transition', ('state', 'action', 'log_prob', 'reward'))
+Transition = namedtuple('Transition', ('log_prob', 'reward'))
 
 
-def select_action(state):
-    mu, sigma_matrix, sigma_vector = policy_net(state)
+class ReplayMemory(object):
+
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.memory = []
+        self.position = 0
+
+    def push(self, *args):
+        """Saves a transition."""
+        if len(self.memory) < self.capacity:
+            self.memory.append(None)
+        self.memory[self.position] = Transition(*args)
+        self.position = (self.position + 1) % self.capacity
+
+    def sample(self, batch_size):
+        return random.sample(self.memory, batch_size)
+
+    def __len__(self):
+        return len(self.memory)
+
+
+EPS_START = 0.9
+EPS_END = 0.05
+EPS_DECAY = 200
+steps_done = 0
+def select_action(state1, state2, hold_rate):
+    mu, sigma_matrix, sigma_vector = policy_net(state1, state2)
     sigma = sigma_matrix.squeeze() * torch.diagflat(sigma_vector + 1e-2) * torch.transpose(sigma_matrix.squeeze(), 0, 1)
     dist = torch.distributions.multivariate_normal.MultivariateNormal(loc=mu, covariance_matrix=sigma)
-    action = dist.sample()
-    while torch.all(action < 0):
+    global steps_done
+    sample = random.random()
+    eps_threshold = EPS_END + (EPS_START - EPS_END) * math.exp(-1. * steps_done / EPS_DECAY)
+    steps_done += 1
+    if sample > eps_threshold:
         action = dist.sample()
-    action = torch.clamp(action, min=0, max=1)
-    action = action / torch.sum(action)
+        while torch.all(action < 0):
+            action = dist.sample()
+        action = torch.clamp(action, min=0, max=1)
+        action = action / torch.sum(action)
+    else:
+        action = hold_rate
     return action, dist
 
 
 def interactivate(env):
-    net_list = []
-    state = env.reset()
-    state = torch.from_numpy(state).unsqueeze(0).to(device)
+    state1, state2 = env.reset()
     memory = ReplayMemory(3000)
     while True:
-        action, dist = select_action(state)
-        state, reward, done, next_rets = env.step(action.detach().numpy()[0])
-        net_list.append(env.next_net)
-        reward = torch.tensor([reward], device=device)
-        state = torch.from_numpy(state).unsqueeze(0).to(device)
+        state1 = torch.from_numpy(state1).unsqueeze(0)
+        state2 = torch.from_numpy(state2).unsqueeze(0)
+        action, dist = select_action(state1, state2, torch.from_numpy(env.next_rate.astype(np.float32)))
         log_prob = dist.log_prob(action)
-        memory.push(state, action, log_prob, reward)
+        state, reward, done, info = env.step(action.squeeze().detach().numpy())
+        reward = torch.tensor([reward], device=device)
+        state1, state2 = state
+        memory.push(log_prob, reward)
         if done:
             break
     env.render()
-    return memory, np.array(net_list)/env.initial_account_balance-1
+    return memory, #np.array(net_list)/env.initial_account_balance-1
 
 
 def discount_reward(rewards, gamma=0.04/250):
@@ -99,7 +132,7 @@ def optimize_model(memory, batch_size):
 
 num_episodes = 500
 for i_episode in range(num_episodes):
-    memory, net_list = interactivate(env)
+    memory, = interactivate(env)
     optimize_model(memory, batch_size=64)
     env.render()
 
