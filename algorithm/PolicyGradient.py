@@ -1,17 +1,20 @@
+# coding=utf-8
 import os
 import sys
-sys.path.append(os.getcwd())
 import random
 import math
+from collections import namedtuple
 import numpy as np
 import pandas as pd
-from collections import namedtuple
-from environment.MarketEnv import MarketEnv
-from baselines.ReplayMemory import ReplayMemory
-from baselines.policy_network import LSTM
 import torch
 import torch.optim as optim
 import torch.autograd
+sys.path.append(os.getcwd())
+
+from environment.MarketEnv import MarketEnv
+from baselines.ReplayMemory import ReplayMemory
+from baselines.policy_network import LSTM_NN
+
 
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
@@ -34,17 +37,10 @@ def df_preprocess(path):
     return dataframe, price_columns.to_list()
 
 
-df, price_columns = df_preprocess('./data/create_feature.csv')
-windows = 250
-env = MarketEnv(df=df, price_cols=price_columns, windows=windows, initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
-policy_net = LSTM(input_size=df.shape[1], hidden_size=128, output_size=8).to(device)
-optimizer = optim.RMSprop(policy_net.parameters())
-
 Transition = namedtuple('Transition', ('log_prob', 'reward'))
 
 
 class ReplayMemory(object):
-
     def __init__(self, capacity):
         self.capacity = capacity
         self.memory = []
@@ -64,26 +60,28 @@ class ReplayMemory(object):
         return len(self.memory)
 
 
-EPS_START = 0.9
-EPS_END = 0.05
-EPS_DECAY = 200
-steps_done = 0
-def select_action(state1, state2, hold_rate):
+def select_action(state1, state2, hold_rate, train=True):
     mu, sigma_matrix, sigma_vector = policy_net(state1, state2)
     sigma = sigma_matrix.squeeze() * torch.diagflat(sigma_vector + 1e-2) * torch.transpose(sigma_matrix.squeeze(), 0, 1)
     dist = torch.distributions.multivariate_normal.MultivariateNormal(loc=mu, covariance_matrix=sigma)
-    global steps_done
-    sample = random.random()
-    eps_threshold = EPS_END + (EPS_START - EPS_END) * math.exp(-1. * steps_done / EPS_DECAY)
-    steps_done += 1
-    if sample > eps_threshold:
+    if not train:
         action = dist.sample()
         while torch.all(action < 0):
             action = dist.sample()
         action = torch.clamp(action, min=0, max=1)
         action = action / torch.sum(action)
     else:
-        action = hold_rate
+        global steps_done
+        sample = random.random()
+        eps_threshold = EPS_END + (EPS_START - EPS_END) * math.exp(-1. * steps_done / EPS_DECAY)
+        if sample > eps_threshold or train:
+            action = dist.sample()
+            while torch.all(action < 0):
+                action = dist.sample()
+            action = torch.clamp(action, min=0, max=1)
+            action = action / torch.sum(action)
+        else:
+            action = hold_rate
     return action, dist
 
 
@@ -93,7 +91,8 @@ def interactivate(env):
     while True:
         state1 = torch.from_numpy(state1).unsqueeze(0)
         state2 = torch.from_numpy(state2).unsqueeze(0)
-        action, dist = select_action(state1, state2, torch.from_numpy(env.next_rate.astype(np.float32)))
+        hold_rate = torch.from_numpy(env.next_rate.astype(np.float32))
+        action, dist = select_action(state1, state2, hold_rate)
         log_prob = dist.log_prob(action)
         state, reward, done, info = env.step(action.squeeze().detach().numpy())
         reward = torch.tensor([reward], device=device)
@@ -125,15 +124,28 @@ def optimize_model(memory, batch_size):
     loss = -torch.mean(log_prob_batch * discounted_rewards)
     optimizer.zero_grad()
     loss.backward(retain_graph=True)
-    for param in policy_net.parameters():
-        param.grad.data.clamp_(-1, 1)
     optimizer.step()
 
 
-num_episodes = 500
-for i_episode in range(num_episodes):
-    memory, = interactivate(env)
-    optimize_model(memory, batch_size=64)
-    env.render()
+if __name__ == '__main__':
+
+    df, price_columns = df_preprocess('./data/create_feature.csv')
+    windows = 250
+    env = MarketEnv(df=df, price_cols=price_columns, windows=windows,
+                    initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
+    policy_net = LSTM_NN(input_size=df.shape[1], action_size=8, hidden_size=128, output_size=8).to(device)
+    optimizer = optim.RMSprop(policy_net.parameters())
+
+    EPS_START = 0.99
+    EPS_END = 0.05
+    EPS_DECAY = 200
+    steps_done = 0
+
+    num_episodes = 100
+    for i_episode in range(num_episodes):
+        memory, = interactivate(env)
+        steps_done += 1
+        optimize_model(memory, batch_size=64)
+        env.render()
 
 
