@@ -5,10 +5,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/PolicyGradient.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/PolicyGradient.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/baselines/policy_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/policy_network.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +60,7 @@
       <recent name="D:\iCloudDrive\MyProject\Assert_Portfolio_Policy_Torch" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.PreTraining">
+  <component name="RunManager" selected="Python.Q_Learning">
     <configuration name="DQN_demo (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Assert_Portfolio_Policy_Torch" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -151,6 +149,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Q_Learning" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Assert_Portfolio_Policy_Torch" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithm" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithm/Q_Learning.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Assert_Portfolio_Policy_Torch" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -175,6 +195,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Q_Learning" />
         <item itemvalue="Python.PreTraining" />
         <item itemvalue="Python.PolicyGradient" />
         <item itemvalue="Python.DQN_demo (1)" />
@@ -238,6 +259,9 @@
       <workItem from="1580191816930" duration="5614000" />
       <workItem from="1580281122538" duration="889000" />
       <workItem from="1580456782721" duration="4439000" />
+      <workItem from="1580696481375" duration="3549000" />
+      <workItem from="1580878550918" duration="14000" />
+      <workItem from="1580972544639" duration="5063000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -431,26 +455,27 @@
     </state>
     <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1578037691820" />
     <state width="1238" height="197" key="GridCell.Tab.0.right/0.23.1280.777@0.23.1280.777" timestamp="1578540719190" />
-    <state x="102" y="23" key="SettingsEditor" timestamp="1580491282294">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="668" y="143" key="SettingsEditor" timestamp="1580696668624">
+      <screen x="56" y="23" width="1864" height="1057" />
     </state>
     <state x="270" y="55" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1579243267970" />
     <state x="102" y="23" key="SettingsEditor/0.23.1280.777@0.23.1280.777" timestamp="1580491282294" />
     <state x="204" y="23" key="SettingsEditor/55.23.1865.1057@55.23.1865.1057" timestamp="1578140825713" />
-    <state x="668" y="143" key="SettingsEditor/56.23.1864.1057@56.23.1864.1057" timestamp="1580457106452" />
+    <state x="668" y="143" key="SettingsEditor/56.23.1864.1057@56.23.1864.1057" timestamp="1580696668624" />
     <state x="301" y="161" key="Vcs.Push.Dialog.v2" timestamp="1579715874370">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1579512768484" />
     <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1579715874370" />
     <state x="493" y="210" key="Vcs.Push.Dialog.v2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141057986" />
-    <state x="317" y="244" key="com.intellij.ide.util.TipDialog" timestamp="1580627162537">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="518" y="324" key="com.intellij.ide.util.TipDialog" timestamp="1580972679672">
+      <screen x="56" y="23" width="1864" height="1057" />
     </state>
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777/-1865.23.1865.1057@0.23.1280.777" timestamp="1578120766114" />
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777/-1920.23.1920.1057@0.23.1280.777" timestamp="1578812652899" />
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777@0.23.1280.777" timestamp="1580627162537" />
-    <state x="518" y="324" key="com.intellij.ide.util.TipDialog/56.23.1864.1057@56.23.1864.1057" timestamp="1580456818087" />
+    <state x="514" y="324" key="com.intellij.ide.util.TipDialog/51.23.1869.1057@51.23.1869.1057" timestamp="1580878557080" />
+    <state x="518" y="324" key="com.intellij.ide.util.TipDialog/56.23.1864.1057@56.23.1864.1057" timestamp="1580972679672" />
     <state x="289" y="134" width="700" height="530" key="recent.locations.popup" timestamp="1578647647075">
       <screen x="0" y="23" width="1280" height="777" />
     </state>

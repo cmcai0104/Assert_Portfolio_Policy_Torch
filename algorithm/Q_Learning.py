@@ -16,7 +16,7 @@ import torchvision.transforms as T
 
 sys.path.append(os.getcwd())
 from environment.MarketEnv import MarketEnv
-from baselines.policy_network import LSTM
+from baselines.policy_network import LSTM_DQN
 
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
@@ -43,8 +43,8 @@ windows = 250
 env = MarketEnv(df=df, price_cols=price_columns, windows=windows,
                 initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
 n_actions = env.action_space.shape[0]
-policy_net = LSTM(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
-target_net = LSTM(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
+policy_net = LSTM_DQN(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
+target_net = LSTM_DQN(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
 target_net.load_state_dict(policy_net.state_dict())
 target_net.eval()
 optimizer = optim.RMSprop(policy_net.parameters())
@@ -93,38 +93,35 @@ def select_action(state1, state2, hold_rate, train=True):
     steps_done += 1
     if sample > eps_threshold:
         with torch.no_grad():
-            return policy_net(state1, state2)
+            return policy_net(state1, state2)[0]
     else:
         return hold_rate.to(device)
 
 
 episode_durations = []
 # 优化模型参数
-def optimize_model():
-    if len(memory) < BATCH_SIZE:
-        return
+def optimize_model(memory):
+    #if len(memory) < BATCH_SIZE:
+    #    return
     transitions = memory.sample(BATCH_SIZE)
     batch = Transition(*zip(*transitions))
     # 对next_state进行拼接
-    non_final_next_states = torch.cat([s for s in batch.next_state if s is not None])
-    # tensor 拼接
-    state_batch = torch.cat(batch.state)
+    env_next_state_batch = torch.tensor([env_next_state for env_next_state, _ in batch.next_state])
+    act_next_state_batch = torch.tensor([act_next_state for _, act_next_state in batch.next_state])
+    # 对state进行拼接
+    env_state_batch = torch.cat([env_state for env_state, _ in batch.state])
+    act_state_batch = torch.cat([act_state for _, act_state in batch.state])
+    # 对action 和 reward 拼接
     action_batch = torch.cat(batch.action)
-    reward_batch = torch.cat(batch.reward)
-    # Compute Q(s_t, a) - the model computes Q(s_t), then we select the columns of actions taken.
-    # These are the actions which would've been taken for each batch state according to policy_net
-    state_action_values = policy_net(state_batch).gather(1, action_batch)
-    # Compute V(s_{t+1}) for all next states.
-    # Expected values of actions for non_final_next_states are computed based
-    # on the "older" target_net; selecting their best reward with max(1)[0].
-    # This is merged based on the mask, such that we'll have either the expected
-    # state value or 0 in case the state was final.
-    next_state_values = torch.zeros(BATCH_SIZE, device=device)
-    next_state_values[non_final_mask] = target_net(non_final_next_states).max(1)[0].detach()
-    # Compute the expected Q values
+    reward_batch = torch.cat(batch.reward).unsqueeze(1)
+
+    mu_batch, sigma_batch, beta_batch = policy_net(env_state_batch, act_state_batch)
+    state_action_values = -(action_batch - mu_batch).unsqueeze(1).bmm(sigma_batch).bmm(
+        torch.transpose(sigma_batch, 1, 2)).bmm(torch.transpose((action_batch - mu_batch).unsqueeze(1), 1, 2)).squeeze(
+        dim=1) + beta_batch
+    next_state_values = target_net(env_next_state_batch, act_next_state_batch)[2]
     expected_state_action_values = (next_state_values * GAMMA) + reward_batch
-    # Compute Huber loss
-    loss = F.smooth_l1_loss(state_action_values, expected_state_action_values.unsqueeze(1))
+    loss = F.smooth_l1_loss(state_action_values, expected_state_action_values)
     # 优化模型
     optimizer.zero_grad()
     loss.backward()
@@ -137,33 +134,21 @@ num_episodes = 50
 for i_episode in range(num_episodes):
     # Initialize the environment and state
     state1, state2 = env.reset()
-    # env.reset()
-    # last_screen = get_screen()
-    # current_screen = get_screen()
-    # state = current_screen - last_screen
     for t in count():
         state1 = torch.from_numpy(state1).unsqueeze(0)
         state2 = torch.from_numpy(state2).unsqueeze(0)
-        hold_rate = torch.from_numpy(env.next_rate.astype(np.float32))
+        hold_rate = torch.from_numpy(env.next_rate.astype(np.float32)).unsqueeze(0)
         # Select and perform an action
         action = select_action(state1, state2, hold_rate)
         next_state, reward, done, _ = env.step(action.squeeze().detach().numpy())
-        # _, reward, done, _ = env.step(action.item())
         reward = torch.tensor([reward], device=device)
-        # Observe new state
-        #last_screen = current_screen
-        #current_screen = get_screen()
-        #if done:
-        #    next_state = None
-        # Store the transition in memory
         memory.push((state1, state2), action, next_state, reward)
         # Move to the next state
         state1, state2 = next_state
         if len(memory) > BATCH_SIZE:
-            break
-        # Perform one step of the optimization (on the target network)
-        optimize_model()
+            optimize_model(memory)
         if done:
+            env.render()
             episode_durations.append(t + 1)
             #plot_durations()
             break
