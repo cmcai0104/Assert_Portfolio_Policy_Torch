@@ -152,10 +152,9 @@ class LSTM_DQN(nn.Module):
 
         self.output_size = output_size
 
-
     def forward(self, env_state, action_state):
         lstm_out, (h_n, c_n) = self.lstm(env_state)
-        cat_layer = torch.cat((lstm_out[:,-1,:], action_state), 1)
+        cat_layer = torch.cat((lstm_out[:, -1, :], action_state), 1)
 
         mu = F.relu(self.hidden_mu1(cat_layer))
         mu = F.relu(self.hidden_mu2(mu))
@@ -170,3 +169,34 @@ class LSTM_DQN(nn.Module):
         sigma_vector = self.hidden_sigma_v3(sigma_vector)
 
         return mu, sigma_matrix.reshape((-1, self.output_size, self.output_size)), sigma_vector
+
+
+
+class LSTM_A2C(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super(LSTM_A2C, self).__init__()
+        self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=2,
+                            bias=True, batch_first=True, dropout=0, bidirectional=False)
+        self.hidden_mu1 = nn.Linear(hidden_size+output_size, 64)
+        self.hidden_mu2 = nn.Linear(64, 32)
+        self.hidden_mu3 = nn.Linear(32, 16)
+        self.hidden_mu4 = nn.Linear(16, output_size)
+
+        self.hidden_layer1 = nn.Linear(hidden_size + output_size*2, 64)
+        self.hidden_layer2 = nn.Linear(64, 8)
+        self.hidden_layer3 = nn.Linear(8,1)
+
+    def forward(self, env_state, action_state):
+        lstm_out, (h_n, c_n) = self.lstm(env_state)
+        cat_layer = torch.cat((lstm_out[:, -1, :], action_state), 1)
+
+        mu = F.relu(self.hidden_mu1(cat_layer))
+        mu = F.relu(self.hidden_mu2(mu))
+        mu = F.relu(self.hidden_mu3(mu))
+        mu = torch.softmax(self.hidden_mu4(mu), dim=1)
+
+        cat_layer = torch.cat((cat_layer, mu), 1)
+        q = F.selu(self.hidden_layer1(cat_layer))
+        q = F.selu(self.hidden_layer2(q))
+        q = self.hidden_layer3(q)
+        return mu, q

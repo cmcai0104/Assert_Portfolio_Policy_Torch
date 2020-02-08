@@ -2,11 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Policy_Gradient.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/A2C.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/A3C.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/Double_Q_Learning.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/Dueling_Q_Learning.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/test_env.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/test_env.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/baselines/policy_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/policy_network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learn_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reinforcement_q_learning-Copy1.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reinforcement_q_learning.ipynb" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +44,7 @@
       </set>
     </option>
   </component>
-  <component name="JupyterTrust" id="9e873580-777a-4a57-8abe-92b01d2c129f" />
+  <component name="JupyterTrust" id="e225322b-7b1c-473b-9ebc-8d26f5f2a8e9" />
   <component name="ProjectId" id="1VsDlxCWkyy5Ps7qtJL3Iiy9doN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -261,7 +268,8 @@
       <workItem from="1580456782721" duration="4439000" />
       <workItem from="1580696481375" duration="3549000" />
       <workItem from="1580878550918" duration="14000" />
-      <workItem from="1580972544639" duration="5063000" />
+      <workItem from="1580972544639" duration="5497000" />
+      <workItem from="1581150258542" duration="4321000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -389,7 +397,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579716400686</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="add q_learning">
+      <created>1581042803733</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1581042803733</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -414,15 +429,17 @@
     <MESSAGE value="add policy_gradient policy" />
     <MESSAGE value="add pre_training" />
     <MESSAGE value="add files" />
-    <option name="LAST_COMMIT_MESSAGE" value="add files" />
+    <MESSAGE value="add q_learning" />
+    <option name="LAST_COMMIT_MESSAGE" value="add q_learning" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1579716400416">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="217" y="23" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1581042803485">
+      <screen x="56" y="23" width="1864" height="1057" />
     </state>
     <state x="372" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1579512760734" />
     <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1579716400416" />
     <state x="507" y="29" key="CommitChangelistDialog2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141049036" />
+    <state x="217" y="23" key="CommitChangelistDialog2/56.23.1864.1057@56.23.1864.1057" timestamp="1581042803485" />
     <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1579485958057">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -462,20 +479,21 @@
     <state x="102" y="23" key="SettingsEditor/0.23.1280.777@0.23.1280.777" timestamp="1580491282294" />
     <state x="204" y="23" key="SettingsEditor/55.23.1865.1057@55.23.1865.1057" timestamp="1578140825713" />
     <state x="668" y="143" key="SettingsEditor/56.23.1864.1057@56.23.1864.1057" timestamp="1580696668624" />
-    <state x="301" y="161" key="Vcs.Push.Dialog.v2" timestamp="1579715874370">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="494" y="211" key="Vcs.Push.Dialog.v2" timestamp="1581042812594">
+      <screen x="56" y="23" width="1864" height="1057" />
     </state>
     <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1579512768484" />
     <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1579715874370" />
     <state x="493" y="210" key="Vcs.Push.Dialog.v2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141057986" />
-    <state x="518" y="324" key="com.intellij.ide.util.TipDialog" timestamp="1580972679672">
+    <state x="494" y="211" key="Vcs.Push.Dialog.v2/56.23.1864.1057@56.23.1864.1057" timestamp="1581042812594" />
+    <state x="518" y="324" key="com.intellij.ide.util.TipDialog" timestamp="1581150260071">
       <screen x="56" y="23" width="1864" height="1057" />
     </state>
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777/-1865.23.1865.1057@0.23.1280.777" timestamp="1578120766114" />
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777/-1920.23.1920.1057@0.23.1280.777" timestamp="1578812652899" />
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777@0.23.1280.777" timestamp="1580627162537" />
     <state x="514" y="324" key="com.intellij.ide.util.TipDialog/51.23.1869.1057@51.23.1869.1057" timestamp="1580878557080" />
-    <state x="518" y="324" key="com.intellij.ide.util.TipDialog/56.23.1864.1057@56.23.1864.1057" timestamp="1580972679672" />
+    <state x="518" y="324" key="com.intellij.ide.util.TipDialog/56.23.1864.1057@56.23.1864.1057" timestamp="1581150260071" />
     <state x="289" y="134" width="700" height="530" key="recent.locations.popup" timestamp="1578647647075">
       <screen x="0" y="23" width="1280" height="777" />
     </state>

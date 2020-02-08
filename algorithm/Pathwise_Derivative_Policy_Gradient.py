@@ -16,7 +16,7 @@ import torchvision.transforms as T
 
 sys.path.append(os.getcwd())
 from environment.MarketEnv import MarketEnv
-from baselines.policy_network import LSTM_DQN
+from baselines.policy_network import LSTM_A2C
 
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
@@ -43,8 +43,8 @@ windows = 250
 env = MarketEnv(df=df, price_cols=price_columns, windows=windows,
                 initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
 n_actions = env.action_space.shape[0]
-policy_net = LSTM_DQN(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
-target_net = LSTM_DQN(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
+policy_net = LSTM_A2C(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
+target_net = LSTM_A2C(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
 target_net.load_state_dict(policy_net.state_dict())
 target_net.eval()
 optimizer = optim.RMSprop(policy_net.parameters())
@@ -101,8 +101,6 @@ def select_action(state1, state2, hold_rate):
 episode_durations = []
 # 优化模型参数
 def optimize_model(memory):
-    #if len(memory) < BATCH_SIZE:
-    #    return
     transitions = memory.sample(BATCH_SIZE)
     batch = Transition(*zip(*transitions))
     # 对next_state进行拼接
@@ -115,18 +113,16 @@ def optimize_model(memory):
     action_batch = torch.cat(batch.action)
     reward_batch = torch.cat(batch.reward).unsqueeze(1)
 
-    mu_batch, sigma_batch, beta_batch = policy_net(env_state_batch, act_state_batch)
-    state_action_values = -(action_batch - mu_batch).unsqueeze(1).bmm(sigma_batch).bmm(
-        torch.transpose(sigma_batch, 1, 2)).bmm(torch.transpose((action_batch - mu_batch).unsqueeze(1), 1, 2)).squeeze(
-        dim=1) + beta_batch
-    next_state_values = target_net(env_next_state_batch, act_next_state_batch)[2]
+    state_action_batch, state_action_values = policy_net(env_state_batch, act_state_batch)
+    next_state_action_batch, next_state_values = target_net(env_next_state_batch, act_next_state_batch)
     expected_state_action_values = (next_state_values * GAMMA) + reward_batch
-    loss = F.smooth_l1_loss(state_action_values, expected_state_action_values)
+    q_value_loss = F.smooth_l1_loss(state_action_values, expected_state_action_values)
+    loss = q_value_loss - state_action_values.mean()/1000
     # 优化模型
     optimizer.zero_grad()
     loss.backward()
     for param in policy_net.parameters():
-        param.grad.data.clamp_(-1, 1)
+        param.grad.data.clamp_(-10, 10)
     optimizer.step()
 
 
@@ -146,6 +142,7 @@ for i_episode in range(num_episodes):
         # Move to the next state
         state1, state2 = next_state
         if len(memory) > BATCH_SIZE:
+            # break
             optimize_model(memory)
         if done:
             env.render()
