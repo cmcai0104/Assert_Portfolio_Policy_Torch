@@ -12,31 +12,29 @@ import torch
 import torch.optim as optim
 import torch.autograd
 import torch.nn.functional as F
-import torchvision.transforms as T
-
 sys.path.append(os.getcwd())
 from environment.MarketEnv import MarketEnv
 from baselines.policy_network import LSTM_A2C
-
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def df_preprocess(path):
-    dataframe = pd.read_csv(path, index_col=0, header=0)
-    dataframe['trade_date'] = dataframe['trade_date'].astype('datetime64')
-    dataframe = dataframe[dataframe['trade_date'] <= pd.datetime.strptime('20190809', '%Y%m%d')]
-    dataframe['trade_date'] = dataframe['trade_date'].dt.date
-    dataframe = dataframe.set_index('trade_date').fillna(method='ffill', axis=0)
+    df = pd.read_csv(path, index_col=0, header=0)
+    df['trade_date'] = df['trade_date'].astype('datetime64')
+    df = df[df['trade_date'] <= pd.datetime.strptime('20190809', '%Y%m%d')]
+    df['trade_date'] = df['trade_date'].dt.date
+    df = df.set_index('trade_date').fillna(method='ffill', axis=0)
     # 剔除 399016
-    colnames = dataframe.columns
+    colnames = df.columns
     colnames = colnames[[col[:6] != '399016' for col in colnames]]
-    dataframe = dataframe[colnames]
-    dataframe = dataframe.dropna(axis=0, how='any')
-    # 筛选出price列名及其对应的 dataframe
+    df = df[colnames]
+    df = df.dropna(axis=0, how='any')
+    # 筛选出price列名及其对应的 df
     price_columns = colnames[[col[-5:] == 'close' for col in colnames]]
-    return dataframe, price_columns.to_list()
+    return df, price_columns.to_list()
+
 
 df, price_columns = df_preprocess('./data/create_feature.csv')
 windows = 250
@@ -46,9 +44,7 @@ n_actions = env.action_space.shape[0]
 policy_net = LSTM_A2C(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
 target_net = LSTM_A2C(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
 target_net.load_state_dict(policy_net.state_dict())
-target_net.eval()
 optimizer = optim.RMSprop(policy_net.parameters())
-
 
 Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
 
@@ -74,10 +70,9 @@ class ReplayMemory(object):
         return len(self.memory)
 
 
-# 定义记忆长度为10000的replaymemory
 memory = ReplayMemory(10000)
 
-BATCH_SIZE = 128
+BATCH_SIZE = 256
 GAMMA = 0.999
 EPS_START = 0.9
 EPS_END = 0.05
@@ -86,12 +81,12 @@ TARGET_UPDATE = 10
 
 
 steps_done = 0
-def select_action(state1, state2, hold_rate):
+def select_action(state1, state2, hold_rate, train=True):
     global steps_done
     sample = random.random()
     eps_threshold = EPS_END + (EPS_START - EPS_END) * math.exp(-1. * steps_done / EPS_DECAY)
     steps_done += 1
-    if sample > eps_threshold:
+    if sample > eps_threshold and train:
         with torch.no_grad():
             return policy_net(state1, state2)[0]
     else:
@@ -152,6 +147,6 @@ for i_episode in range(num_episodes):
     # Update the target network, copying all weights and biases in DQN
     if i_episode % TARGET_UPDATE == 0:
         target_net.load_state_dict(policy_net.state_dict())
+        torch.save(policy_net.state_dict(), "./model/pathwise_derivative_model_%epoch.pt" % i_episode)
 
-print('Complete')
 env.render()

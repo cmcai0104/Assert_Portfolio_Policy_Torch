@@ -61,4 +61,10 @@ hold_rate = torch.from_numpy(env.next_rate.astype(np.float32)).unsqueeze(0)
 # Select and perform an action
 action = policy_net(state1, state2)[0]
 
-
+EPS_START = 0.9
+EPS_END = 0.1
+EPS_DECAY = 30000
+steps_done = np.arange(300000)
+eps_threshold = EPS_END + (EPS_START - EPS_END) * np.exp(-1. * steps_done / EPS_DECAY)
+plt.plot(steps_done, eps_threshold)
+plt.show()

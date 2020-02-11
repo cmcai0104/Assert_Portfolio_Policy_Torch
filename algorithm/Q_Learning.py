@@ -155,6 +155,6 @@ for i_episode in range(num_episodes):
     # Update the target network, copying all weights and biases in DQN
     if i_episode % TARGET_UPDATE == 0:
         target_net.load_state_dict(policy_net.state_dict())
+        torch.save(policy_net.state_dict(), "./model/Q_learning_model_%epoch.pt" % i_episode)
 
-print('Complete')
 env.render()
