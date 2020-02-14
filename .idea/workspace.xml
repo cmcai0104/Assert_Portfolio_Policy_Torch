@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Policy_Gradient.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Policy_Gradient.py" afterDir="false" />
     </list>
@@ -59,7 +57,7 @@
       <recent name="D:\iCloudDrive\MyProject\Assert_Portfolio_Policy_Torch" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Q_Learning">
+  <component name="RunManager" selected="Python.Pathwise_Derivative_Policy_Gradient">
     <configuration name="DQN_demo (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Assert_Portfolio_Policy_Torch" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -82,22 +80,19 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="DQN_demo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Pathwise_Derivative_Policy_Gradient" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Assert_Portfolio_Policy_Torch" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Algorithm" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithm" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="D:\iCloudDrive\MyProject\Assert_Portfolio_Policy_Torch\Algorithm\DQN_demo.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Policy_Gradient.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -194,11 +189,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Pathwise_Derivative_Policy_Gradient" />
         <item itemvalue="Python.Q_Learning" />
         <item itemvalue="Python.PreTraining" />
         <item itemvalue="Python.PolicyGradient" />
         <item itemvalue="Python.DQN_demo (1)" />
-        <item itemvalue="Python.DQN_demo" />
       </list>
     </recent_temporary>
   </component>
@@ -264,6 +259,8 @@
       <workItem from="1581150258542" duration="8725000" />
       <workItem from="1581430474543" duration="20000" />
       <workItem from="1581430502094" duration="3597000" />
+      <workItem from="1581651831677" duration="981000" />
+      <workItem from="1581669424700" duration="3188000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -405,7 +402,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581177072378</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="add a2c">
+      <created>1581611184785</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1581611184785</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -439,11 +443,11 @@
       <screen x="58" y="23" width="1862" height="1057" />
     </state>
     <state x="727" y="305" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/58.23.1862.1057@58.23.1862.1057" timestamp="1581430557780" />
-    <state x="658" y="71" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1581177072160">
-      <screen x="56" y="23" width="1864" height="1057" />
+    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1581611184374">
+      <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="372" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1579512760734" />
-    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1579716400416" />
+    <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1581611184374" />
     <state x="507" y="29" key="CommitChangelistDialog2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141049036" />
     <state x="658" y="71" key="CommitChangelistDialog2/56.23.1864.1057@56.23.1864.1057" timestamp="1581177072160" />
     <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1579485958057">
@@ -485,19 +489,19 @@
     <state x="102" y="23" key="SettingsEditor/0.23.1280.777@0.23.1280.777" timestamp="1581571434535" />
     <state x="204" y="23" key="SettingsEditor/55.23.1865.1057@55.23.1865.1057" timestamp="1578140825713" />
     <state x="668" y="143" key="SettingsEditor/56.23.1864.1057@56.23.1864.1057" timestamp="1580696668624" />
-    <state x="494" y="211" key="Vcs.Push.Dialog.v2" timestamp="1581177080668">
-      <screen x="56" y="23" width="1864" height="1057" />
+    <state x="301" y="161" key="Vcs.Push.Dialog.v2" timestamp="1581652612208">
+      <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1579512768484" />
-    <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1579715874370" />
+    <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1581652612208" />
     <state x="493" y="210" key="Vcs.Push.Dialog.v2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141057986" />
     <state x="494" y="211" key="Vcs.Push.Dialog.v2/56.23.1864.1057@56.23.1864.1057" timestamp="1581177080668" />
-    <state x="520" y="324" key="com.intellij.ide.util.TipDialog" timestamp="1581430476291">
-      <screen x="58" y="23" width="1862" height="1057" />
+    <state x="317" y="244" key="com.intellij.ide.util.TipDialog" timestamp="1581669425591">
+      <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777/-1865.23.1865.1057@0.23.1280.777" timestamp="1578120766114" />
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777/-1920.23.1920.1057@0.23.1280.777" timestamp="1578812652899" />
-    <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777@0.23.1280.777" timestamp="1580627162537" />
+    <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777@0.23.1280.777" timestamp="1581669425591" />
     <state x="514" y="324" key="com.intellij.ide.util.TipDialog/51.23.1869.1057@51.23.1869.1057" timestamp="1580878557080" />
     <state x="518" y="324" key="com.intellij.ide.util.TipDialog/56.23.1864.1057@56.23.1864.1057" timestamp="1581150260071" />
     <state x="520" y="324" key="com.intellij.ide.util.TipDialog/58.23.1862.1057@58.23.1862.1057" timestamp="1581430476291" />
