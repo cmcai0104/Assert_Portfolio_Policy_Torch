@@ -119,6 +119,7 @@ def test_interact(env):
         net_list.append(env.next_net)
         state1, state2 = next_state
         if done:
+            print('test process: \n')
             env.render()
             break
     return np.array(net_list)/env.initial_account_balance-1
