@@ -151,8 +151,10 @@ def interact(env, num_episodes=50, target_update=10):
             target_net.load_state_dict(policy_net.state_dict())
             torch.save(policy_net.state_dict(), "./model/pathwise_derivative_model_%epoch.pt" % i_episode)
             ret_df['%sepoch'%i_episode] = test_interact(env)
+            ret_df.plot(title='Returns Curve')
+            plt.savefig('./image/ret/pathwise_policy_gradient.jpg')
+            plt.close()
 
-    return ret_df
 
 
 
@@ -169,9 +171,6 @@ if __name__ == '__main__':
 
     Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
 
-    num_episodes = 5
-    TARGET_UPDATE = 1
-    ret_df = interact(env, num_episodes=num_episodes, target_update=TARGET_UPDATE)
-    ret_df.plot(title='Returns Curve')
-    plt.savefig('./image/ret/pathwise_policy_gradient.jpg')
-    plt.close()
+    num_episodes = 100
+    TARGET_UPDATE = 10
+    interact(env, num_episodes=num_episodes, target_update=TARGET_UPDATE)
