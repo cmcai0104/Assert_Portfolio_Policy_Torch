@@ -135,7 +135,7 @@ if __name__ == '__main__':
     Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
     memory = ReplayMemory(3000)
     num_episodes = 100
-    TARGET_UPDATE = 10
+    TARGET_UPDATE = 5
 
     ret_df = pd.DataFrame(index=df.index[250:], dtype=np.float64)
     for i_episode in range(num_episodes):
