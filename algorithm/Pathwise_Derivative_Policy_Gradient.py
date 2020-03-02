@@ -34,7 +34,7 @@ def df_preprocess(path):
         df[[col + '_m' + str(ind) for col in colnames]] = df[colnames].rolling(window=ind, min_periods=1).mean()
         df[[col + '_q' + str(ind) for col in colnames]] = df[colnames].rolling(window=ind, min_periods=1).apply(lambda x: len(x[x <= x[-1]]) / len(x), raw=True)
     price_columns = [col for col in colnames if (col[-5:] == 'close')]
-    return df, price_columns.to_list()
+    return df, price_columns
 
 
 class ReplayMemory(object):
