@@ -37,7 +37,6 @@ def df_preprocess(path):
 
 
 class ReplayMemory(object):
-
     def __init__(self, capacity):
         self.capacity = capacity
         self.memory = []
@@ -57,14 +56,11 @@ class ReplayMemory(object):
         return len(self.memory)
 
 
-memory = ReplayMemory(10000)
-
-BATCH_SIZE = 256
+BATCH_SIZE = 64
 GAMMA = 0.999
 EPS_START = 0.9
 EPS_END = 0.1
 EPS_DECAY = 30000
-
 steps_done = 0
 
 
@@ -125,7 +121,21 @@ def test_interact(env):
     return np.array(net_list)/env.initial_account_balance-1
 
 
-def interact(env, num_episodes=50, target_update=10):
+if __name__ == '__main__':
+    df, price_columns = df_preprocess('./data/create_feature.csv')
+    windows = 250
+    env = MarketEnv(df=df, price_cols=price_columns, windows=windows,
+                    initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
+    n_actions = env.action_space.shape[0]
+    policy_net = LSTM_A2C(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
+    target_net = LSTM_A2C(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
+    target_net.load_state_dict(policy_net.state_dict())
+    optimizer = optim.RMSprop(policy_net.parameters())
+    Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
+    memory = ReplayMemory(1000)
+    num_episodes = 100
+    TARGET_UPDATE = 10
+
     ret_df = pd.DataFrame(index=df.index[250:], dtype=np.float64)
     for i_episode in range(num_episodes):
         # Initialize the environment and state
@@ -141,36 +151,17 @@ def interact(env, num_episodes=50, target_update=10):
             memory.push((state1, state2), action, next_state, reward)
             # Move to the next state
             state1, state2 = next_state
-            if len(memory) > BATCH_SIZE:
+            if len(memory) >= BATCH_SIZE:
                 optimize_model(memory)
+                if t % 100 == 0:
+                    target_net.load_state_dict(policy_net.state_dict())
             if done:
                 env.render()
                 break
         # Update the target network, copying all weights and biases in DQN
-        if i_episode+1 % target_update == 0:
-            target_net.load_state_dict(policy_net.state_dict())
-            torch.save(policy_net.state_dict(), "./model/pathwise_derivative_model_%epoch.pt" % i_episode)
-            ret_df['%sepoch'%i_episode] = test_interact(env)
+        if (i_episode+1) % TARGET_UPDATE == 0:
+            torch.save(policy_net.state_dict(), "./model/pathwise_derivative_%s epoch.pt" % (i_episode+1))
+            ret_df['%s epoch' % (i_episode+1)] = test_interact(env)
             ret_df.plot(title='Returns Curve')
-            plt.savefig('./image/ret/pathwise_policy_gradient.jpg')
+            plt.savefig('./image/ret/pathwise_derivative.jpg')
             plt.close()
-
-
-
-
-if __name__ == '__main__':
-    df, price_columns = df_preprocess('./data/create_feature.csv')
-    windows = 250
-    env = MarketEnv(df=df, price_cols=price_columns, windows=windows,
-                    initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
-    n_actions = env.action_space.shape[0]
-    policy_net = LSTM_A2C(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
-    target_net = LSTM_A2C(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
-    target_net.load_state_dict(policy_net.state_dict())
-    optimizer = optim.RMSprop(policy_net.parameters())
-
-    Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
-
-    num_episodes = 100
-    TARGET_UPDATE = 10
-    interact(env, num_episodes=num_episodes, target_update=TARGET_UPDATE)
