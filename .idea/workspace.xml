@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/algorithm/data_preprocess.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Policy_Gradient.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Policy_Gradient.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_model_0.000000e+00poch.pt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -438,7 +436,21 @@
       <option name="project" value="LOCAL" />
       <updated>1581783270074</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="alter pathwise derivative model">
+      <created>1583144586578</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1583144586578</updated>
+    </task>
+    <task id="LOCAL-00026" summary="alter pathwise derivative model">
+      <created>1583144667423</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1583144667423</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -465,20 +477,22 @@
     <MESSAGE value="add files" />
     <MESSAGE value="add q_learning" />
     <MESSAGE value="add a2c" />
-    <option name="LAST_COMMIT_MESSAGE" value="add a2c" />
+    <MESSAGE value="alter pathwise derivative model" />
+    <option name="LAST_COMMIT_MESSAGE" value="alter pathwise derivative model" />
   </component>
   <component name="WindowStateProjectService">
     <state x="727" y="305" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1581430557780">
       <screen x="58" y="23" width="1862" height="1057" />
     </state>
     <state x="727" y="305" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/58.23.1862.1057@58.23.1862.1057" timestamp="1581430557780" />
-    <state x="221" y="23" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1583144586337">
-      <screen x="60" y="23" width="1860" height="1057" />
+    <state x="219" y="23" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1583144667236">
+      <screen x="58" y="23" width="1862" height="1057" />
     </state>
     <state x="372" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1579512760734" />
     <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1581783269633" />
     <state x="507" y="29" key="CommitChangelistDialog2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141049036" />
     <state x="658" y="71" key="CommitChangelistDialog2/56.23.1864.1057@56.23.1864.1057" timestamp="1581177072160" />
+    <state x="219" y="23" key="CommitChangelistDialog2/58.23.1862.1057@58.23.1862.1057" timestamp="1583144667236" />
     <state x="221" y="23" key="CommitChangelistDialog2/60.23.1860.1057@60.23.1860.1057" timestamp="1583144586337" />
     <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1579485958057">
       <screen x="0" y="0" width="1536" height="824" />
@@ -520,13 +534,14 @@
     <state x="204" y="23" key="SettingsEditor/55.23.1865.1057@55.23.1865.1057" timestamp="1578140825713" />
     <state x="668" y="143" key="SettingsEditor/56.23.1864.1057@56.23.1864.1057" timestamp="1580696668624" />
     <state x="206" y="23" key="SettingsEditor/58.23.1862.1057@58.23.1862.1057" timestamp="1583050422229" />
-    <state x="301" y="161" key="Vcs.Push.Dialog.v2" timestamp="1581783276742">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="496" y="211" key="Vcs.Push.Dialog.v2" timestamp="1583144675310">
+      <screen x="58" y="23" width="1862" height="1057" />
     </state>
     <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1579512768484" />
     <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1581783276742" />
     <state x="493" y="210" key="Vcs.Push.Dialog.v2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141057986" />
     <state x="494" y="211" key="Vcs.Push.Dialog.v2/56.23.1864.1057@56.23.1864.1057" timestamp="1581177080668" />
+    <state x="496" y="211" key="Vcs.Push.Dialog.v2/58.23.1862.1057@58.23.1862.1057" timestamp="1583144675310" />
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog" timestamp="1581874394393">
       <screen x="0" y="23" width="1280" height="777" />
     </state>

@@ -25,14 +25,15 @@ def df_preprocess(path):
     df['trade_date'] = df['trade_date'].astype('datetime64')
     df = df[df['trade_date'] <= pd.datetime.strptime('20190809', '%Y%m%d')]
     df['trade_date'] = df['trade_date'].dt.date
-    df = df.set_index('trade_date').fillna(method='ffill', axis=0)
-    # 剔除 399016
-    colnames = df.columns
-    colnames = colnames[[col[:6] != '399016' for col in colnames]]
-    df = df[colnames]
-    df = df.dropna(axis=0, how='any')
-    # 筛选出price列名及其对应的 df
-    price_columns = colnames[[col[-5:] == 'close' for col in colnames]]
+    df = df.set_index('trade_date')
+    colnames = df.columns.to_list()
+    colnames = list(set(colnames) - set(['000001.SH_pe_y', '000300.SH_pe_y', '000905.SH_pe_y', '399006.SZ_pe_y']))
+    colnames = [col for col in colnames if (col[:6] != '399016')]
+    df = df[colnames].dropna(axis=0, how='all').fillna(method='ffill', axis=0).dropna(axis=0, how='any')
+    for ind in [5, 10, 20, 30, 40, 60, 70, 125, 250, 500, 750]:
+        df[[col + '_m' + str(ind) for col in colnames]] = df[colnames].rolling(window=ind, min_periods=1).mean()
+        df[[col + '_q' + str(ind) for col in colnames]] = df[colnames].rolling(window=ind, min_periods=1).apply(lambda x: len(x[x <= x[-1]]) / len(x), raw=True)
+    price_columns = [col for col in colnames if (col[-5:] == 'close')]
     return df, price_columns.to_list()
 
 
@@ -56,7 +57,7 @@ class ReplayMemory(object):
         return len(self.memory)
 
 
-BATCH_SIZE = 64
+BATCH_SIZE = 256
 GAMMA = 0.999
 EPS_START = 0.9
 EPS_END = 0.1
@@ -132,7 +133,7 @@ if __name__ == '__main__':
     target_net.load_state_dict(policy_net.state_dict())
     optimizer = optim.RMSprop(policy_net.parameters())
     Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
-    memory = ReplayMemory(1000)
+    memory = ReplayMemory(3000)
     num_episodes = 100
     TARGET_UPDATE = 10
 
@@ -151,7 +152,7 @@ if __name__ == '__main__':
             memory.push((state1, state2), action, next_state, reward)
             # Move to the next state
             state1, state2 = next_state
-            if len(memory) >= BATCH_SIZE:
+            if len(memory) >= (BATCH_SIZE*5):
                 optimize_model(memory)
                 if t % 100 == 0:
                     target_net.load_state_dict(policy_net.state_dict())
