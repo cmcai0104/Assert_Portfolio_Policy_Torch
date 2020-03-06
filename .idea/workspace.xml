@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Policy_Gradient.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Policy_Gradient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,6 +266,7 @@
       <workItem from="1581669424700" duration="7034000" />
       <workItem from="1581783196174" duration="570000" />
       <workItem from="1581874381039" duration="842000" />
+      <workItem from="1583485953398" duration="404000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>

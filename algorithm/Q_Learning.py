@@ -12,8 +12,6 @@ import torch
 import torch.optim as optim
 import torch.autograd
 import torch.nn.functional as F
-import torchvision.transforms as T
-
 sys.path.append(os.getcwd())
 from environment.MarketEnv import MarketEnv
 from baselines.policy_network import LSTM_DQN
@@ -24,23 +22,23 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def df_preprocess(path):
-    dataframe = pd.read_csv(path, index_col=0, header=0)
-    dataframe['trade_date'] = dataframe['trade_date'].astype('datetime64')
-    dataframe = dataframe[dataframe['trade_date'] <= pd.datetime.strptime('20190809', '%Y%m%d')]
-    dataframe['trade_date'] = dataframe['trade_date'].dt.date
-    dataframe = dataframe.set_index('trade_date').fillna(method='ffill', axis=0)
-    # 剔除 399016
-    colnames = dataframe.columns
-    colnames = colnames[[col[:6] != '399016' for col in colnames]]
-    dataframe = dataframe[colnames]
-    dataframe = dataframe.dropna(axis=0, how='any')
-    # 筛选出price列名及其对应的 dataframe
-    price_columns = colnames[[col[-5:] == 'close' for col in colnames]]
-    return dataframe, price_columns.to_list()
+    df = pd.read_csv(path, index_col=0, header=0)
+    df['trade_date'] = df['trade_date'].astype('datetime64')
+    df = df[df['trade_date'] <= pd.datetime.strptime('20190809', '%Y%m%d')]
+    df['trade_date'] = df['trade_date'].dt.date
+    df = df.set_index('trade_date')
+    colnames = df.columns.to_list()
+    colnames = list(set(colnames) - set(['000001.SH_pe_y', '000300.SH_pe_y', '000905.SH_pe_y', '399006.SZ_pe_y']))
+    colnames = [col for col in colnames if (col[:6] != '399016')]
+    df = df[colnames].dropna(axis=0, how='all').fillna(method='ffill', axis=0).dropna(axis=0, how='any')
+    for ind in [5, 10, 20, 30, 40, 60, 70, 125, 250, 500, 750]:
+        df[[col + '_m' + str(ind) for col in colnames]] = df[colnames].rolling(window=ind, min_periods=1).mean()
+        df[[col + '_q' + str(ind) for col in colnames]] = df[colnames].rolling(window=ind, min_periods=1).apply(lambda x: len(x[x <= x[-1]]) / len(x), raw=True)
+    price_columns = [col for col in colnames if (col[-5:] == 'close')]
+    return df, price_columns
 
 
 class ReplayMemory(object):
-
     def __init__(self, capacity):
         self.capacity = capacity
         self.memory = []
@@ -60,19 +58,14 @@ class ReplayMemory(object):
         return len(self.memory)
 
 
-# 定义记忆长度为10000的replaymemory
-memory = ReplayMemory(10000)
-
-
 BATCH_SIZE = 256
 GAMMA = 0.999
 EPS_START = 0.9
 EPS_END = 0.1
 EPS_DECAY = 30000
-TARGET_UPDATE = 10
-
-
 steps_done = 0
+
+
 def select_action(state1, state2, hold_rate):
     global steps_done
     sample = random.random()
@@ -131,7 +124,21 @@ def test_interact(env):
     return np.array(net_list)/env.initial_account_balance-1
 
 
-def interact(env, num_episodes=50, target_update=10):
+if __name__ == '__main__':
+    df, price_columns = df_preprocess('./data/create_feature.csv')
+    windows = 250
+    env = MarketEnv(df=df, price_cols=price_columns, windows=windows,
+                    initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
+    n_actions = env.action_space.shape[0]
+    policy_net = LSTM_DQN(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
+    target_net = LSTM_DQN(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
+    target_net.load_state_dict(policy_net.state_dict())
+    optimizer = optim.RMSprop(policy_net.parameters())
+    Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
+    memory = ReplayMemory(3000)
+    num_episodes = 100
+    TARGET_UPDATE = 5
+
     ret_df = pd.DataFrame(index=df.index[250:], dtype=np.float64)
     for i_episode in range(num_episodes):
         # Initialize the environment and state
@@ -147,16 +154,17 @@ def interact(env, num_episodes=50, target_update=10):
             memory.push((state1, state2), action, next_state, reward)
             # Move to the next state
             state1, state2 = next_state
-            if len(memory) > BATCH_SIZE:
+            if len(memory) >= (BATCH_SIZE * 5):
                 optimize_model(memory)
+                if t % 100 == 0:
+                    target_net.load_state_dict(policy_net.state_dict())
             if done:
                 env.render()
                 break
         # Update the target network, copying all weights and biases in DQN
-        if i_episode+1 % target_update == 0:
-            target_net.load_state_dict(policy_net.state_dict())
-            torch.save(policy_net.state_dict(), "./model/Q_learning_model_%epoch.pt" % i_episode)
-            ret_df['%sepoch'%i_episode] = test_interact(env)
+        if (i_episode+1) % TARGET_UPDATE == 0:
+            torch.save(policy_net.state_dict(), "./model/q_learning_%s epoch.pt" % (i_episode+1))
+            ret_df['%s epoch' % (i_episode+1)] = test_interact(env)
             ret_df.plot(title='Returns Curve')
             plt.savefig('./image/ret/Q_learning.jpg')
             plt.close()
