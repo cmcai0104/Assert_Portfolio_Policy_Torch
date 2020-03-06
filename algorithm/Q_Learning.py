@@ -169,21 +169,3 @@ if __name__ == '__main__':
             plt.savefig('./image/ret/Q_learning.jpg')
             plt.close()
 
-
-if __name__ == '__main__':
-
-    df, price_columns = df_preprocess('./data/create_feature.csv')
-    windows = 250
-    env = MarketEnv(df=df, price_cols=price_columns, windows=windows,
-                    initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
-    n_actions = env.action_space.shape[0]
-    policy_net = LSTM_DQN(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
-    target_net = LSTM_DQN(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
-    target_net.load_state_dict(policy_net.state_dict())
-    target_net.eval()
-    optimizer = optim.RMSprop(policy_net.parameters())
-    Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
-
-    num_episodes = 100
-    TARGET_UPDATE = 10
-    interact(env, num_episodes=num_episodes, target_update=TARGET_UPDATE)

@@ -266,7 +266,7 @@
       <workItem from="1581669424700" duration="7034000" />
       <workItem from="1581783196174" duration="570000" />
       <workItem from="1581874381039" duration="842000" />
-      <workItem from="1583485953398" duration="404000" />
+      <workItem from="1583485953398" duration="790000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -464,7 +464,21 @@
       <option name="project" value="LOCAL" />
       <updated>1583157180622</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="alter q_leaning model">
+      <created>1583486379175</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1583486379175</updated>
+    </task>
+    <task id="LOCAL-00030" summary="alter q_leaning model">
+      <created>1583486492568</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1583486492568</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -492,7 +506,8 @@
     <MESSAGE value="add q_learning" />
     <MESSAGE value="add a2c" />
     <MESSAGE value="alter pathwise derivative model" />
-    <option name="LAST_COMMIT_MESSAGE" value="alter pathwise derivative model" />
+    <MESSAGE value="alter q_leaning model" />
+    <option name="LAST_COMMIT_MESSAGE" value="alter q_leaning model" />
   </component>
   <component name="WindowStateProjectService">
     <state x="727" y="305" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1581430557780">
@@ -567,9 +582,10 @@
     <state x="514" y="324" key="com.intellij.ide.util.TipDialog/51.23.1869.1057@51.23.1869.1057" timestamp="1580878557080" />
     <state x="518" y="324" key="com.intellij.ide.util.TipDialog/56.23.1864.1057@56.23.1864.1057" timestamp="1581150260071" />
     <state x="520" y="324" key="com.intellij.ide.util.TipDialog/58.23.1862.1057@58.23.1862.1057" timestamp="1581430476291" />
-    <state x="264" y="210" key="git4idea.merge.GitPullDialog" timestamp="1581874405207">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="317" y="198" key="git4idea.merge.GitPullDialog" timestamp="1583486605613">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="317" y="198" key="git4idea.merge.GitPullDialog/0.0.1536.824@0.0.1536.824" timestamp="1583486605613" />
     <state x="264" y="210" key="git4idea.merge.GitPullDialog/0.23.1280.777@0.23.1280.777" timestamp="1581874405207" />
     <state x="289" y="134" width="700" height="530" key="recent.locations.popup" timestamp="1578647647075">
       <screen x="0" y="23" width="1280" height="777" />
