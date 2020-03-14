@@ -140,7 +140,7 @@ if __name__ == '__main__':
     ret_df = pd.DataFrame(index=df.index[250:], dtype=np.float64)
     for i_episode in range(num_episodes):
         # Initialize the environment and state
-        state1, state2 = env.reset()
+        state1, state2 = env.reset(start_step='random')
         for t in count():
             state1 = torch.from_numpy(state1).unsqueeze(0)
             state2 = torch.from_numpy(state2).unsqueeze(0)
@@ -161,8 +161,8 @@ if __name__ == '__main__':
                 break
         # Update the target network, copying all weights and biases in DQN
         if (i_episode+1) % TARGET_UPDATE == 0:
-            torch.save(policy_net.state_dict(), "./model/pathwise_derivative_%s epoch.pt" % (i_episode+1))
+            torch.save(policy_net.state_dict(), "./model/pathwise_derivative_random_%s epoch.pt" % (i_episode+1))
             ret_df['%s epoch' % (i_episode+1)] = test_interact(env)
             ret_df.plot(title='Returns Curve')
-            plt.savefig('./image/ret/pathwise_derivative.jpg')
+            plt.savefig('./image/ret/pathwise_derivative_random.jpg')
             plt.close()
