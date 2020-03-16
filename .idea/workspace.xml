@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/Pathwise_Derivative.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning.py" afterDir="false" />
-    </list>
+    <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -267,7 +263,7 @@
       <workItem from="1581783196174" duration="570000" />
       <workItem from="1581874381039" duration="842000" />
       <workItem from="1583485953398" duration="790000" />
-      <workItem from="1584350363137" duration="751000" />
+      <workItem from="1584350363137" duration="995000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -486,7 +482,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584342055313</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="alter q_leaning and pathwise_derivative algorithm">
+      <created>1584351132442</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1584351132442</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -523,10 +526,10 @@
       <screen x="58" y="23" width="1862" height="1057" />
     </state>
     <state x="727" y="305" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/58.23.1862.1057@58.23.1862.1057" timestamp="1581430557780" />
-    <state x="372" y="5" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1584342054169">
+    <state x="372" y="5" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1584351131057">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="372" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1584342054169" />
+    <state x="372" y="5" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1584351131057" />
     <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1581783269633" />
     <state x="214" y="23" key="CommitChangelistDialog2/53.23.1867.1057@53.23.1867.1057" timestamp="1583157180465" />
     <state x="507" y="29" key="CommitChangelistDialog2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141049036" />
@@ -573,10 +576,10 @@
     <state x="204" y="23" key="SettingsEditor/55.23.1865.1057@55.23.1865.1057" timestamp="1578140825713" />
     <state x="668" y="143" key="SettingsEditor/56.23.1864.1057@56.23.1864.1057" timestamp="1580696668624" />
     <state x="206" y="23" key="SettingsEditor/58.23.1862.1057@58.23.1862.1057" timestamp="1583050422229" />
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1584342066727">
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1584351483627">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1584342066727" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1584351483627" />
     <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1581783276742" />
     <state x="492" y="211" key="Vcs.Push.Dialog.v2/53.23.1867.1057@53.23.1867.1057" timestamp="1583157188560" />
     <state x="493" y="210" key="Vcs.Push.Dialog.v2/55.23.1865.1057@55.23.1865.1057" timestamp="1578141057986" />
