@@ -79,7 +79,7 @@ def select_action(state1, state2, hold_rate):
     elif sample > eps_threshold_hig:
         return hold_rate.to(device)
     else:
-        ratio = torch.rand(n_actions)
+        ratio = torch.rand((1, n_actions))
         return ratio/ratio.sum().to(device)
 
 
