@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Policy_Gradient.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/test_env.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/test_env.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +82,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Pathwise_Derivative_Policy_Gradient" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Pathwise_Derivative" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Assert_Portfolio_Policy_Torch" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -93,7 +95,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Policy_Gradient.py" />
+      <option name="SCRIPT_NAME" value="D:\Project\Assert_Portfolio_Policy_Torch\algorithm\Pathwise_Derivative.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />

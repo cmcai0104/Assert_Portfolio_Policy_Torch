@@ -59,8 +59,10 @@ class ReplayMemory(object):
 
 BATCH_SIZE = 256
 GAMMA = 0.999
-EPS_START = 0.9
-EPS_END = 0.1
+EPS_START_LOW = 0.45
+EPS_START_HIG = 0.55
+EPS_END_LOW = 0.1
+EPS_END_HIG = 0.9
 EPS_DECAY = 30000
 steps_done = 0
 
@@ -68,13 +70,17 @@ steps_done = 0
 def select_action(state1, state2, hold_rate):
     global steps_done
     sample = random.random()
-    eps_threshold = EPS_END + (EPS_START - EPS_END) * math.exp(-1. * steps_done / EPS_DECAY)
+    eps_threshold_low = EPS_END_LOW + (EPS_START_LOW - EPS_END_LOW) * math.exp(-1. * steps_done / EPS_DECAY)
+    eps_threshold_hig = EPS_END_HIG - (EPS_END_HIG - EPS_START_HIG) * math.exp(-1. * steps_done / EPS_DECAY)
     steps_done += 1
-    if sample > eps_threshold:
+    if eps_threshold_low < sample < eps_threshold_hig:
         with torch.no_grad():
             return policy_net(state1, state2)[0]
-    else:
+    elif sample > eps_threshold_hig:
         return hold_rate.to(device)
+    else:
+        ratio = torch.rand(n_actions)
+        return ratio/ratio.sum().to(device)
 
 
 # 优化模型参数
@@ -116,7 +122,7 @@ def test_interact(env):
         net_list.append(env.next_net)
         state1, state2 = next_state
         if done:
-            print('test process: \n')
+            print('test process: ', end=' ')
             env.render()
             break
     return np.array(net_list)/env.initial_account_balance-1
@@ -133,14 +139,14 @@ if __name__ == '__main__':
     target_net.load_state_dict(policy_net.state_dict())
     optimizer = optim.RMSprop(policy_net.parameters())
     Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
-    memory = ReplayMemory(3000)
+    memory = ReplayMemory(30000)
     num_episodes = 100
     TARGET_UPDATE = 5
 
     ret_df = pd.DataFrame(index=df.index[250:], dtype=np.float64)
     for i_episode in range(num_episodes):
         # Initialize the environment and state
-        state1, state2 = env.reset(start_step='random')
+        state1, state2 = env.reset()
         for t in count():
             state1 = torch.from_numpy(state1).unsqueeze(0)
             state2 = torch.from_numpy(state2).unsqueeze(0)
@@ -157,12 +163,13 @@ if __name__ == '__main__':
                 if t % 100 == 0:
                     target_net.load_state_dict(policy_net.state_dict())
             if done:
+                print('%s,  ' % i_episode, end=' ')
                 env.render()
                 break
         # Update the target network, copying all weights and biases in DQN
         if (i_episode+1) % TARGET_UPDATE == 0:
-            torch.save(policy_net.state_dict(), "./model/pathwise_derivative_random_%s epoch.pt" % (i_episode+1))
+            torch.save(policy_net.state_dict(), "./model/pathwise_derivative_%s epoch.pt" % (i_episode+1))
             ret_df['%s epoch' % (i_episode+1)] = test_interact(env)
             ret_df.plot(title='Returns Curve')
-            plt.savefig('./image/ret/pathwise_derivative_random.jpg')
+            plt.savefig('./image/ret/pathwise_derivative.jpg')
             plt.close()
