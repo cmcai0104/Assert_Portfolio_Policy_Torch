@@ -63,7 +63,7 @@ EPS_START_LOW = 0.45
 EPS_START_HIG = 0.55
 EPS_END_LOW = 0.1
 EPS_END_HIG = 0.9
-EPS_DECAY = 30000
+EPS_DECAY = 100000
 steps_done = 0
 
 
@@ -158,10 +158,10 @@ if __name__ == '__main__':
             memory.push((state1, state2), action, next_state, reward)
             # Move to the next state
             state1, state2 = next_state
-            if len(memory) >= (BATCH_SIZE*5):
+            if len(memory) >= (BATCH_SIZE*5) and (t % 5 == 0):
                 optimize_model(memory)
-                if t % 100 == 0:
-                    target_net.load_state_dict(policy_net.state_dict())
+            if len(memory) >= (BATCH_SIZE*5) and (t % 100 == 0):
+                target_net.load_state_dict(policy_net.state_dict())
             if done:
                 print('%s,  ' % i_episode, end=' ')
                 env.render()
