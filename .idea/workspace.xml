@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_UPDATE.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/Pathwise_Derivative.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/pathwise_derivative_random.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/baselines/policy_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/policy_network.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,15 +47,16 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/algorithm" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/algorithm" />
+      <recent name="D:\iCloudDrive\MyProject\Assert_Portfolio_Policy_Torch" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Project\Assert_Portfolio_Policy_Torch\baselines" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\iCloudDrive\MyProject\Assert_Portfolio_Policy_Torch" />
     </key>
   </component>
   <component name="RunManager" selected="Python.DQN_demo (1)">
