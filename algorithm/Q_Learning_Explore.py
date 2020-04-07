@@ -82,8 +82,8 @@ def select_action(state1, state2, hold_rate):
         return hold_rate.to(device)
     else:
         i = np.random.randint(low=0, high=n_actions)
-        ratio = np.zeros(shape=(1, n_actions))
-        ratio[0, i] = 1
+        ratio = np.zeros(shape=(1, n_actions), dtype=np.float32)
+        ratio[0, i] = 1.
         ratio = torch.from_numpy(ratio)
         return ratio.to(device)
 
@@ -174,8 +174,8 @@ if __name__ == '__main__':
                 break
         # Update the target network, copying all weights and biases in DQN
         if (i_episode + 1) % TARGET_UPDATE == 0:
-            torch.save(policy_net.state_dict(), "./model/q_learning_%s epoch.pt" % (i_episode + 1))
+            torch.save(policy_net.state_dict(), "./model/q_learning_explore%s epoch.pt" % (i_episode + 1))
             ret_df['%s epoch' % (i_episode + 1)] = test_interact(env)
             ret_df.plot(title='Returns Curve')
-            plt.savefig('./image/ret/Q_learning.jpg')
+            plt.savefig('./image/ret/Q_learning_explore.jpg')
             plt.close()
