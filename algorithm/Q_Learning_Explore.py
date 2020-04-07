@@ -82,7 +82,7 @@ def select_action(state1, state2, hold_rate):
         return hold_rate.to(device)
     else:
         i = np.random.randint(low=0, high=n_actions)
-        ratio = np.zeros_like(shape=(1, n_actions))
+        ratio = np.zeros(shape=(1, n_actions))
         ratio[0, i] = 1
         ratio = torch.from_numpy(ratio)
         return ratio.to(device)
