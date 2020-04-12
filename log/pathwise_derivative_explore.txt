@@ -1,10 +1,2 @@
 nohup: 忽略输入
-/home/python/work_direction/project/Assert_Portfolio_Policy_Torch/environment/MarketEnv.py:73: RuntimeWarning: invalid value encountered in true_divide
-  self.next_rate = (np.append(self.next_price, 1) * self.shares_held) / self.next_net
-/home/python/work_direction/project/Assert_Portfolio_Policy_Torch/environment/MarketEnv.py:59: RuntimeWarning: invalid value encountered in greater
-  sell_index = np.where(hold_rate[:-1] > target_rate[:-1])
-/home/python/work_direction/project/Assert_Portfolio_Policy_Torch/environment/MarketEnv.py:60: RuntimeWarning: invalid value encountered in less
-  buy_index = np.where(hold_rate[:-1] < target_rate[:-1])
-0,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
-1,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
-test process:  总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
+0,   总市值：0.01/10000.0  |  累计收益率：-100.0%  |  累计年化收益率：-82.18% 
