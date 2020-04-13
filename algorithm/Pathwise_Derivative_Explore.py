@@ -113,15 +113,10 @@ def optimize_model(memory):
     q_values_loss = - torch.mean(
         policy_net(env_state=env_state_batch, action_state=act_state_batch,
                    action=policy_net(env_state=env_state_batch, action_state=act_state_batch), type='qvalue'))
+    loss = q_regression_loss * 10000 + q_values_loss
     # 优化模型
     optimizer.zero_grad()
-    q_regression_loss.backward()
-    for param in policy_net.parameters():
-        param.grad.data.clamp_(-10, 10)
-    optimizer.step()
-
-    optimizer.zero_grad()
-    q_values_loss.backward()
+    loss.backward()
     for param in policy_net.parameters():
         param.grad.data.clamp_(-10, 10)
     optimizer.step()
