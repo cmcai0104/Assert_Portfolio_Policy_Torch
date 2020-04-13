@@ -15,8 +15,7 @@ import torch.nn.functional as F
 
 sys.path.append(os.getcwd())
 from environment.MarketEnv import MarketEnv
-from baselines.policy_network import A2C_ACTOR
-from baselines.policy_network import A2C_QVALUE
+from baselines.policy_network import ACTOR_QVALUE
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -78,7 +77,7 @@ def select_action(state1, state2, hold_rate):
     steps_done += 1
     if eps_threshold_low < sample < eps_threshold_hig:
         with torch.no_grad():
-            return actor_policy(state1, state2)
+            return policy_net(env_state=state1, action_state=state2)
     elif sample > eps_threshold_hig:
         return hold_rate.to(device)
     else:
@@ -103,25 +102,29 @@ def optimize_model(memory):
     action_batch = torch.cat(batch.action)
     reward_batch = torch.cat(batch.reward).unsqueeze(1)
 
-    excepted_state_values = qvalue_target(env_next_state_batch, act_next_state_batch,
-                                          actor_target(env_next_state_batch, act_next_state_batch)) + reward_batch
-    estimate_state_values = qvalue_policy(env_state_batch, act_state_batch, action_batch)
+    excepted_state_values = target_net(env_state=env_next_state_batch, action_state=act_next_state_batch,
+                                       action=target_net(env_state=env_next_state_batch,
+                                                         action_state=act_next_state_batch),
+                                       type='qvalue') + reward_batch
+    estimate_state_values = policy_net(env_state=env_state_batch, action_state=act_state_batch, action=action_batch,
+                                       type='qvalue')
 
     q_regression_loss = F.smooth_l1_loss(estimate_state_values, excepted_state_values * GAMMA)
     q_values_loss = - torch.mean(
-        qvalue_policy(env_state_batch, act_state_batch, actor_policy(env_state_batch, act_state_batch)))
+        policy_net(env_state=env_state_batch, action_state=act_state_batch,
+                   action=policy_net(env_state=env_state_batch, action_state=act_state_batch), type='qvalue'))
     # 优化模型
-    qvalue_optimizer.zero_grad()
+    optimizer.zero_grad()
     q_regression_loss.backward()
-    for param in qvalue_policy.parameters():
+    for param in policy_net.parameters():
         param.grad.data.clamp_(-10, 10)
-    qvalue_optimizer.step()
+    optimizer.step()
 
-    actor_optimizer.zero_grad()
+    optimizer.zero_grad()
     q_values_loss.backward()
-    for param in actor_policy.parameters():
+    for param in policy_net.parameters():
         param.grad.data.clamp_(-10, 10)
-    actor_optimizer.step()
+    optimizer.step()
 
 
 def test_interact(env):
@@ -131,7 +134,7 @@ def test_interact(env):
         state1 = torch.from_numpy(state1).unsqueeze(0)
         state2 = torch.from_numpy(state2).unsqueeze(0)
         with torch.no_grad():
-            action = actor_policy(state1, state2)
+            action = policy_net(env_state=state1, action_state=state2)
         next_state, reward, done, _ = env.step(action.squeeze().detach().numpy())
         net_list.append(env.next_net)
         state1, state2 = next_state
@@ -148,14 +151,11 @@ if __name__ == '__main__':
     env = MarketEnv(df=df, price_cols=price_columns, windows=windows,
                     initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
     n_actions = env.action_space.shape[0]
-    actor_policy = A2C_ACTOR(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
-    actor_target = A2C_ACTOR(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
-    actor_target.load_state_dict(actor_policy.state_dict())
-    actor_optimizer = optim.RMSprop(actor_policy.parameters())
-    qvalue_policy = A2C_QVALUE(input_size=df.shape[1], hidden_size=128, action_size=n_actions).to(device)
-    qvalue_target = A2C_QVALUE(input_size=df.shape[1], hidden_size=128, action_size=n_actions).to(device)
-    qvalue_target.load_state_dict(qvalue_policy.state_dict())
-    qvalue_optimizer = optim.RMSprop(qvalue_policy.parameters())
+    policy_net = ACTOR_QVALUE(input_size=df.shape[1], hidden_size=128, action_size=n_actions).to(device)
+    target_net = ACTOR_QVALUE(input_size=df.shape[1], hidden_size=128, action_size=n_actions).to(device)
+    target_net.load_state_dict(policy_net.state_dict())
+    optimizer = optim.RMSprop(policy_net.parameters())
+
     Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
     memory = ReplayMemory(30000)
     num_episodes = 50
@@ -179,16 +179,14 @@ if __name__ == '__main__':
             if len(memory) >= (BATCH_SIZE * 5) and (t % 3 == 0):
                 optimize_model(memory)
             if len(memory) >= (BATCH_SIZE * 5) and (t % 100 == 0):
-                qvalue_target.load_state_dict(qvalue_policy.state_dict())
-                actor_target.load_state_dict(actor_policy.state_dict())
+                target_net.load_state_dict(policy_net.state_dict())
             if done:
                 print('%s,  ' % i_episode, end=' ')
                 env.render()
                 break
         # Update the target network, copying all weights and biases in DQN
         if (i_episode + 1) % TARGET_UPDATE == 0:
-            torch.save(actor_policy.state_dict(), "./model/pathwise_derivative_actor_explore%s epoch.pt" % (i_episode + 1))
-            torch.save(qvalue_policy.state_dict(), "./model/pathwise_derivative_qvalue_explore%s epoch.pt" % (i_episode + 1))
+            torch.save(policy_net.state_dict(), "./model/pathwise_derivative_explore%s epoch.pt" % (i_episode + 1))
             ret_df['%s epoch' % (i_episode + 1)] = test_interact(env)
             ret_df.plot(title='Returns Curve')
             plt.savefig('./image/ret/pathwise_derivative_explore.jpg')

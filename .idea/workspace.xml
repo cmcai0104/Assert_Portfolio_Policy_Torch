@@ -4,7 +4,7 @@
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="add q_leaning_explore and pathwise_derivative_explore algorithm">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Explore.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning_Explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning_Explore.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/baselines/policy_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/policy_network.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,19 +28,11 @@
       </set>
     </option>
   </component>
-  <component name="IgnoredFileRootStore">
-    <option name="generatedRoots">
-      <set>
-        <option value="D:\iCloudDrive\MyProject\Assert_Portfolio_Policy_Torch\.idea" />
-      </set>
-    </option>
-  </component>
   <component name="JupyterTrust" id="e225322b-7b1c-473b-9ebc-8d26f5f2a8e9" />
   <component name="ProjectId" id="1VsDlxCWkyy5Ps7qtJL3Iiy9doN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -201,18 +193,6 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -272,6 +252,7 @@
       <workItem from="1586269279477" duration="1435000" />
       <workItem from="1586271213646" duration="187000" />
       <workItem from="1586271671889" duration="1127000" />
+      <workItem from="1586742922468" duration="1492000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -515,20 +496,19 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add README.md file" />
