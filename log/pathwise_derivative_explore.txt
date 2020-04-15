@@ -6,3 +6,6 @@ ch/environment/MarketEnv.py:59: RuntimeWarning: invalid value encountered in gre
 /home/python/work_direction/project/Assert_Portfolio_Policy_Torch/environment/MarketEnv.py:60: RuntimeWarning: invalid value encountered in less
   buy_index = np.where(hold_rate[:-1] < target_rate[:-1])
 0,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
+1,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
+test process:  总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
+2,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
