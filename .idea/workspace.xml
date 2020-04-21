@@ -4,6 +4,8 @@
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Explore.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning_Explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning_Explore.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/baselines/policy_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/policy_network.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,6 +254,7 @@
       <workItem from="1586271213646" duration="187000" />
       <workItem from="1586271671889" duration="1127000" />
       <workItem from="1586742922468" duration="3737000" />
+      <workItem from="1587433063741" duration="2150000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>

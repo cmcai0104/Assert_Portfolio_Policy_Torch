@@ -114,6 +114,7 @@ def optimize_model(memory):
     for param in policy_net.parameters():
         param.grad.data.clamp_(-10, 10)
     optimizer.step()
+    return loss
 
 
 def test_interact(env):
@@ -144,12 +145,14 @@ if __name__ == '__main__':
     target_net = LSTM_DQN(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
     target_net.load_state_dict(policy_net.state_dict())
     optimizer = optim.RMSprop(policy_net.parameters())
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=10)
     Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
     memory = ReplayMemory(30000)
     num_episodes = 50
-    TARGET_UPDATE = 2
+    TARGET_UPDATE = 3
 
     ret_df = pd.DataFrame(index=df.index[250:], dtype=np.float64)
+    loss_list = []
     for i_episode in range(num_episodes):
         # Initialize the environment and state
         state1, state2 = env.reset()
@@ -164,8 +167,10 @@ if __name__ == '__main__':
             memory.push((state1, state2), action, next_state, reward)
             # Move to the next state
             state1, state2 = next_state
-            if len(memory) >= (BATCH_SIZE * 5) and (t % 3 == 0):
-                optimize_model(memory)
+            if len(memory) >= (BATCH_SIZE * 5) and (t % 2 == 0):
+                loss = optimize_model(memory)
+                loss_list.append(loss)
+                scheduler.step(loss)
             if len(memory) >= (BATCH_SIZE * 5) and (t % 100 == 0):
                 target_net.load_state_dict(policy_net.state_dict())
             if done:
@@ -178,4 +183,9 @@ if __name__ == '__main__':
             ret_df['%s epoch' % (i_episode + 1)] = test_interact(env)
             ret_df.plot(title='Returns Curve')
             plt.savefig('./image/ret/Q_learning_explore.jpg')
+            plt.close()
+
+            plt.plot(loss_list)
+            plt.title('Training Loss - Q_learning')
+            plt.savefig('./image/loss/Q_learning_explore.jpg')
             plt.close()
