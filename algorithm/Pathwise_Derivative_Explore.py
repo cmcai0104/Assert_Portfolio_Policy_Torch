@@ -151,7 +151,7 @@ if __name__ == '__main__':
     target_net = ACTOR_QVALUE(input_size=df.shape[1], hidden_size=128, action_size=n_actions).to(device)
     target_net.load_state_dict(policy_net.state_dict())
     optimizer = optim.Adam(policy_net.parameters())
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=10)
+    #scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=10)
 
     Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
     memory = ReplayMemory(30000)
@@ -177,7 +177,7 @@ if __name__ == '__main__':
             if len(memory) >= (BATCH_SIZE * 5) and (t % 2 == 0):
                 loss = optimize_model(memory)
                 loss_list.append(loss.detach().numpy())
-                scheduler.step(loss)
+                #scheduler.step(loss)
             if len(memory) >= (BATCH_SIZE * 5) and (t % 100 == 0):
                 target_net.load_state_dict(policy_net.state_dict())
             if done:

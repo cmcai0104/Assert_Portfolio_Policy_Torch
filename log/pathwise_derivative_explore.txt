@@ -1,17 +1,5 @@
 nohup: 忽略输入
-/home/python/work_direction/project/Assert_Portfolio_Policy_Torch/environment/MarketEnv.py:73: Ru1,   总市值：0.03/10000.0  |  累计收益率：-100.0%  |  累计年化收益率：-78.55% 
-test process:  总市值：10000.68/10000.69  |  累计收益率：0.01%  |  累计年化收益率：0.0% 
-2,   总市值：0.13/10000.0  |  累计收益率：-100.0%  |  累计年化收益率：-74.42% 
- = np.where(hold_rate[:-1] > target_rate[:-1])
-/home/python/work_direction/project/Assert_Portfolio_Policy_Torch/environment/MarketEnv.py:60: RuntimeWarning: invalid value encountered in less
-  buy_index = np.where(hold_rate[:-1] < target_rate[:-1])
-0,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
-1,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
-test process:  总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
-2,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
-3,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
-test process:  总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
-4,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
-5,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
-test process:  总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
-6,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
+0,   总市值：0.02/10000.0  |  累计收益率：-100.0%  |  累计年化收益率：-79.51% 
+1,   总市值：0.04/10000.0  |  累计收益率：-100.0%  |  累计年化收益率：-77.91% 
+2,   总市值：0.05/10000.0  |  累计收益率：-100.0%  |  累计年化收益率：-77.24% 
+test process:  总市值：9218.71/10000.0  |  累计收益率：-7.81%  |  累计年化收益率：-0.98% 
