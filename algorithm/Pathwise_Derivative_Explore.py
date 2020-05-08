@@ -179,7 +179,7 @@ if __name__ == '__main__':
     #scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=10)
 
     Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
-    memory = ReplayMemory(30000)
+    memory = ReplayMemory(3000)
     num_episodes = 50
     TARGET_UPDATE = 3
 
@@ -188,6 +188,7 @@ if __name__ == '__main__':
     for i_episode in range(num_episodes):
         # Initialize the environment and state
         state1, state2 = train_env.reset()
+        loss = 0
         for t in count():
             state1 = torch.from_numpy(state1).unsqueeze(0)
             state2 = torch.from_numpy(state2).unsqueeze(0)
@@ -200,8 +201,8 @@ if __name__ == '__main__':
             # Move to the next state
             state1, state2 = next_state
             if len(memory) >= (BATCH_SIZE * 5) and (t % 2 == 0):
-                loss = optimize_model(memory)
-                loss_list.append(loss.detach().numpy())
+                lo = optimize_model(memory)
+                loss += loss.detach().numpy()
                 #scheduler.step(loss)
             if len(memory) >= (BATCH_SIZE * 5) and (t % 100 == 0):
                 target_net.load_state_dict(policy_net.state_dict())
@@ -209,6 +210,7 @@ if __name__ == '__main__':
                 print('%s,  ' % i_episode, end=' ')
                 train_env.render()
                 break
+        loss_list.append(loss/t)
         # Update the target network, copying all weights and biases in DQN
         if (i_episode + 1) % TARGET_UPDATE == 0:
             torch.save(policy_net.state_dict(), "./model/pathwise_derivative_explore%s epoch.pt" % (i_episode + 1))
