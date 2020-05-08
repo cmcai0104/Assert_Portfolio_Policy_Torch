@@ -4,6 +4,7 @@ import sys
 import random
 import math
 from collections import namedtuple
+from datetime import datetime
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -24,7 +25,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def df_preprocess(path):
     df = pd.read_csv(path, index_col=0, header=0)
     df['trade_date'] = df['trade_date'].astype('datetime64')
-    df = df[df['trade_date'] <= pd.datetime.strptime('20190809', '%Y%m%d')]
+    df = df[df['trade_date'] <= datetime(2019,8,9)]
     df['trade_date'] = df['trade_date'].dt.date
     df = df.set_index('trade_date')
     colnames = df.columns.to_list()
@@ -202,7 +203,7 @@ if __name__ == '__main__':
             state1, state2 = next_state
             if len(memory) >= (BATCH_SIZE * 5) and (t % 2 == 0):
                 lo = optimize_model(memory)
-                loss += loss.detach().numpy()
+                loss += lo.detach().numpy()
                 #scheduler.step(loss)
             if len(memory) >= (BATCH_SIZE * 5) and (t % 100 == 0):
                 target_net.load_state_dict(policy_net.state_dict())
