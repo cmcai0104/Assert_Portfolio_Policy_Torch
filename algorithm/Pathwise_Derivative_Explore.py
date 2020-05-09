@@ -25,7 +25,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def df_preprocess(path):
     df = pd.read_csv(path, index_col=0, header=0)
     df['trade_date'] = df['trade_date'].astype('datetime64')
-    df = df[df['trade_date'] <= datetime(2019,8,9)]
+    df = df[df['trade_date'] <= datetime(2019, 8, 9)]
     df['trade_date'] = df['trade_date'].dt.date
     df = df.set_index('trade_date')
     colnames = df.columns.to_list()
@@ -177,7 +177,7 @@ if __name__ == '__main__':
     target_net = ACTOR_QVALUE(input_size=df.shape[1], hidden_size=128, action_size=n_actions).to(device)
     target_net.load_state_dict(policy_net.state_dict())
     optimizer = optim.Adam(policy_net.parameters())
-    #scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=10)
+    # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=10)
 
     Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
     memory = ReplayMemory(3000)
@@ -204,14 +204,14 @@ if __name__ == '__main__':
             if len(memory) >= (BATCH_SIZE * 5) and (t % 2 == 0):
                 lo = optimize_model(memory)
                 loss += lo.detach().numpy()
-                #scheduler.step(loss)
+                # scheduler.step(loss)
             if len(memory) >= (BATCH_SIZE * 5) and (t % 100 == 0):
                 target_net.load_state_dict(policy_net.state_dict())
             if done:
                 print('%s,  ' % i_episode, end=' ')
                 train_env.render()
                 break
-        loss_list.append(loss/t)
+        loss_list.append(loss / t)
         # Update the target network, copying all weights and biases in DQN
         if (i_episode + 1) % TARGET_UPDATE == 0:
             torch.save(policy_net.state_dict(), "./model/pathwise_derivative_explore%s epoch.pt" % (i_episode + 1))

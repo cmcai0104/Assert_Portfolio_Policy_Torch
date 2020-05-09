@@ -25,7 +25,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def df_preprocess(path):
     df = pd.read_csv(path, index_col=0, header=0)
     df['trade_date'] = df['trade_date'].astype('datetime64')
-    df = df[df['trade_date'] <= datetime(2019,8,9)]
+    df = df[df['trade_date'] <= datetime(2019, 8, 9)]
     df['trade_date'] = df['trade_date'].dt.date
     df = df.set_index('trade_date')
     colnames = df.columns.to_list()
@@ -130,7 +130,7 @@ def optimize_model(memory):
         torch.transpose(sigma_batch, 1, 2)).bmm(torch.transpose((action_batch - mu_batch).unsqueeze(1), 1, 2)).squeeze(
         dim=1) + beta_batch
     next_state_values = target_net(env_next_state_batch, act_next_state_batch)[2]
-    expected_state_action_values = (next_state_values * GAMMA) + reward_batch
+    expected_state_action_values = (next_state_values + reward_batch) * GAMMA
     loss = F.smooth_l1_loss(state_action_values, expected_state_action_values)
     # 优化模型
     optimizer.zero_grad()
@@ -139,6 +139,7 @@ def optimize_model(memory):
         param.grad.data.clamp_(-10, 10)
     optimizer.step()
     return loss
+
 
 
 def test_interact(env):
@@ -182,7 +183,7 @@ if __name__ == '__main__':
     for i_episode in range(num_episodes):
         # Initialize the environment and state
         state1, state2 = train_env.reset()
-        loss=0
+        loss = 0
         for t in count():
             state1 = torch.from_numpy(state1).unsqueeze(0)
             state2 = torch.from_numpy(state2).unsqueeze(0)
