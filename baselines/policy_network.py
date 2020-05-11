@@ -4,31 +4,6 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 
 
-class DCNN(nn.Module):
-    def __init__(self, h, w, outputs):
-        super(DCNN, self).__init__()
-        self.conv1 = nn.Conv2d(3, 16, kernel_size=5, stride=2)
-        self.bn1 = nn.BatchNorm2d(16)
-        self.conv2 = nn.Conv2d(16, 32, kernel_size=5, stride=2)
-        self.bn2 = nn.BatchNorm2d(32)
-        self.conv3 = nn.Conv2d(32, 32, kernel_size=5, stride=2)
-        self.bn3 = nn.BatchNorm2d(32)
-
-        def conv2d_size_out(size, kernel_size=5, stride=2):
-            return (size - (kernel_size - 1) - 1) // stride + 1
-
-        convw = conv2d_size_out(conv2d_size_out(conv2d_size_out(w)))
-        convh = conv2d_size_out(conv2d_size_out(conv2d_size_out(h)))
-        linear_input_size = convw * convh * 32
-        self.head = nn.Linear(linear_input_size, outputs)
-
-    def forward(self, x):
-        x = F.relu(self.bn1(self.conv1(x)))
-        x = F.relu(self.bn2(self.conv2(x)))
-        x = F.relu(self.bn3(self.conv3(x)))
-        return self.head(x.view(x.size(0), -1))
-
-
 class LSTM_Dist(nn.Module):
     def __init__(self, input_size, action_size, hidden_size, output_size):
         super(LSTM_Dist, self).__init__()
@@ -53,17 +28,17 @@ class LSTM_Dist(nn.Module):
         lstm_out, (h_n, c_n) = self.lstm(env_state)
         cat_layer = torch.cat((lstm_out[:, -1, :], action_state), 1)
 
-        mu = F.selu(self.hidden_mu1(cat_layer))
-        mu = F.selu(self.hidden_mu2(mu))
-        mu = F.selu(self.hidden_mu3(mu))
+        mu = F.leaky_relu(self.hidden_mu1(cat_layer))
+        mu = F.leaky_relu(self.hidden_mu2(mu))
+        mu = F.leaky_relu(self.hidden_mu3(mu))
         mu = torch.softmax(self.hidden_mu4(mu), dim=1)
 
-        sigma_matrix = F.selu(self.hidden_sigma_m1(cat_layer))
+        sigma_matrix = F.leaky_relu(self.hidden_sigma_m1(cat_layer))
         sigma_matrix = torch.tanh(self.hidden_sigma_m2(sigma_matrix))
 
-        sigma_vector = F.selu(self.hidden_sigma_v1(cat_layer))
-        sigma_vector = F.selu(self.hidden_sigma_v2(sigma_vector))
-        sigma_vector = F.selu(self.hidden_sigma_v3(sigma_vector))
+        sigma_vector = F.leaky_relu(self.hidden_sigma_v1(cat_layer))
+        sigma_vector = F.leaky_relu(self.hidden_sigma_v2(sigma_vector))
+        sigma_vector = F.leaky_relu(self.hidden_sigma_v3(sigma_vector))
         sigma_vector = torch.exp(self.hidden_sigma_v4(sigma_vector))
 
         return mu, sigma_matrix.reshape((-1, self.output_size, self.output_size)), sigma_vector
@@ -92,16 +67,16 @@ class LSTM_DQN(nn.Module):
         lstm_out, (h_n, c_n) = self.lstm(env_state)
         cat_layer = torch.cat((lstm_out[:, -1, :], action_state), 1)
 
-        mu = F.selu(self.hidden_mu1(cat_layer))
-        mu = F.selu(self.hidden_mu2(mu))
-        mu = F.selu(self.hidden_mu3(mu))
+        mu = F.leakly_relu(self.hidden_mu1(cat_layer))
+        mu = F.leakly_relu(self.hidden_mu2(mu))
+        mu = F.leakly_relu(self.hidden_mu3(mu))
         mu = torch.softmax(self.hidden_mu4(mu), dim=1)
 
-        sigma_matrix = F.selu(self.hidden_sigma_m1(cat_layer))
+        sigma_matrix = F.leakly_relu(self.hidden_sigma_m1(cat_layer))
         sigma_matrix = self.hidden_sigma_m2(sigma_matrix)
 
-        sigma_vector = F.selu(self.hidden_sigma_v1(cat_layer))
-        sigma_vector = F.selu(self.hidden_sigma_v2(sigma_vector))
+        sigma_vector = F.leakly_relu(self.hidden_sigma_v1(cat_layer))
+        sigma_vector = F.leakly_relu(self.hidden_sigma_v2(sigma_vector))
         sigma_vector = self.hidden_sigma_v3(sigma_vector)
 
         return mu, sigma_matrix.reshape((-1, self.output_size, self.output_size)), sigma_vector
@@ -125,14 +100,14 @@ class LSTM_A2C(nn.Module):
         lstm_out, (h_n, c_n) = self.lstm(env_state)
         cat_layer = torch.cat((lstm_out[:, -1, :], act_state), 1)
 
-        mu = F.selu(self.hidden_mu1(cat_layer))
-        mu = F.selu(self.hidden_mu2(mu))
-        mu = F.selu(self.hidden_mu3(mu))
+        mu = F.leakly_relu(self.hidden_mu1(cat_layer))
+        mu = F.leakly_relu(self.hidden_mu2(mu))
+        mu = F.leakly_relu(self.hidden_mu3(mu))
         mu = torch.softmax(self.hidden_mu4(mu), dim=1)
 
         cat_layer = torch.cat((cat_layer, action, mu), 1)
-        q = F.selu(self.hidden_layer1(cat_layer))
-        q = F.selu(self.hidden_layer2(q))
+        q = F.leakly_relu(self.hidden_layer1(cat_layer))
+        q = F.leakly_relu(self.hidden_layer2(q))
         q = self.hidden_layer3(q)
         return mu, q
 
@@ -156,13 +131,13 @@ class ACTOR_QVALUE(nn.Module):
         cat_layer = torch.cat((lstm_out[:, -1, :], action_state), 1)
         mu = F.relu(self.hidden_mu1(cat_layer))
         if type == 'actor':
-            mu = F.selu(self.hidden_mu2(mu))
-            mu = F.selu(self.hidden_mu3(mu))
+            mu = F.leakly_relu(self.hidden_mu2(mu))
+            mu = F.leakly_relu(self.hidden_mu3(mu))
             mu = torch.softmax(self.hidden_mu4(mu), dim=1)
             return mu
         else:
             cat_layer = torch.cat((mu, action), 1)
-            q = F.selu(self.hidden_layer1(cat_layer))
-            q = F.selu(self.hidden_layer2(q))
+            q = F.leakly_relu(self.hidden_layer1(cat_layer))
+            q = F.leakly_relu(self.hidden_layer2(q))
             q = self.hidden_layer3(q)
             return q
