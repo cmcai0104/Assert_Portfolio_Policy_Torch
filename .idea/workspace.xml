@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/model/q_learning_explore12 epoch.pt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/q_learning_explore15 epoch.pt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/q_learning_explore18 epoch.pt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/q_learning_explore21 epoch.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/DQN_demo.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/baselines/policy_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/policy_network.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -527,7 +521,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588918449369</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="add finance feature and boost training speed">
+      <created>1589188592927</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1589188592927</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -567,10 +568,10 @@
       <screen x="58" y="23" width="1862" height="1057" />
     </state>
     <state x="727" y="305" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/58.23.1862.1057@58.23.1862.1057" timestamp="1581430557780" />
-    <state x="372" y="0" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1588918448545">
+    <state x="372" y="0" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1589188592043">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="372" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1588918448545" />
+    <state x="372" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1589188592043" />
     <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1581783269633" />
     <state x="498" y="29" key="CommitChangelistDialog2/52.23.1868.1057@52.23.1868.1057" timestamp="1586271321258" />
     <state x="214" y="23" key="CommitChangelistDialog2/53.23.1867.1057@53.23.1867.1057" timestamp="1586272567135" />
@@ -586,10 +587,10 @@
     <state x="201" y="23" key="SettingsEditor/52.23.1868.1057@52.23.1868.1057" timestamp="1586270183344" />
     <state x="668" y="143" key="SettingsEditor/56.23.1864.1057@56.23.1864.1057" timestamp="1580696668624" />
     <state x="206" y="23" key="SettingsEditor/58.23.1862.1057@58.23.1862.1057" timestamp="1583050422229" />
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1588918458673">
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1589188748197">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1588918458673" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1589188748197" />
     <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1581783276742" />
     <state x="491" y="210" key="Vcs.Push.Dialog.v2/52.23.1868.1057@52.23.1868.1057" timestamp="1586271330685" />
     <state x="492" y="211" key="Vcs.Push.Dialog.v2/53.23.1867.1057@53.23.1867.1057" timestamp="1583157188560" />

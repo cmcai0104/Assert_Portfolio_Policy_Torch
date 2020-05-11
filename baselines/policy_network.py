@@ -67,16 +67,16 @@ class LSTM_DQN(nn.Module):
         lstm_out, (h_n, c_n) = self.lstm(env_state)
         cat_layer = torch.cat((lstm_out[:, -1, :], action_state), 1)
 
-        mu = F.leakly_relu(self.hidden_mu1(cat_layer))
-        mu = F.leakly_relu(self.hidden_mu2(mu))
-        mu = F.leakly_relu(self.hidden_mu3(mu))
+        mu = F.leaky_relu(self.hidden_mu1(cat_layer))
+        mu = F.leaky_relu(self.hidden_mu2(mu))
+        mu = F.leaky_relu(self.hidden_mu3(mu))
         mu = torch.softmax(self.hidden_mu4(mu), dim=1)
 
-        sigma_matrix = F.leakly_relu(self.hidden_sigma_m1(cat_layer))
+        sigma_matrix = F.leaky_relu(self.hidden_sigma_m1(cat_layer))
         sigma_matrix = self.hidden_sigma_m2(sigma_matrix)
 
-        sigma_vector = F.leakly_relu(self.hidden_sigma_v1(cat_layer))
-        sigma_vector = F.leakly_relu(self.hidden_sigma_v2(sigma_vector))
+        sigma_vector = F.leaky_relu(self.hidden_sigma_v1(cat_layer))
+        sigma_vector = F.leaky_relu(self.hidden_sigma_v2(sigma_vector))
         sigma_vector = self.hidden_sigma_v3(sigma_vector)
 
         return mu, sigma_matrix.reshape((-1, self.output_size, self.output_size)), sigma_vector
@@ -100,14 +100,14 @@ class LSTM_A2C(nn.Module):
         lstm_out, (h_n, c_n) = self.lstm(env_state)
         cat_layer = torch.cat((lstm_out[:, -1, :], act_state), 1)
 
-        mu = F.leakly_relu(self.hidden_mu1(cat_layer))
-        mu = F.leakly_relu(self.hidden_mu2(mu))
-        mu = F.leakly_relu(self.hidden_mu3(mu))
+        mu = F.leaky_relu(self.hidden_mu1(cat_layer))
+        mu = F.leaky_relu(self.hidden_mu2(mu))
+        mu = F.leaky_relu(self.hidden_mu3(mu))
         mu = torch.softmax(self.hidden_mu4(mu), dim=1)
 
         cat_layer = torch.cat((cat_layer, action, mu), 1)
-        q = F.leakly_relu(self.hidden_layer1(cat_layer))
-        q = F.leakly_relu(self.hidden_layer2(q))
+        q = F.leaky_relu(self.hidden_layer1(cat_layer))
+        q = F.leaky_relu(self.hidden_layer2(q))
         q = self.hidden_layer3(q)
         return mu, q
 
@@ -131,13 +131,13 @@ class ACTOR_QVALUE(nn.Module):
         cat_layer = torch.cat((lstm_out[:, -1, :], action_state), 1)
         mu = F.relu(self.hidden_mu1(cat_layer))
         if type == 'actor':
-            mu = F.leakly_relu(self.hidden_mu2(mu))
-            mu = F.leakly_relu(self.hidden_mu3(mu))
+            mu = F.leaky_relu(self.hidden_mu2(mu))
+            mu = F.leaky_relu(self.hidden_mu3(mu))
             mu = torch.softmax(self.hidden_mu4(mu), dim=1)
             return mu
         else:
             cat_layer = torch.cat((mu, action), 1)
-            q = F.leakly_relu(self.hidden_layer1(cat_layer))
-            q = F.leakly_relu(self.hidden_layer2(q))
+            q = F.leaky_relu(self.hidden_layer1(cat_layer))
+            q = F.leaky_relu(self.hidden_layer2(q))
             q = self.hidden_layer3(q)
             return q
