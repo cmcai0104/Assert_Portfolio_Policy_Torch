@@ -7,3 +7,14 @@ test process:  总市值：12012.37/16287.97  |  累计收益率：20.12%  |  �
 4,   总市值：8.27/10000.0  |  累计收益率：-99.92%  |  累计年化收益率：-78.27% 
 5,   总市值：13.91/10000.0  |  累计收益率：-99.86%  |  累计年化收益率：-75.7% 
 test process:  总市值：4073.32/10879.63  |  累计收益率：-59.27%  |  累计年化收益率：-10.29% 
+6,   总市值：8.59/10000.0  |  累计收益率：-99.91%  |  累计年化收益率：-78.09% 
+/home/python/work_direction/project/Assert_Portfolio_Policy_Torch/environment/MarketEnv.py:73: RuntimeWarning: invalid value encountered in true_divide
+  self.next_rate = (np.append(self.next_price, 1) * self.shares_held) / self.next_net
+/home/python/work_direction/project/Assert_Portfolio_Policy_Torch/environment/MarketEnv.py:59: RuntimeWarning: invalid value encountered in greater
+  sell_index = np.where(hold_rate[:-1] > target_rate[:-1])
+/home/python/work_direction/project/Assert_Portfolio_Policy_Torch/environment/MarketEnv.py:60: RuntimeWarning: invalid value encountered in less
+  buy_index = np.where(hold_rate[:-1] < target_rate[:-1])
+7,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
+8,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
+test process:  总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
+9,   总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
