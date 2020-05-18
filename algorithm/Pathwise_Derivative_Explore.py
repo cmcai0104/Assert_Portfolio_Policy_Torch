@@ -181,8 +181,8 @@ if __name__ == '__main__':
 
     Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
     memory = ReplayMemory(3000)
-    num_episodes = 50
-    TARGET_UPDATE = 3
+    num_episodes = 500
+    TARGET_UPDATE = 5
 
     ret_df = pd.DataFrame(index=df.index[250:], dtype=np.float64)
     loss_list = []
@@ -201,21 +201,21 @@ if __name__ == '__main__':
             memory.push((state1, state2), action, next_state, reward)
             # Move to the next state
             state1, state2 = next_state
-            if len(memory) >= (BATCH_SIZE * 5) and (t % 2 == 0):
+            if len(memory) >= BATCH_SIZE:
                 lo = optimize_model(memory)
                 loss += lo.detach().numpy()
                 # scheduler.step(loss)
-            if len(memory) >= (BATCH_SIZE * 5) and (t % 100 == 0):
+            if len(memory) >= BATCH_SIZE and (t % 20 == 0):
                 target_net.load_state_dict(policy_net.state_dict())
             if done:
-                print('%s,  ' % i_episode, end=' ')
+                print('%s, training_loss: %s, ' % (i_episode, loss / t), end=' ')
                 train_env.render()
                 break
         loss_list.append(loss / t)
         # Update the target network, copying all weights and biases in DQN
-        if (i_episode + 1) % TARGET_UPDATE == 0:
-            torch.save(policy_net.state_dict(), "./model/pathwise_derivative_explore%s epoch.pt" % (i_episode + 1))
-            ret_df['%s epoch' % (i_episode + 1)] = test_interact(test_env)
+        if i_episode % TARGET_UPDATE == 0:
+            torch.save(policy_net.state_dict(), "./model/pathwise_derivative_explore%s epoch.pt" % i_episode)
+            ret_df['%s epoch' % i_episode] = test_interact(test_env)
             ret_df.plot(title='Returns Curve')
             plt.savefig('./image/ret/pathwise_derivative_explore.jpg')
             plt.close()
