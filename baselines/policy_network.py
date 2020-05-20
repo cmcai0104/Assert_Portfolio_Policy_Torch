@@ -118,11 +118,11 @@ class ACTOR_QVALUE(nn.Module):
         self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=2,
                             bias=True, batch_first=True, dropout=0, bidirectional=False)
         self.hidden_tan1 = nn.Linear(hidden_size, 64)
-        self.hidden_tan2 = nn.Linear(64, 32)
+        self.hidden_tan2 = nn.Linear(64, 16)
         self.hidden_tan3 = nn.Linear(16, action_size)
 
         self.hidden_sig1 = nn.Linear(hidden_size, 64)
-        self.hidden_sig2 = nn.Linear(64, 32)
+        self.hidden_sig2 = nn.Linear(64, 16)
         self.hidden_sig3 = nn.Linear(16, action_size)
 
         self.hidden_layer1 = nn.Linear(hidden_size + action_size * 2, 64)
@@ -134,12 +134,12 @@ class ACTOR_QVALUE(nn.Module):
         if type == 'actor':
             tan_mu = F.leaky_relu(self.hidden_tan1(lstm_out[:, -1, :]))
             tan_mu = F.leaky_relu(self.hidden_tan2(tan_mu))
-            tan_mu = F.tanh(self.hidden_tan3(tan_mu))
+            tan_mu = torch.tanh(self.hidden_tan3(tan_mu))
 
             sig_mu = F.leaky_relu(self.hidden_sig1(lstm_out[:, -1, :]))
             sig_mu = F.leaky_relu(self.hidden_sig2(sig_mu))
-            sig_mu = F.sigmoid(self.hidden_sig3(sig_mu))
-            mu = F.softmax(tan_mu * (1 - sig_mu) + (sig_mu) * action_state)
+            sig_mu = torch.sigmoid(self.hidden_sig3(sig_mu))
+            mu = F.softmax(tan_mu * (1 - sig_mu) + (sig_mu) * action_state, dim=1)
             return mu
         else:
             cat_layer = torch.cat((lstm_out[:, -1, :], action_state, action), 1)
