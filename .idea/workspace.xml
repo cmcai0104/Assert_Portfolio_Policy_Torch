@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/baselines/policy_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/policy_network.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -256,7 +255,7 @@
       <workItem from="1587545850144" duration="58000" />
       <workItem from="1588836940826" duration="25265000" />
       <workItem from="1589787255172" duration="1828000" />
-      <workItem from="1589941398606" duration="1533000" />
+      <workItem from="1589941398606" duration="1589000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -531,7 +530,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589188592927</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="alter pathwise NN">
+      <created>1589942956926</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1589942956926</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,21 +570,21 @@
     <MESSAGE value="change pathwise_derivative_explore algorithm" />
     <MESSAGE value="add finance feature" />
     <MESSAGE value="add finance feature and boost training speed" />
-    <option name="LAST_COMMIT_MESSAGE" value="add finance feature and boost training speed" />
+    <MESSAGE value="alter pathwise NN" />
+    <option name="LAST_COMMIT_MESSAGE" value="alter pathwise NN" />
   </component>
   <component name="WindowStateProjectService">
     <state x="727" y="305" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1581430557780">
       <screen x="58" y="23" width="1862" height="1057" />
     </state>
     <state x="727" y="305" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/58.23.1862.1057@58.23.1862.1057" timestamp="1581430557780" />
-    <state x="372" y="0" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1589188592043">
+    <state x="372" y="0" width="1169" height="777" key="CommitChangelistDialog2" timestamp="1589942954886">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="372" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1589188592043" />
+    <state x="372" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1589942954886" />
     <state x="111" y="23" width="1169" height="777" key="CommitChangelistDialog2/0.23.1280.777@0.23.1280.777" timestamp="1581783269633" />
     <state x="498" y="29" key="CommitChangelistDialog2/52.23.1868.1057@52.23.1868.1057" timestamp="1586271321258" />
     <state x="214" y="23" key="CommitChangelistDialog2/53.23.1867.1057@53.23.1867.1057" timestamp="1586272567135" />
-    <state x="658" y="71" key="CommitChangelistDialog2/56.23.1864.1057@56.23.1864.1057" timestamp="1581177072160" />
     <state x="219" y="23" key="CommitChangelistDialog2/58.23.1862.1057@58.23.1862.1057" timestamp="1583144667236" />
     <state x="221" y="23" key="CommitChangelistDialog2/60.23.1860.1057@60.23.1860.1057" timestamp="1583144586337" />
     <state x="270" y="55" key="SettingsEditor" timestamp="1588837277595">
@@ -588,7 +594,6 @@
     <state x="102" y="23" key="SettingsEditor/0.23.1280.777@0.23.1280.777" timestamp="1581571434535" />
     <state x="199" y="23" key="SettingsEditor/50.23.1870.1057@50.23.1870.1057" timestamp="1586269614945" />
     <state x="201" y="23" key="SettingsEditor/52.23.1868.1057@52.23.1868.1057" timestamp="1586270183344" />
-    <state x="668" y="143" key="SettingsEditor/56.23.1864.1057@56.23.1864.1057" timestamp="1580696668624" />
     <state x="206" y="23" key="SettingsEditor/58.23.1862.1057@58.23.1862.1057" timestamp="1583050422229" />
     <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1589188748197">
       <screen x="0" y="0" width="1536" height="824" />
@@ -597,14 +602,11 @@
     <state x="301" y="161" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1581783276742" />
     <state x="491" y="210" key="Vcs.Push.Dialog.v2/52.23.1868.1057@52.23.1868.1057" timestamp="1586271330685" />
     <state x="492" y="211" key="Vcs.Push.Dialog.v2/53.23.1867.1057@53.23.1867.1057" timestamp="1583157188560" />
-    <state x="494" y="211" key="Vcs.Push.Dialog.v2/56.23.1864.1057@56.23.1864.1057" timestamp="1581177080668" />
     <state x="496" y="211" key="Vcs.Push.Dialog.v2/58.23.1862.1057@58.23.1862.1057" timestamp="1583144675310" />
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog" timestamp="1581874394393">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="317" y="244" key="com.intellij.ide.util.TipDialog/0.23.1280.777@0.23.1280.777" timestamp="1581874394393" />
-    <state x="514" y="324" key="com.intellij.ide.util.TipDialog/51.23.1869.1057@51.23.1869.1057" timestamp="1580878557080" />
-    <state x="518" y="324" key="com.intellij.ide.util.TipDialog/56.23.1864.1057@56.23.1864.1057" timestamp="1581150260071" />
     <state x="520" y="324" key="com.intellij.ide.util.TipDialog/58.23.1862.1057@58.23.1862.1057" timestamp="1581430476291" />
     <state x="317" y="198" key="git4idea.merge.GitPullDialog" timestamp="1589187702865">
       <screen x="0" y="0" width="1536" height="824" />
