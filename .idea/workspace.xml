@@ -3,26 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Explore.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning_Explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning_Explore.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/pathwise_derivative.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/pathwise_derivative_explore.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/pathwise_derivative_update.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/q_learning.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/q_learning_explore_selu.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_10 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_5 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_actor_5 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_actor_explore2 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_explore12 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_explore15 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_explore2 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_explore3 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_explore4 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_explore6 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_explore9 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_qvalue_5 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pathwise_derivative_qvalue_explore2 epoch.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/baselines/policy_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/policy_network.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -275,6 +256,7 @@
       <workItem from="1587545850144" duration="58000" />
       <workItem from="1588836940826" duration="25265000" />
       <workItem from="1589787255172" duration="1828000" />
+      <workItem from="1589941398606" duration="1533000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>

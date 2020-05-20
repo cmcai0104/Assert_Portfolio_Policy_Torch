@@ -117,6 +117,43 @@ class ACTOR_QVALUE(nn.Module):
         super(ACTOR_QVALUE, self).__init__()
         self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=2,
                             bias=True, batch_first=True, dropout=0, bidirectional=False)
+        self.hidden_tan1 = nn.Linear(hidden_size, 64)
+        self.hidden_tan2 = nn.Linear(64, 32)
+        self.hidden_tan3 = nn.Linear(16, action_size)
+
+        self.hidden_sig1 = nn.Linear(hidden_size, 64)
+        self.hidden_sig2 = nn.Linear(64, 32)
+        self.hidden_sig3 = nn.Linear(16, action_size)
+
+        self.hidden_layer1 = nn.Linear(hidden_size + action_size*2, 64)
+        self.hidden_layer2 = nn.Linear(64, 8)
+        self.hidden_layer3 = nn.Linear(8, 1)
+
+    def forward(self, env_state, action_state, action=None, type='actor'):
+        lstm_out, (h_n, c_n) = self.lstm(env_state)
+        if type == 'actor':
+            tan_mu = F.leaky_relu(self.hidden_tan1(lstm_out[:, -1, :]))
+            tan_mu = F.leaky_relu(self.hidden_tan2(tan_mu))
+            tan_mu = F.tanh(self.hidden_tan3(tan_mu))
+
+            sig_mu = F.leaky_relu(self.hidden_sig1(lstm_out[:, -1, :]))
+            sig_mu = F.leaky_relu(self.hidden_sig2(sig_mu))
+            sig_mu = F.sigmoid(self.hidden_sig3(sig_mu))
+            mu = F.softmax(tan_mu * (1 - sig_mu) + (sig_mu) * action_state)
+            return mu
+        else:
+            cat_layer = torch.cat((lstm_out[:, -1, :], action_state, action), 1)
+            q = F.leaky_relu(self.hidden_layer1(cat_layer))
+            q = F.leaky_relu(self.hidden_layer2(q))
+            q = self.hidden_layer3(q)
+            return q
+
+
+class ACTOR_QVALUE(nn.Module):
+    def __init__(self, input_size, hidden_size, action_size):
+        super(ACTOR_QVALUE, self).__init__()
+        self.lstm = nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=2,
+                            bias=True, batch_first=True, dropout=0, bidirectional=False)
         self.hidden_mu1 = nn.Linear(hidden_size + action_size, 64)
         self.hidden_mu2 = nn.Linear(64, 32)
         self.hidden_mu3 = nn.Linear(32, 16)
@@ -129,7 +166,7 @@ class ACTOR_QVALUE(nn.Module):
     def forward(self, env_state, action_state, action=None, type='actor'):
         lstm_out, (h_n, c_n) = self.lstm(env_state)
         cat_layer = torch.cat((lstm_out[:, -1, :], action_state), 1)
-        mu = F.relu(self.hidden_mu1(cat_layer))
+        mu = F.leaky_relu(self.hidden_mu1(cat_layer))
         if type == 'actor':
             mu = F.leaky_relu(self.hidden_mu2(mu))
             mu = F.leaky_relu(self.hidden_mu3(mu))
