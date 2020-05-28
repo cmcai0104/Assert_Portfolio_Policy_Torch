@@ -54,7 +54,8 @@ class MarketEnv(gym.Env):
         self.net_before = self.next_net
         hold_rate = self.next_rate
         # 减少交易的探索
-        if np.any(target_rate != hold_rate):
+        # if np.any(target_rate != hold_rate):
+        if not all(target_rate.round(2) == hold_rate.round(2)):
             para = np.zeros(len(hold_rate)-1)
             sell_index = np.where(hold_rate[:-1] > target_rate[:-1])
             buy_index = np.where(hold_rate[:-1] < target_rate[:-1])

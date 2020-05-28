@@ -168,10 +168,11 @@ if __name__ == '__main__':
                          initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
     n_actions = train_env.action_space.shape[0]
     policy_net = LSTM_DQN(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
+    policy_net.load_state_dict(torch.load('./model/q_learning_explore45 epoch.pt'))
     target_net = LSTM_DQN(input_size=df.shape[1], hidden_size=128, output_size=n_actions).to(device)
     target_net.load_state_dict(policy_net.state_dict())
     optimizer = optim.Adam(policy_net.parameters())
-    # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=10)
+    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.99)
     Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
     memory = ReplayMemory(3000)
     num_episodes = 500
@@ -200,6 +201,7 @@ if __name__ == '__main__':
                 # scheduler.step(loss)
             if len(memory) >= BATCH_SIZE and (t % 20 == 0):
                 target_net.load_state_dict(policy_net.state_dict())
+                scheduler.step()
             if done:
                 print('%s, training_loss: %s, ' % (i_episode, loss / t), end=' ')
                 train_env.render()
@@ -207,14 +209,14 @@ if __name__ == '__main__':
         loss_list.append(loss / t)
         # Update the target network, copying all weights and biases in DQN
         if i_episode % TARGET_UPDATE == 0:
-            torch.save(policy_net.state_dict(), "./model/q_learning_explore%s epoch.pt" % i_episode)
+            torch.save(policy_net.state_dict(), "./model/q_learning_continuous %sepoch.pt" % i_episode)
             ret_df['%s epoch' % i_episode] = test_interact(test_env)
             ret_df.plot(title='Returns Curve', legend=False)
-            plt.legend(bbox_to_anchor=(1.02, 0))
-            plt.savefig('./image/ret/Q_learning_explore.jpg')
+            plt.legend(bbox_to_anchor=(1.02, 0), loc='upper left')
+            plt.savefig('./image/ret/Q_learning_continuous.jpg')
             plt.close()
 
             plt.plot(loss_list)
             plt.title('Training Loss - Q_learning')
-            plt.savefig('./image/loss/Q_learning_explore.jpg')
+            plt.savefig('./image/loss/Q_learning_continuous.jpg')
             plt.close()
