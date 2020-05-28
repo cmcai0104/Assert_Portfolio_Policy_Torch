@@ -45,3 +45,17 @@ test process:  总市值：21248.9/21808.37  |  累计收益率：112.49%  |  �
 test process:  总市值：21433.4/31411.64  |  累计收益率：114.33%  |  累计年化收益率：9.65% 
 36, training_loss: 8.024471993750115e-05,  总市值：48.18/10000.0  |  累计收益率：-99.52%  |  累计年化收益率：-68.26% 
 37, training_loss: 6.429138215771541e-05,  总市值：70.83/10000.0  |  累计收益率：-99.29%  |  累计年化收益率：-65.52% 
+38, training_loss: 0.00012262567887358122,  总市值：73.25/10000.0  |  累计收益率：-99.27%  |  累计年化收益率：-65.27% 
+39, training_loss: 6.807188229730708e-05,  总市值：92.43/10000.0  |  累计收益率：-99.08%  |  累计年化收益率：-63.48% 
+40, training_loss: 6.86194472365082e-05,  总市值：98.75/10000.0  |  累计收益率：-99.01%  |  累计年化收益率：-62.96% 
+test process:  总市值：19526.78/23188.11  |  累计收益率：95.27%  |  累计年化收益率：8.42% 
+41, training_loss: 6.342452796378521e-05,  总市值：46.18/10000.0  |  累计收益率：-99.54%  |  累计年化收益率：-68.55% 
+42, training_loss: 9.008710998236955e-05,  总市值：71.36/10000.0  |  累计收益率：-99.29%  |  累计年化收益率：-65.46% 
+/home/python/work_direction/project/Assert_Portfolio_Policy_Torch/environment/MarketEnv.py:73: RuntimeWarning: invalid value encountered in true_divide
+  self.next_rate = (np.append(self.next_price, 1) * self.shares_held) / self.next_net
+/home/python/work_direction/project/Assert_Portfolio_Policy_Torch/environment/MarketEnv.py:59: RuntimeWarning: invalid value encountered in greater
+  sell_index = np.where(hold_rate[:-1] > target_rate[:-1])
+/home/python/work_direction/project/Assert_Portfolio_Policy_Torch/environment/MarketEnv.py:60: RuntimeWarning: invalid value encountered in less
+  buy_index = np.where(hold_rate[:-1] < target_rate[:-1])
+43, training_loss: nan,  总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
+44, training_loss: nan,  总市值：nan/10000.0  |  累计收益率：nan%  |  累计年化收益率：nan% 
