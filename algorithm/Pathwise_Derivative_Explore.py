@@ -85,19 +85,17 @@ class ReplayMemory(object):
 
 BATCH_SIZE = 256
 GAMMA = 0.999
-EPS_START_LOW = 0.45
-EPS_START_HIG = 0.55
-EPS_END_LOW = 0.1
-EPS_END_HIG = 0.9
-EPS_DECAY = 100000
 steps_done = 0
 
 
 def select_action(state1, state2, hold_rate):
     global steps_done
     sample = random.random()
-    eps_threshold_low = EPS_END_LOW + (EPS_START_LOW - EPS_END_LOW) * math.exp(-1. * steps_done / EPS_DECAY)
-    eps_threshold_hig = EPS_END_HIG - (EPS_END_HIG - EPS_START_HIG) * math.exp(-1. * steps_done / EPS_DECAY)
+    eps_threshold_low = 0.1 + 0.8 * math.exp(-1. * steps_done / 15000)
+    if steps_done < 30000:
+        eps_threshold_hig = 0.95 - 0.45 * steps_done / 30000
+    else:
+        eps_threshold_hig = 0.9 - 0.4 * math.exp(-1. * (steps_done - 30000) / 15000)
     steps_done += 1
     if eps_threshold_low < sample < eps_threshold_hig:
         with torch.no_grad():
@@ -177,8 +175,7 @@ if __name__ == '__main__':
     target_net = ACTOR_QVALUE(input_size=df.shape[1], hidden_size=128, action_size=n_actions).to(device)
     target_net.load_state_dict(policy_net.state_dict())
     optimizer = optim.Adam(policy_net.parameters())
-    # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=10)
-
+    scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.99)
     Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
     memory = ReplayMemory(3000)
     num_episodes = 500
@@ -207,6 +204,7 @@ if __name__ == '__main__':
                 # scheduler.step(loss)
             if len(memory) >= BATCH_SIZE and (t % 20 == 0):
                 target_net.load_state_dict(policy_net.state_dict())
+                scheduler.step()
             if done:
                 print('%s, training_loss: %s, ' % (i_episode, loss / t), end=' ')
                 train_env.render()
@@ -216,7 +214,8 @@ if __name__ == '__main__':
         if i_episode % TARGET_UPDATE == 0:
             torch.save(policy_net.state_dict(), "./model/pathwise_derivative_explore%s epoch.pt" % i_episode)
             ret_df['%s epoch' % i_episode] = test_interact(test_env)
-            ret_df.plot(title='Returns Curve')
+            ret_df.plot(title='Returns Curve', legend=False)
+            plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
             plt.savefig('./image/ret/pathwise_derivative_explore.jpg')
             plt.close()
 

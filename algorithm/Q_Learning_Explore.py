@@ -85,19 +85,17 @@ class ReplayMemory(object):
 
 BATCH_SIZE = 256
 GAMMA = 0.999
-EPS_START_LOW = 0.45
-EPS_START_HIG = 0.55
-EPS_END_LOW = 0.1
-EPS_END_HIG = 0.9
-EPS_DECAY = 100000
-steps_done = 0
+steps_done = 15000
 
 
 def select_action(state1, state2, hold_rate):
     global steps_done
     sample = random.random()
-    eps_threshold_low = EPS_END_LOW + (EPS_START_LOW - EPS_END_LOW) * math.exp(-1. * steps_done / EPS_DECAY)
-    eps_threshold_hig = EPS_END_HIG - (EPS_END_HIG - EPS_START_HIG) * math.exp(-1. * steps_done / EPS_DECAY)
+    eps_threshold_low = 0.1 + 0.8 * math.exp(-1. * steps_done / 15000)
+    if steps_done < 30000:
+        eps_threshold_hig = 0.95 - 0.45 * steps_done / 30000
+    else:
+        eps_threshold_hig = 0.9 - 0.4 * math.exp(-1. * (steps_done - 30000) / 15000)
     steps_done += 1
     if eps_threshold_low < sample < eps_threshold_hig:
         with torch.no_grad():
@@ -212,7 +210,7 @@ if __name__ == '__main__':
             torch.save(policy_net.state_dict(), "./model/q_learning_continuous %sepoch.pt" % i_episode)
             ret_df['%s epoch' % i_episode] = test_interact(test_env)
             ret_df.plot(title='Returns Curve', legend=False)
-            plt.legend(bbox_to_anchor=(1.02, 0), loc='upper left')
+            plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
             plt.savefig('./image/ret/Q_learning_continuous.jpg')
             plt.close()
 
@@ -220,3 +218,6 @@ if __name__ == '__main__':
             plt.title('Training Loss - Q_learning')
             plt.savefig('./image/loss/Q_learning_continuous.jpg')
             plt.close()
+
+
+

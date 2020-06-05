@@ -3,29 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Explore.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning_Explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning_Explore.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/environment/MarketEnv.py" beforeDir="false" afterPath="$PROJECT_DIR$/environment/MarketEnv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image/loss/Q_learning_explore.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/image/loss/Q_learning_explore.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image/ret/Q_learning_explore.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/image/ret/Q_learning_explore.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_10 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_5 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore0 epoch.pt" beforeDir="false" afterPath="$PROJECT_DIR$/model/q_learning_explore0 epoch.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore12 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore18 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore2 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore21 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore24 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore27 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore3 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore33 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore36 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore39 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore4 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore42 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore48 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore6 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore8 epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_explore9 epoch.pt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -281,6 +261,7 @@
       <workItem from="1589787255172" duration="1828000" />
       <workItem from="1589941398606" duration="3738000" />
       <workItem from="1590632086159" duration="10335000" />
+      <workItem from="1591320955200" duration="5377000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
