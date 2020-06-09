@@ -127,11 +127,11 @@ def optimize_model(memory):
     excepted_state_values = target_net(env_state=env_next_state_batch, action_state=act_next_state_batch,
                                        action=target_net(env_state=env_next_state_batch,
                                                          action_state=act_next_state_batch),
-                                       type='qvalue') + reward_batch
+                                       type='qvalue') * (reward_batch + 1) * GAMMA
     estimate_state_values = policy_net(env_state=env_state_batch, action_state=act_state_batch, action=action_batch,
                                        type='qvalue')
 
-    q_regression_loss = F.smooth_l1_loss(estimate_state_values, excepted_state_values * GAMMA)
+    q_regression_loss = F.smooth_l1_loss(estimate_state_values, excepted_state_values)
     q_values_loss = - torch.mean(
         policy_net(env_state=env_state_batch, action_state=act_state_batch,
                    action=policy_net(env_state=env_state_batch, action_state=act_state_batch), type='qvalue'))
@@ -213,9 +213,9 @@ if __name__ == '__main__':
         # Update the target network, copying all weights and biases in DQN
         if i_episode % TARGET_UPDATE == 0:
             torch.save(policy_net.state_dict(), "./model/pathwise_derivative_explore%s epoch.pt" % i_episode)
-            ret_df['%s epoch' % i_episode] = test_interact(test_env)
+            ret_df['%sepo' % i_episode] = test_interact(test_env)
             ret_df.plot(title='Returns Curve', legend=False)
-            plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
+            plt.legend(bbox_to_anchor=(1., 1), loc='upper left')
             plt.savefig('./image/ret/pathwise_derivative_explore.jpg')
             plt.close()
 

@@ -3,16 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Explore.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning_Explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning_Explore.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 0epoch.pt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 10epoch.pt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 15epoch.pt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 20epoch.pt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 25epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 30epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 35epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 40epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 45epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 50epoch.pt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 5epoch.pt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,6 +42,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -270,6 +268,7 @@
       <workItem from="1589941398606" duration="3738000" />
       <workItem from="1590632086159" duration="10335000" />
       <workItem from="1591320955200" duration="6913000" />
+      <workItem from="1591695535832" duration="1130000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>

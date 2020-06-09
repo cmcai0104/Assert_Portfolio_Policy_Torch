@@ -85,7 +85,7 @@ class ReplayMemory(object):
 
 BATCH_SIZE = 256
 GAMMA = 0.999
-steps_done = 15000
+steps_done = 5000
 
 
 def select_action(state1, state2, hold_rate):
@@ -128,7 +128,8 @@ def optimize_model(memory):
         torch.transpose(sigma_batch, 1, 2)).bmm(torch.transpose((action_batch - mu_batch).unsqueeze(1), 1, 2)).squeeze(
         dim=1) + beta_batch
     next_state_values = target_net(env_next_state_batch, act_next_state_batch)[2]
-    expected_state_action_values = (next_state_values + reward_batch) * GAMMA
+    # expected_state_action_values = (next_state_values + reward_batch) * GAMMA
+    expected_state_action_values = next_state_values * (reward_batch + 1) * GAMMA
     loss = F.smooth_l1_loss(state_action_values, expected_state_action_values)
     # 优化模型
     optimizer.zero_grad()
@@ -208,9 +209,9 @@ if __name__ == '__main__':
         # Update the target network, copying all weights and biases in DQN
         if i_episode % TARGET_UPDATE == 0:
             torch.save(policy_net.state_dict(), "./model/q_learning_continuous %sepoch.pt" % i_episode)
-            ret_df['%s epoch' % i_episode] = test_interact(test_env)
+            ret_df['%sepo' % i_episode] = test_interact(test_env)
             ret_df.plot(title='Returns Curve', legend=False)
-            plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
+            plt.legend(bbox_to_anchor=(1., 1), loc='upper left')
             plt.savefig('./image/ret/Q_learning_continuous.jpg')
             plt.close()
 
@@ -218,6 +219,3 @@ if __name__ == '__main__':
             plt.title('Training Loss - Q_learning')
             plt.savefig('./image/loss/Q_learning_continuous.jpg')
             plt.close()
-
-
-
