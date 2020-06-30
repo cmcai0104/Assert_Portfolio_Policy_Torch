@@ -3,14 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Pathwise_Derivative_Explore.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning_Explore.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning_Explore.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 0epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 10epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 15epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 20epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 25epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/q_learning_continuous 5epoch.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/data_preprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/data_preprocess.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/ret/Q_learning_continuous.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/image/ret/Q_learning_continuous.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/ret/Q_learning_explore.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/image/ret/Q_learning_explore.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,8 +41,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/algorithm" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -269,6 +267,8 @@
       <workItem from="1590632086159" duration="10335000" />
       <workItem from="1591320955200" duration="6913000" />
       <workItem from="1591695535832" duration="1130000" />
+      <workItem from="1593485886610" duration="6157000" />
+      <workItem from="1593501733544" duration="2746000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
