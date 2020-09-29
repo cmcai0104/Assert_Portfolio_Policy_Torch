@@ -19,14 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/PreTraining.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/data_preprocess.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/baselines/policy_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/policy_network.py" afterDir="false" />
-    </list>
+    <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="add attention NN" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -289,7 +282,7 @@
       <workItem from="1591695535832" duration="1130000" />
       <workItem from="1593485886610" duration="6157000" />
       <workItem from="1593501733544" duration="2746000" />
-      <workItem from="1601361938697" duration="3728000" />
+      <workItem from="1601361938697" duration="5328000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -585,7 +578,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591326448860</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="add attention NN">
+      <created>1601365742017</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1601365742018</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -620,13 +620,18 @@
     <MESSAGE value="add finance feature and boost training speed" />
     <MESSAGE value="alter pathwise NN" />
     <MESSAGE value="change back env&#10;change explore policy" />
-    <option name="LAST_COMMIT_MESSAGE" value="change back env&#10;change explore policy" />
+    <MESSAGE value="add attention NN" />
+    <option name="LAST_COMMIT_MESSAGE" value="add attention NN" />
   </component>
   <component name="WindowStateProjectService">
     <state x="141" y="50" key="SettingsEditor" timestamp="1601261186727">
       <screen x="0" y="23" width="1280" height="777" />
     </state>
     <state x="141" y="50" key="SettingsEditor/0.23.1280.777@0.23.1280.777" timestamp="1601261186727" />
+    <state x="240" y="151" key="Vcs.Push.Dialog.v2" timestamp="1601366397997">
+      <screen x="0" y="23" width="1280" height="777" />
+    </state>
+    <state x="240" y="151" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1601366397997" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Assert_Portfolio_Policy_Torch$DQN.coverage" NAME="DQN Coverage Results" MODIFIED="1578037082106" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Algorithm" />
