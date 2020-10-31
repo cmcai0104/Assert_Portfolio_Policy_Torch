@@ -207,14 +207,14 @@ if __name__ == '__main__':
         loss_list.append(loss / t)
         # Update the target network, copying all weights and biases in DQN
         if i_episode % TARGET_UPDATE == 0:
-            torch.save(policy_net.state_dict(), "./model/Qlearning_ATTEN %sepoch.pt" % i_episode)
+            torch.save(policy_net.state_dict(), "./model/qlearning_atten %sepoch.pt" % i_episode)
             ret_df['%sepo' % i_episode] = test_interact(test_env)
-            ret_df.plot(title='Returns Curve', legend=False)
+            ret_df.plot(title='Returns Curve - QLearning_ATTEN', legend=False)
             plt.legend(bbox_to_anchor=(1., 1), loc='upper left')
-            plt.savefig('./image/ret/Qlearning_ATTEN.jpg')
+            plt.savefig('./image/ret/qlearning_atten.jpg')
             plt.close()
 
             plt.plot(loss_list)
-            plt.title('Training Loss - Qlearning_ATTEN')
-            plt.savefig('./image/loss/Qlearning_ATTEN.jpg')
+            plt.title('Training Loss - QLearning_ATTEN')
+            plt.savefig('./image/loss/qlearning_atten.jpg')
             plt.close()

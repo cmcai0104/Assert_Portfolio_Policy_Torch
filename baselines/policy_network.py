@@ -120,7 +120,7 @@ class ACTOR_QVALUE(nn.Module):
 
 
 class ATTN_A2C(nn.Module):
-    def __init__(self, input_size, action_size, nhead=2, transformer_layers=2, lstm_layers=2):
+    def __init__(self, input_size, action_size, nhead=2, transformer_layers=1, lstm_layers=1):
         super(ATTN_A2C, self).__init__()
         self.lstm1 = nn.LSTM(input_size=input_size, hidden_size=input_size, num_layers=lstm_layers)
         encoder_layer1 = nn.TransformerEncoderLayer(d_model=input_size, nhead=nhead)
@@ -170,7 +170,7 @@ class ATTN_A2C(nn.Module):
 
 
 class ATTN_QLearning(nn.Module):
-    def __init__(self, input_size, action_size, nhead=2, transformer_layers=2, lstm_layers=2):
+    def __init__(self, input_size, action_size, nhead=2, transformer_layers=1, lstm_layers=1):
         super(ATTN_QLearning, self).__init__()
         self.lstm1 = nn.LSTM(input_size=input_size, hidden_size=input_size, num_layers=lstm_layers)
         encoder_layer1 = nn.TransformerEncoderLayer(d_model=input_size, nhead=nhead)

@@ -9,7 +9,7 @@ class MarketEnv(gym.Env):
         super(MarketEnv, self).__init__()
         self.df = df
         self.price_cols = price_cols
-        self.action_dim = len(self.price_cols)+1
+        self.action_dim = len(self.price_cols) + 1
         self.windows = windows
         self.buy_fee = buy_fee  # 购买费率
         self.sell_fee = sell_fee  # 赎回费率
@@ -43,9 +43,9 @@ class MarketEnv(gym.Env):
         self.Max_Share_Price = self.df.iloc[:(self.current_step + 1), ].max(axis=0).values
         self.start_date = self.df.index[self.current_step]
         self.next_price = np.array(self.df.iloc[self.current_step,][self.price_cols])
-        self.next_net = np.sum(np.append(self.next_price, 1)*self.shares_held)
+        self.next_net = np.sum(np.append(self.next_price, 1) * self.shares_held)
         self.next_rate = (np.append(self.next_price, 1) * self.shares_held) / self.next_net
-        return self.__next_observation(), (self.shares_held/self.initial_account_balance).astype(np.float32)
+        return self.__next_observation(), (self.shares_held / self.initial_account_balance).astype(np.float32)
 
     # 进行交易
     def __take_action(self, target_rate: np.array):
@@ -56,23 +56,23 @@ class MarketEnv(gym.Env):
         # 减少交易的探索
         # if np.any(target_rate != hold_rate):
         if not all(target_rate == hold_rate):
-            para = np.zeros(len(hold_rate)-1)
+            para = np.zeros(len(hold_rate) - 1)
             sell_index = np.where(hold_rate[:-1] > target_rate[:-1])
             buy_index = np.where(hold_rate[:-1] < target_rate[:-1])
-            para[sell_index] = 1-self.sell_fee
-            para[buy_index] = 1/(1-self.buy_fee)
-            self.net_worth = ((hold_rate[:-1]*para).sum()+hold_rate[-1]) / \
-                             ((target_rate[:-1]*para).sum()+target_rate[-1]) * self.net_worth
+            para[sell_index] = 1 - self.sell_fee
+            para[buy_index] = 1 / (1 - self.buy_fee)
+            self.net_worth = ((hold_rate[:-1] * para).sum() + hold_rate[-1]) / \
+                             ((target_rate[:-1] * para).sum() + target_rate[-1]) * self.net_worth
             self.shares_held = self.net_worth * target_rate / np.append(self.current_price, 1)
 
     # 在环境中执行一步
     def step(self, action: np.array):
         self.__take_action(action)
         self.current_step += 1
-        self.next_price = np.array(self.df.iloc[self.current_step, ][self.price_cols])
-        self.next_net = np.sum(np.append(self.next_price, 1)*self.shares_held)
+        self.next_price = np.array(self.df.iloc[self.current_step,][self.price_cols])
+        self.next_net = np.sum(np.append(self.next_price, 1) * self.shares_held)
         self.next_rate = (np.append(self.next_price, 1) * self.shares_held) / self.next_net
-        reward = self.next_net / self.net_before - 1
+        reward = np.log(self.next_net / self.net_before)
         done = self.current_step >= self.Max_Steps
         if self.net_worth > self.max_net_worth:
             self.max_net_worth = self.net_worth
@@ -83,7 +83,7 @@ class MarketEnv(gym.Env):
     # 打印出环境
     def render(self, mode='human'):
         ret = self.net_worth / self.initial_account_balance * 100 - 100
-        yea_ret = (self.net_worth/self.initial_account_balance)**(365/(self.df.index[self.current_step] - self.start_date).days)*100-100
+        yea_ret = (self.net_worth / self.initial_account_balance) ** (
+                365 / (self.df.index[self.current_step] - self.start_date).days) * 100 - 100
         print('总市值：{}/{}  |  累计收益率：{}%  |  累计年化收益率：{}% '.format(
-            round(self.net_worth,2), round(self.max_net_worth,2), round(ret,2), round(yea_ret,2)))
-
+            round(self.net_worth, 2), round(self.max_net_worth, 2), round(ret, 2), round(yea_ret, 2)))
