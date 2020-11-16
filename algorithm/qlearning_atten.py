@@ -22,6 +22,7 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 torch.set_num_threads(8)
 
+
 def df_preprocess(path):
     df = pd.read_csv(path, index_col=0, header=0)
     df['trade_date'] = df['trade_date'].astype('datetime64')
