@@ -20,11 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/DDPG_ATTEN.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/DDPG_ATTEN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm/Q_Learning_ATTEN.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/Q_Learning_ATTEN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baselines/policy_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/baselines/policy_network.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/environment/MarketEnv.py" beforeDir="false" afterPath="$PROJECT_DIR$/environment/MarketEnv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/ddpg_atten.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ddpg_atten.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithm/qlearning_atten.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/qlearning_atten.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/ret/Qlearning_ATTEN.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/Qlearning_ATTEN 0epoch.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/Qlearning_ATTEN 10epoch.pt" beforeDir="false" afterPath="$PROJECT_DIR$/model/qlearning_atten.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/Qlearning_ATTEN 5epoch.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/ddpg_atten 0epoch.pt" beforeDir="false" afterPath="$PROJECT_DIR$/model/ddpg_atten.pt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +53,7 @@
       </set>
     </option>
   </component>
-  <component name="JupyterTrust" id="9e873580-777a-4a57-8abe-92b01d2c129f" />
+  <component name="JupyterTrust" id="01a269c3-d43c-4145-9865-be6b666a7ef0" />
   <component name="ProjectId" id="1VsDlxCWkyy5Ps7qtJL3Iiy9doN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -217,7 +222,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -630,9 +635,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="add attention NN" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="141" y="50" key="SettingsEditor" timestamp="1601261186727">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="169" y="29" key="SettingsEditor" timestamp="1605497005510">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="169" y="29" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1605497005510" />
     <state x="141" y="50" key="SettingsEditor/0.23.1280.777@0.23.1280.777" timestamp="1601261186727" />
     <state x="240" y="151" key="Vcs.Push.Dialog.v2" timestamp="1601366397997">
       <screen x="0" y="23" width="1280" height="777" />

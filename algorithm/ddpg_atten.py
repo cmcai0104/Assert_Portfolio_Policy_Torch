@@ -172,6 +172,7 @@ if __name__ == '__main__':
                          initial_account_balance=10000., buy_fee=0.015, sell_fee=0.)
     n_actions = train_env.action_space.shape[0]
     policy_net = ATTN_A2C(input_size=df.shape[1], action_size=n_actions).to(device)
+    policy_net.load_state_dict(torch.load('./model/ddpg_atten.pt'))
     target_net = ATTN_A2C(input_size=df.shape[1], action_size=n_actions).to(device)
     target_net.load_state_dict(policy_net.state_dict())
     optimizer = optim.Adam(policy_net.parameters())
