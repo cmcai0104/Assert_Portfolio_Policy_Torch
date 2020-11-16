@@ -20,16 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="669675a4-dea8-4b95-84f2-d6e0b49f6110" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Assert_Portfolio_Policy_Torch.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/ddpg_atten.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/ddpg_atten.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm/qlearning_atten.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/qlearning_atten.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image/ret/Qlearning_ATTEN.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/Qlearning_ATTEN 0epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/Qlearning_ATTEN 10epoch.pt" beforeDir="false" afterPath="$PROJECT_DIR$/model/qlearning_atten.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/Qlearning_ATTEN 5epoch.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/ddpg_atten 0epoch.pt" beforeDir="false" afterPath="$PROJECT_DIR$/model/ddpg_atten.pt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,7 +215,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -294,6 +287,7 @@
       <workItem from="1593485886610" duration="6157000" />
       <workItem from="1593501733544" duration="2746000" />
       <workItem from="1601361938697" duration="5328000" />
+      <workItem from="1605520472728" duration="36000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md file">
       <created>1578044846964</created>
@@ -596,7 +590,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601365742018</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="add attention NN">
+      <created>1605511165689</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1605511165689</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -635,14 +636,19 @@
     <option name="LAST_COMMIT_MESSAGE" value="add attention NN" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="339" y="0" key="CommitChangelistDialog2" timestamp="1605511164735">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="339" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1605511164735" />
     <state x="169" y="29" key="SettingsEditor" timestamp="1605497005510">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="169" y="29" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1605497005510" />
     <state x="141" y="50" key="SettingsEditor/0.23.1280.777@0.23.1280.777" timestamp="1601261186727" />
-    <state x="240" y="151" key="Vcs.Push.Dialog.v2" timestamp="1601366397997">
-      <screen x="0" y="23" width="1280" height="777" />
+    <state x="288" y="136" key="Vcs.Push.Dialog.v2" timestamp="1605511174814">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="288" y="136" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1605511174814" />
     <state x="240" y="151" key="Vcs.Push.Dialog.v2/0.23.1280.777@0.23.1280.777" timestamp="1601366397997" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
