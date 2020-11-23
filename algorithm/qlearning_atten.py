@@ -20,6 +20,7 @@ from baselines.policy_network import ATTN_QLearning
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+torch.set_num_threads(8)
 
 
 def df_preprocess(path):
