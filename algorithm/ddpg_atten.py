@@ -185,7 +185,7 @@ if __name__ == '__main__':
 
     ret_df = pd.DataFrame(index=df.index[250:], dtype=np.float64)
     loss_list = []
-    for i_episode in range(num_episodes):
+    for i_episode in range(1, num_episodes):
         # Initialize the environment and state
         state1, state2 = train_env.reset()
         loss = 0
